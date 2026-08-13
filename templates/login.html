@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/auth.css')}}">
+    <title>Login</title>
+</head>
+<body>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <img src="{{ url_for('static', filename='img/logo/dark_logo.png') }}" alt="Logo" class="logo">
+
+    <h1>Iniciar sesión</h1>
+
+    <div class="form_container">
+        <form method="POST" action="{{ url_for('auth_routes.login_route') }}">
+            <input 
+                type="text" 
+                name="username or email" 
+                placeholder="Usuario o Email" required
+            >
+            <input 
+                type="password" 
+                name="password" 
+                placeholder="Contraseña" required
+            >
+            <button type="submit">Iniciar sesión</button>
+
+             <div class="links">
+                ¿No tienes cuenta?
+                <a href="{{ url_for('auth_routes.register_route') }}">
+                Registrarse
+                </a>
+                <p>¿No recuerdas tu contraseña?</p>
+                <a href="{{ url_for('auth_routes.recover_password_route') }}">
+                    Recuperar contraseña
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    
+</body>
+</html>
