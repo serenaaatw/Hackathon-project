@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #263859;
+}
+
+/* Barra superior */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #5BC0BE;
+    padding: 20px 40px;
+    color: white;
+}
+
+.navbar h1 {
+    font-size: 32px;
+}
+
+.navbar-opciones {
+    display: flex;
+    gap: 25px;
+    margin-right: 100px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+}
+/* Contenido principal */
+.menu-principal {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 25px;
+    padding: 30px;
+}
+
+/* Cuadros laterales */
+.cuadro-lateral {
+    background-color: #FFD166;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+/* Menú central */
+.lista-opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    list-style: none;
+}
+
+/* Opciones */
+.opcion-menu a {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    background-color: #FF6B6B;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+}
+
+/* Colores de cada opción */
+.opcion-menu:nth-child(2) a {
+    background-color: #FFD166;
+    color: #333;
+}
+
+.opcion-menu:nth-child(3) a {
+    background-color: #4ECDC4;
+    color: white;
+}
+
+.opcion-menu:nth-child(4) a {
+    background-color: #A78BFA;
+    color: white;
+}
+
+/* Imágenes */
+.opcion-menu img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+/* Texto */
+.opcion-menu span {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Efecto al pasar el mouse */
+.opcion-menu a:hover {
+    transform: scale(1.03);
+}
