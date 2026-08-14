@@ -15,17 +15,17 @@ body{
     padding:50px 20px;
     font-family:'Inter',sans-serif;
     background:
-        radial-gradient(circle at top left,#dceeff 0%,transparent 30%),
-        radial-gradient(circle at bottom right,#d7f2ff 0%,transparent 35%),
-        #f7f9fc;
+        radial-gradient(circle at top left,#FFE7A8 0%,transparent 30%),
+        radial-gradient(circle at bottom right,#C8F5E4 0%,transparent 35%),
+        #FFF9F1;
 }
 
 .logo{
-    width:380px;
+    width:350px;
     max-width:92vw;
     transform:scale(1.22) translateY(-18px);
     margin-bottom:-20px;
-    filter:drop-shadow(0 18px 35px rgba(0,87,217,.18));
+    filter:drop-shadow(0 18px 35px rgba(255,126,103,.18));
     user-select:none;
 }
 
@@ -33,7 +33,7 @@ h1{
     font-family:'Sora',sans-serif;
     font-size:3.6rem;
     font-weight:800;
-    color:#0B1F3A;
+    color:#493B5A;
     letter-spacing:-3px;
     text-align:center;
     margin-bottom:12px;
@@ -46,7 +46,7 @@ h1::after{
     height:5px;
     margin:14px auto 0;
     border-radius:999px;
-    background:linear-gradient(90deg,#0057D9,#27B5FF);
+    background:linear-gradient(90deg,#FF7E67,#55D6BE);
 }
 
 .form_container{
@@ -57,8 +57,8 @@ h1::after{
     border-radius:24px;
     padding:42px;
     box-shadow:
-        0 25px 60px rgba(15,23,42,.08),
-        0 8px 20px rgba(0,87,217,.05);
+        0 25px 60px rgba(73,59,90,.08),
+        0 8px 20px rgba(255,126,103,.07);
 }
 
 form{
@@ -70,30 +70,30 @@ form{
 input{
     height:58px;
     padding:0 18px;
-    border:1px solid #d8e1ef;
+    border:1px solid #E7DCCF;
     border-radius:14px;
-    background:#fbfcfe;
+    background:#FFFCF8;
     font-size:15px;
     transition:.25s;
-    color:#1f2937;
+    color:#493B5A;
 }
 
 input::placeholder{
-    color:#98a2b3;
+    color:#A99DAA;
 }
 
 input:focus{
     outline:none;
-    border-color:#27B5FF;
+    border-color:#55D6BE;
     background:#fff;
-    box-shadow:0 0 0 4px rgba(39,181,255,.15);
+    box-shadow:0 0 0 4px rgba(85,214,190,.16);
 }
 
 button{
     height:58px;
     border:none;
     border-radius:14px;
-    background:linear-gradient(135deg,#0057D9,#27B5FF);
+    background:linear-gradient(135deg,#FF7E67,#FFB86B);
     color:#fff;
     font-size:16px;
     font-weight:700;
@@ -103,24 +103,24 @@ button{
 
 button:hover{
     transform:translateY(-2px);
-    box-shadow:0 14px 30px rgba(0,87,217,.25);
+    box-shadow:0 14px 30px rgba(255,126,103,.25);
 }
 
 .links{
     margin-top:10px;
     text-align:center;
-    color:#667085;
+    color:#7C7180;
     font-size:.95rem;
 }
 
 .links a{
-    color:#0057D9;
+    color:#FF7E67;
     text-decoration:none;
     font-weight:700;
 }
 
 .links a:hover{
-    color:#27B5FF;
+    color:#55BFA9;
 }
 
 .subtitle{
@@ -131,7 +131,7 @@ button:hover{
     font-size:1.08rem;
     font-weight:500;
     line-height:1.8;
-    color:#4A5568;
+    color:#6F6472;
     letter-spacing:.2px;
 }
 
@@ -140,13 +140,13 @@ button:hover{
     max-width:500px;
     margin-bottom:24px;
     padding:16px 18px;
-    background:#fff4f4;
-    border:1px solid #f5c2c7;
-    color:#c62828;
+    background:#FFF1EF;
+    border:1px solid #FFC9C0;
+    color:#D95745;
     border-radius:14px;
     text-align:center;
     font-weight:600;
-    box-shadow:0 10px 20px rgba(198,40,40,.08);
+    box-shadow:0 10px 20px rgba(217,87,69,.08);
 }
 
 

@@ -111,6 +111,8 @@ class AuthService:
 
             session["usuario_id"] = user.id_user
 
+            if not user.video_visto:
+                return redirect(url_for("informative_routes.video_informativo"))
 
             return redirect(url_for("home.home_route"))
         except Exception as error:

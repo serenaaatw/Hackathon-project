@@ -13,6 +13,7 @@ class User(db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     profile_picture = db.Column(db.String(255), default='img/user/user.png')
     active = db.Column(db.Boolean, default=True)
+    video_visto = db.Column(db.Boolean, default=False, nullable=False)
    
    
 

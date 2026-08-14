@@ -13,9 +13,9 @@ body{
     padding:50px 20px;
     font-family:'Inter',sans-serif;
     background:
-        radial-gradient(circle at top left,#dceeff 0%,transparent 30%),
-        radial-gradient(circle at bottom right,#d7f2ff 0%,transparent 35%),
-        #f7f9fc;
+        radial-gradient(circle at top left,#FFE7A8 0%,transparent 30%),
+        radial-gradient(circle at bottom right,#C8F5E4 0%,transparent 35%),
+        #FFF9F1;
 }
 
 .container {
@@ -25,19 +25,19 @@ body{
     padding: 40px 35px;
     border-radius: 18px;
     box-shadow:
-        0 25px 60px rgba(15,23,42,.08),
-        0 8px 20px rgba(0,87,217,.05);
+        0 25px 60px rgba(73,59,90,.08),
+        0 8px 20px rgba(255,126,103,.06);
     text-align: center;
 }
 
 .container h1 {
-    color: #0f172a;
+    color: #493B5A;
     margin-bottom: 18px;
     font-size: 2rem;
 }
 
 .container p {
-    color: #555;
+    color: #6F6472;
     font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 30px;
@@ -46,17 +46,19 @@ body{
 input[type="text"] {
     width: 100%;
     padding: 14px 16px;
-    border: 2px solid #dcdcdc;
+    border: 2px solid #E7DCCF;
     border-radius: 10px;
     font-size: 1rem;
     outline: none;
     transition: .3s;
     margin-bottom: 20px;
+    background: #FFFCF8;
+    color: #493B5A;
 }
 
 input[type="text"]:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 8px rgba(37, 99, 235, 0.25);
+    border-color: #55D6BE;
+    box-shadow: 0 0 8px rgba(85,214,190,.25);
 }
 
 button{
@@ -65,7 +67,7 @@ button{
     height:58px;
     border:none;
     border-radius:14px;
-    background:linear-gradient(135deg,#0057D9,#27B5FF);
+    background:linear-gradient(135deg,#FF7E67,#FFB86B);
     color:#fff;
     font-size:17px;
     font-weight:700;
@@ -76,7 +78,7 @@ button{
 
 button:hover{
     transform:translateY(-2px);
-    box-shadow:0 14px 30px rgba(0,87,217,.25);
+    box-shadow:0 14px 30px rgba(255,126,103,.25);
 }
 
 button:active {
@@ -88,19 +90,19 @@ body > p {
     top: 25px;
     left: 50%;
     transform: translateX(-50%);
-    background: #fee2e2;
-    color: #000000;
+    background: #FFF1EF;
+    color: #D95745;
     padding: 12px 20px;
     border-radius: 8px;
-    border: 1px solid #fca5a5;
+    border: 1px solid #FFC9C0;
     max-width: 90%;
     text-align: center;
 }
 
 .container > .error {
-    background: #fee2e2;
-    color: #b91c1c;
-    border: 1px solid #fca5a5;
+    background: #FFF1EF;
+    color: #D95745;
+    border: 1px solid #FFC9C0;
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -111,7 +113,7 @@ body > p {
 .link {
     margin-top: 20px;
     margin-bottom: 10px;
-    color: #555;
+    color: #6F6472;
     font-size: 0.95rem;
     line-height: 1.5;
     text-align: center;
@@ -119,7 +121,7 @@ body > p {
 
 .change-email-link {
     display: inline-block;
-    color: #2563eb;
+    color: #FF7E67;
     font-size: 0.95rem;
     font-weight: 600;
     text-decoration: none;
@@ -128,7 +130,7 @@ body > p {
 }
 
 .change-email-link:hover {
-    color: #1d4ed8;
+    color: #55BFA9;
     text-decoration: underline;
 }
 
