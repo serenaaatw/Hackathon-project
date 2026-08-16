@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>{% block title %}Edu Señas{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand__hand" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M14 36c-4-1-7-5-7-10V16a3 3 0 0 1 6 0v6" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="13" y="8" width="6" height="16" rx="3" fill="var(--turquoise)" stroke="var(--ink)" stroke-width="2.5"/>
+        <rect x="20" y="6" width="6" height="18" rx="3" fill="var(--yellow)" stroke="var(--ink)" stroke-width="2.5"/>
+        <rect x="27" y="9" width="6" height="15" rx="3" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5"/>
+        <path d="M7 22v6c0 5 4 9 9 9h8c5 0 9-4 9-9v-6" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" fill="#fff"/>
+      </svg>
+      <span class="brand__name">Edu Señas</span>
+    </div>
+  </header>
+  {% block content %}{% endblock %}
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

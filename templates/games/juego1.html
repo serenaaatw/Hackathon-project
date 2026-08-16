@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Edu Señas — Juego: Emparejar — {{ categoria_nombre }}{% endblock %}
+
+{% block content %}
+<div class="trail" id="trail" aria-label="Progreso en esta categoría"></div>
+
+<main class="stage">
+  <p class="stage__eyebrow">Categoría: {{ categoria_nombre }}</p>
+
+  <button class="mode-toggle" id="modeToggle" type="button">
+    Modo: <span id="modeLabel">Imagen → Palabra</span>
+  </button>
+
+  <section class="prompt-card" id="promptImageCard">
+    <div class="prompt-card__sticker" id="promptSticker"></div>
+  </section>
+
+  <section class="prompt-card prompt-card--video" id="promptVideoCard" hidden>
+    <div class="video-frame">
+      <video id="lsaVideo" playsinline muted loop hidden></video>
+      <div class="video-frame__placeholder" id="videoPlaceholder">
+        <svg viewBox="0 0 64 64" width="46" height="46" aria-hidden="true">
+          <rect x="8" y="14" width="36" height="36" rx="8" fill="var(--turquoise)" opacity=".18"/>
+          <path d="M20 24l16 8-16 8V24z" fill="var(--turquoise-dark)"/>
+        </svg>
+        <p>Video en LSA<br><strong>pendiente de grabar</strong><br>con la intérprete</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="stage__instruction" id="instruction">Tocá la palabra que corresponde</p>
+
+  <div class="options" id="options" role="group" aria-label="Opciones de respuesta"></div>
+
+  <p class="feedback" id="feedback" aria-live="polite"></p>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const PALABRAS = {{ palabras | tojson }};
+  const IMG_BASE = "{{ url_for('static', filename='img/' + categoria_slug) }}/";
+</script>
+<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
+{% endblock %}
