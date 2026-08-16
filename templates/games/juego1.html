@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Juego: Emparejar — {{ categoria_nombre }}{% endblock %}
+{% block title %}Edu Señas — Juego: Emparejar — {{ categoria_nombre }}{% endblock %}
 
 {% block content %}
 <div class="trail" id="trail" aria-label="Progreso en esta categoría"></div>
@@ -41,5 +41,5 @@
   const PALABRAS = {{ palabras | tojson }};
   const IMG_BASE = "{{ url_for('static', filename='img/' + categoria_slug) }}/";
 </script>
-<script src="{{ url_for('static', filename='js/game.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
 {% endblock %}
