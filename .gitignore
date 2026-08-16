@@ -1,0 +1,14 @@
+# Entorno virtual
+venv/
+env/
+.venv/
+
+# Variables de entorno (nunca subir esto)
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
