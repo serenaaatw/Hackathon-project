@@ -1,2 +1,17 @@
 myenv
 .env
+# Entorno virtual
+venv/
+env/
+.venv/
+myenv
+
+# Variables de entorno (nunca subir esto)
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/

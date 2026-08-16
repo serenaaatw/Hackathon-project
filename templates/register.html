@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Register</title>
+</head>
+<body>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <img src="{{ url_for('static', filename='img/logo/logo.png') }}" alt="Logo" class="logo">
+
+    <h1>Crear cuenta</h1>
+
+    <p class="subtitle">
+    Herramienta de aprendizaje para niños sordos. Registra a tu hijo/alumno y ayúdalo a aprender de manera divertida y efectiva.
+    </p>
+
+    <div class="form_container">
+        <form method="POST" action="{{ url_for('auth_routes.register_route') }}">
+            <input 
+                type="text" 
+                name="name" 
+                placeholder="Nombre" required
+            >
+            
+            <input 
+                type="text" 
+                name="last_name" 
+                placeholder="Apellido" required
+            >
+            
+            <input 
+                type="text" 
+                name="username" 
+                placeholder="Usuario" required
+            >
+
+            <input 
+                type="email" 
+                name="email" 
+                placeholder="Email" required
+            >
+            <input 
+                type="password" 
+                name="password" 
+                placeholder="Contraseña" required
+            >
+
+            <button type="submit">Registrarse</button>
+            <div class="links">
+                ¿Ya tienes cuenta?
+                <a href="{{ url_for('auth_routes.login_route') }}">
+                Iniciar sesión
+                </a>
+            </div>
+        </form>
+    </div>
+    
+</body>
+</html>

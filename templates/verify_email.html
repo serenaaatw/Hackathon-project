@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/verify_email.css') }}">
+    <title>Verificación de Email</title>
+</head>
+<body>
+    <div class="container">
+        {% if error %}
+        <p class="error">{{error}}</p>
+        {% endif %}
+    
+        <h1>Verificación de Email</h1>
+        <p>Se ha enviado un código de verificación a tu correo electrónico. Por favor, ingresa el código a continuación:</p>
+        <form method="POST" action="{{ url_for('auth_routes.verify_email_route') }}">
+            <input 
+                type="text" 
+                name="verification_code" 
+                placeholder="Código de verificación" required>
+
+            <button type="submit">Verificar</button>
+            {% if session.get("verification_purpose") == "register" %}
+                <p class="link">El correo electrónico asociado a tu cuenta es: {{session["email"]}} ¿Deseas cambiarlo?</p>
+                <a href="{{ url_for('auth_routes.register_route') }}" class="change-email-link">Cambiar correo electrónico</a>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>
