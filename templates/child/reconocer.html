@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Reconocer — {{ categoria_nombre }}{% endblock %}
+
+{% block content %}
+<main class="stage">
+  <p class="stage__eyebrow">Categoría: {{ categoria_nombre }}</p>
+
+  <section class="prompt-card" id="promptCard">
+    <div class="prompt-card__sticker" id="promptSticker"></div>
+  </section>
+
+  <div class="recon-nav">
+    <button class="nav-arrow nav-arrow--left" id="btnPrev" type="button" aria-label="Volver">
+      <svg viewBox="0 0 24 24" width="28" height="28"><path d="M15 6l-6 6 6 6" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="recon-dots" id="reconDots"></div>
+
+    <button class="nav-arrow nav-arrow--right" id="btnNext" type="button" aria-label="Siguiente">
+      <svg viewBox="0 0 24 24" width="28" height="28"><path d="M9 6l6 6-6 6" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <button class="play-btn" id="btnJugar" type="button" hidden aria-label="Empezar los juegos">
+    <svg viewBox="0 0 24 24" width="34" height="34"><circle cx="12" cy="12" r="11" fill="var(--success)"/><path d="M10 8l6 4-6 4V8z" fill="#fff"/></svg>
+  </button>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const PALABRAS = {{ palabras | tojson }};
+  const IMG_BASE = "{{ url_for('static', filename='img/' + categoria_slug) }}/";
+  const URL_JUEGO = "{{ url_for('game.juego1', categoria_slug=categoria_slug) }}";
+</script>
+<script src="{{ url_for('static', filename='js/reconocer.js') }}"></script>
+{% endblock %}
