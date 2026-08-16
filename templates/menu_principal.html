@@ -1,76 +1,65 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MENU PRINCIPAL</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block title %}MENU PRINCIPAL{% endblock %}
 
-    <nav class="navbar">
-        <h1>EduSeñas</h1>
-        <div class="navbar-opciones">
-            <a href="/menu">INICIO</a>
-            <a href="#">AYUDA</a>
-            <a href="#">PADRES</a>
-        </div>
-    </nav>
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+{% endblock %}
 
-    <main class="menu-principal">
+{% block content %}
 
-        <aside class="cuadro-lateral">
-            <h2>PALABRA DEL DÍA</h2>
-            <p>Próximamente...</p>
-        </aside>
+<main class="menu-principal">
 
-        <section class="opciones-menu">
+    <aside class="cuadro-lateral">
+        <h2>PALABRA DEL DÍA</h2>
+        <p>Próximamente...</p>
+    </aside>
 
-            <ul class="lista-opciones">
+    <section class="opciones-menu">
 
-                <li class="opcion-menu">
-                    <a href="/aprendizaje">
-                        <img src="{{ url_for('static', filename='images/aprendizaje.png') }}"
-                             alt="Aprendizaje">
-                        <span>APRENDIZAJE</span>
-                    </a>
-                </li>
+        <ul class="lista-opciones">
 
-                <li class="opcion-menu">
-                    <a href="/progreso">
-                        <img src="{{ url_for('static', filename='images/progreso.png') }}"
-                             alt="Progreso">
-                        <span>PROGRESO</span>
-                    </a>
-                </li>
+            <li class="opcion-menu">
+                <a href="/aprendizaje">
+                    <img src="{{ url_for('static', filename='images/aprendizaje.png') }}"
+                         alt="Aprendizaje">
+                    <span>APRENDIZAJE</span>
+                </a>
+            </li>
 
-                <li class="opcion-menu">
-                    <a href="/perfil">
-                        <img src="{{ url_for('static', filename='images/perfil.png') }}"
-                             alt="Perfil">
-                        <span>PERFIL</span>
-                    </a>
-                </li>
+            <li class="opcion-menu">
+                <a href="/progreso">
+                    <img src="{{ url_for('static', filename='images/progreso.png') }}"
+                         alt="Progreso">
+                    <span>PROGRESO</span>
+                </a>
+            </li>
 
-                <li class="opcion-menu">
-                    <a href="/contactanos">
-                        <img src="{{ url_for('static', filename='images/contactanos.png') }}"
-                             alt="Contáctanos">
-                        <span>CONTÁCTANOS</span>
-                    </a>
-                </li>
+            <li class="opcion-menu">
+                <a href="/perfil">
+                    <img src="{{ url_for('static', filename='images/perfil.png') }}"
+                         alt="Perfil">
+                    <span>PERFIL</span>
+                </a>
+            </li>
 
-            </ul>
+            <li class="opcion-menu">
+                <a href="/contactanos">
+                    <img src="{{ url_for('static', filename='images/contactanos.png') }}"
+                         alt="Contáctanos">
+                    <span>CONTÁCTANOS</span>
+                </a>
+            </li>
 
-        </section>
+        </ul>
 
-        <aside class="cuadro-lateral">
-            <h2>MI PROGRESO</h2>
-            <p>Próximamente...</p>
-        </aside>
+    </section>
 
-    </main>
+    <aside class="cuadro-lateral">
+        <h2>MI PROGRESO</h2>
+        <p>Próximamente...</p>
+    </aside>
 
-</body>
-</html>
+</main>
+
+{% endblock %}
