@@ -1,3 +1,7 @@
+/* =========================================================
+   DEDITOS LECTORES — sistema de diseño (Reconocimiento + Juego 1)
+   Adaptado del prototipo. Paleta: turquesa, amarillo, coral, tinta violeta.
+   ========================================================= */
 
 :root {
   --bg: #FCF7EC;
@@ -182,6 +186,26 @@ body {
 
 .prompt-word {
   font-family: var(--font-display); font-weight: 700; font-size: 2.4rem; color: var(--ink); letter-spacing: 0.02em; text-align: center;
+}
+
+/* ---------- Tarjeta combinada: seña + palabra (fase de reconocimiento) ---------- */
+
+.word-card {
+  width: 100%; max-width: 340px; margin-top: 16px;
+  background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-card);
+  padding: 18px 22px; display: flex; align-items: center; gap: 16px; justify-content: center;
+}
+
+.word-card__sena {
+  flex-shrink: 0; width: 56px; height: 56px; border-radius: 50%;
+  background: var(--turquoise-pale); display: flex; align-items: center; justify-content: center;
+}
+.word-card__sena svg { width: 34px; height: 34px; }
+
+.word-card__word {
+  font-family: var(--font-display); font-weight: 700; font-size: 2.1rem;
+  letter-spacing: 0.02em; color: var(--ink);
+  animation: pop .3s ease;
 }
 
 .play-btn {
