@@ -1,8 +1,30 @@
 from models.category import Category
 
 class LearningService:
-
     @staticmethod
     def obtener_categoria(slug):
-        """Busca una categoría por su slug (ej: 'animales'). Devuelve None si no existe."""
-        return Category.query.filter_by(slug=slug).first()
+
+        categoria = (
+            Category.query
+            .filter_by(slug=slug)
+            .first()
+        )
+        return categoria
+
+
+    @staticmethod
+    def obtener_siguiente_aprendizaje():
+
+        categoria = Category.query.first()
+
+
+        if categoria is None:
+
+            return None, []
+
+        palabras = [
+            palabra.serialize()
+            for palabra in categoria.words
+        ]
+
+        return categoria, palabras

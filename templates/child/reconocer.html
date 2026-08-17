@@ -1,50 +1,128 @@
 {% extends "base.html" %}
-{% block title %}Edu Señas — Reconocer — {{ categoria_nombre }}{% endblock %}
 
-{% block content %}
-<main class="stage">
-  <p class="stage__eyebrow">Categoría: {{ categoria_nombre }}</p>
+{% block title %}EDUSEÑAS — RECONOCER{% endblock %}
 
-  <section class="prompt-card" id="promptCard">
-    <div class="prompt-card__sticker" id="promptSticker"></div>
-  </section>
-
-  <section class="word-card" id="wordCard">
-    <div class="word-card__sena" aria-label="Seña en LSA">
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M22 52c-6-1-11-7-11-15V26a4 4 0 0 1 8 0v8" stroke="var(--turquoise-dark)" stroke-width="3.5" stroke-linecap="round"/>
-        <rect x="20" y="14" width="8" height="22" rx="4" fill="var(--turquoise)" stroke="var(--turquoise-dark)" stroke-width="3.5"/>
-        <rect x="29" y="10" width="8" height="26" rx="4" fill="var(--yellow)" stroke="var(--turquoise-dark)" stroke-width="3.5"/>
-        <rect x="38" y="14" width="8" height="22" rx="4" fill="var(--coral)" stroke="var(--turquoise-dark)" stroke-width="3.5"/>
-        <path d="M11 32v8c0 7 6 13 13 13h10c7 0 13-6 13-13v-8" stroke="var(--turquoise-dark)" stroke-width="3.5" stroke-linecap="round" fill="#fff"/>
-      </svg>
-    </div>
-    <span class="word-card__word" id="wordText"></span>
-  </section>
-
-  <div class="recon-nav">
-    <button class="nav-arrow nav-arrow--left" id="btnPrev" type="button" aria-label="Animal anterior">
-      <svg viewBox="0 0 24 24" width="28" height="28"><path d="M15 6l-6 6 6 6" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-
-    <div class="recon-dots" id="reconDots"></div>
-
-    <button class="nav-arrow nav-arrow--right" id="btnNext" type="button" aria-label="Siguiente animal">
-      <svg viewBox="0 0 24 24" width="28" height="28"><path d="M9 6l6 6-6 6" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
-
-  <button class="play-btn" id="btnJugar" type="button" hidden aria-label="Empezar los juegos">
-    <svg viewBox="0 0 24 24" width="34" height="34"><circle cx="12" cy="12" r="11" fill="var(--success)"/><path d="M10 8l6 4-6 4V8z" fill="#fff"/></svg>
-  </button>
-</main>
+{% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/reconocer.css') }}"
+>
 {% endblock %}
 
+{% block content %}
+
+<main class="learning-stage">
+
+    <!-- PROGRESO -->
+    <div
+        class="learning-progress"
+        id="learningProgress"
+        aria-label="PROGRESO DEL APRENDIZAJE">
+    </div>
+
+
+    <!-- CATEGORÍA -->
+    <div class="learning-category">
+        {{ categoria_nombre }}
+    </div>
+
+
+    <!-- TARJETA DE APRENDIZAJE -->
+    <section class="learning-card">
+
+        <!-- VIDEO DE LSA -->
+        <div class="learning-video">
+
+            <video
+                id="lsaVideo"
+                playsinline
+                controls
+                preload="metadata">
+            </video>
+
+            <div
+                id="videoPlaceholder"
+                class="video-placeholder"
+                hidden>
+
+                <span>VIDEO LSA</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- IMAGEN DEL CONCEPTO -->
+        <div class="learning-image">
+
+            <img
+                id="wordImage"
+                src=""
+                alt="">
+
+        </div>
+
+
+        <!-- PALABRA -->
+        <div class="learning-word">
+
+            <span id="wordText"></span>
+
+        </div>
+
+    </section>
+
+
+    <!-- BOTONES -->
+    <div class="learning-navigation">
+
+        <button
+            id="btnPrev"
+            class="learning-nav"
+            type="button"
+            aria-label="PALABRA ANTERIOR">
+
+            &lt;
+
+        </button>
+
+
+        <button
+            id="btnNext"
+            class="learning-nav"
+            type="button"
+            aria-label="SIGUIENTE PALABRA">
+
+            &gt;
+
+        </button>
+
+    </div>
+
+</main>
+
+{% endblock %}
+
+
 {% block scripts %}
+
 <script>
-  const PALABRAS = {{ palabras | tojson }};
-  const IMG_BASE = "{{ url_for('static', filename='img/' + categoria_slug) }}/";
-  const URL_JUEGO = "{{ url_for('game.juego1', categoria_slug=categoria_slug) }}";
+
+    const PALABRAS = {{ palabras | tojson }};
+
+    const IMG_BASE =
+        "{{ url_for('static', filename='img/' + categoria_slug) }}/";
+
+    const VIDEO_BASE =
+        "{{ url_for('static', filename='videos/lsa/' + categoria_slug) }}/";
+
+    const URL_JUEGO =
+        "{{ url_for('game.juego1', categoria_slug=categoria_slug) }}";
+
 </script>
-<script src="{{ url_for('static', filename='javascript/reconocer.js') }}"></script>
+
+<script
+    src="{{ url_for('static', filename='javascript/reconocer.js') }}">
+</script>
+
 {% endblock %}

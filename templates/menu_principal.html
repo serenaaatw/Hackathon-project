@@ -42,12 +42,13 @@
         <!-- OPCIONES PRINCIPALES -->
         <section class="menu__options">
 
-            <a href="/aprendizaje" class="menu-card menu-card--learning">
+            <a href="{{ url_for('learning.aprender') }}"
+            class="menu-card menu-card--learning">
 
                 <div class="menu-card__image">
                     <img
                         src="{{ url_for('static', filename='img/iconos/aprendizaje.png') }}"
-                        alt=""
+                        alt="APRENDIZAJE"
                     >
                 </div>
 
@@ -58,12 +59,13 @@
             </a>
 
 
-            <a href="/progreso" class="menu-card menu-card--progress">
+            <a href="/progreso"
+            class="menu-card menu-card--progress">
 
                 <div class="menu-card__image">
                     <img
                         src="{{ url_for('static', filename='img/iconos/progreso.png') }}"
-                        alt=""
+                        alt="PROGRESO"
                     >
                 </div>
 
@@ -74,12 +76,13 @@
             </a>
 
 
-            <a href="/perfil" class="menu-card menu-card--profile">
+            <a href="/perfil"
+            class="menu-card menu-card--profile">
 
                 <div class="menu-card__image">
                     <img
                         src="{{ url_for('static', filename='img/iconos/perfil.png') }}"
-                        alt=""
+                        alt="PERFIL"
                     >
                 </div>
 
@@ -90,12 +93,13 @@
             </a>
 
 
-            <a href="/contactanos" class="menu-card menu-card--contact">
+            <a href="/contactanos"
+            class="menu-card menu-card--contact">
 
                 <div class="menu-card__image">
                     <img
                         src="{{ url_for('static', filename='img/iconos/contacto.png') }}"
-                        alt=""
+                        alt="CONTACTO"
                     >
                 </div>
 
@@ -107,26 +111,17 @@
 
         </section>
 
-
-        <!-- PROGRESO -->
-        <aside class="info-card info-card--progress">
-
-            <div class="info-card__icon">
-                <img
-                    src="{{ url_for('static', filename='img/iconos/progreso2.png') }}"
-                    alt=""
-                >
-            </div>
-
-            <div class="info-card__content">
-                <span>MI PROGRESO</span>
-                <strong>PRÓXIMAMENTE</strong>
-            </div>
-
-        </aside>
-
-    </div>
-
+        <!-- PROGRESO --> 
+         <aside class="info-card info-card--progress"> 
+            <div class="info-card__icon"> 
+                <img src="{{ url_for('static', filename='img/iconos/progreso2.png') }}" alt="" > 
+            </div> 
+            <div class="info-card__content"> 
+                <span>MI PROGRESO</span> 
+                <strong>PRÓXIMAMENTE</strong> 
+            </div> 
+        </aside> 
+    </div> 
 </section>
 
 {% endblock %}

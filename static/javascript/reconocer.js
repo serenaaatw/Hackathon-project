@@ -1,83 +1,196 @@
-// static/javascript/reconocer.js
-// Fase de reconocimiento: cada pantalla muestra foto + seña + palabra
-// juntos, para un mismo animal. La flecha derecha avanza al siguiente
-// animal (no a un "paso" separado). Repetible, 100% visual.
-// Depende de las variables globales PALABRAS, IMG_BASE y URL_JUEGO
-// que se definen inline en templates/child/reconocer.html
-
 (function () {
-  // Paleta que va rotando para que cada palabra se sienta "viva" y llame la atención.
-  const PALETA = ["var(--coral)", "var(--turquoise-dark)", "var(--ink)", "#E0A100"];
 
-  const state = {
-    wordIndex: 0,
-    visited: new Set(), // índices de animales ya vistos al menos una vez
-  };
+    const state = {
+        wordIndex: 0,
+        visited: new Set()
+    };
 
-  const els = {
-    sticker: document.getElementById("promptSticker"),
-    wordText: document.getElementById("wordText"),
-    dots: document.getElementById("reconDots"),
-    btnPrev: document.getElementById("btnPrev"),
-    btnNext: document.getElementById("btnNext"),
-    btnJugar: document.getElementById("btnJugar"),
-  };
 
-  function renderDots() {
-    els.dots.innerHTML = "";
-    PALABRAS.forEach(() => {
-      const dot = document.createElement("div");
-      dot.className = "recon-dots__dot";
-      els.dots.appendChild(dot);
-    });
-  }
+    const elements = {
 
-  function updateDots() {
-    [...els.dots.children].forEach((dot, i) => {
-      dot.classList.toggle("is-current", i === state.wordIndex);
-      dot.classList.toggle("is-done", state.visited.has(i) && i !== state.wordIndex);
-    });
-  }
+        video: document.getElementById("lsaVideo"),
 
-  function updatePlayButton() {
-    if (state.visited.size >= PALABRAS.length) {
-      els.btnJugar.hidden = false;
+        videoPlaceholder:
+            document.getElementById("videoPlaceholder"),
+
+        image:
+            document.getElementById("wordImage"),
+
+        word:
+            document.getElementById("wordText"),
+
+        progress:
+            document.getElementById("learningProgress"),
+
+        next:
+            document.getElementById("btnNext"),
+
+        prev:
+            document.getElementById("btnPrev")
+
+    };
+
+
+    function renderProgress() {
+
+        elements.progress.innerHTML = "";
+
+        PALABRAS.forEach(function (_, index) {
+
+            const dot = document.createElement("div");
+
+            dot.className = "learning-dot";
+
+
+            if (index === state.wordIndex) {
+                dot.classList.add("current");
+            }
+
+
+            if (
+                state.visited.has(index) &&
+                index !== state.wordIndex
+            ) {
+                dot.classList.add("done");
+            }
+
+
+            elements.progress.appendChild(dot);
+
+        });
+
     }
-  }
 
-  function render() {
-    const item = PALABRAS[state.wordIndex];
 
-    els.sticker.innerHTML = `<img src="${IMG_BASE}${item.image_file}" alt="${item.word}" class="prompt-img">`;
+    function renderWord() {
 
-    els.wordText.textContent = item.word;
-    els.wordText.style.color = PALETA[state.wordIndex % PALETA.length];
+        const item =
+            PALABRAS[state.wordIndex];
 
-    state.visited.add(state.wordIndex);
-    updateDots();
-    updatePlayButton();
-  }
 
-  function next() {
-    state.wordIndex = (state.wordIndex + 1) % PALABRAS.length;
-    render();
-  }
+        if (!item) {
+            return;
+        }
 
-  function prev() {
-    state.wordIndex = (state.wordIndex - 1 + PALABRAS.length) % PALABRAS.length;
-    render();
-  }
 
-  function init() {
-    if (!PALABRAS || PALABRAS.length === 0) return;
-    renderDots();
-    render();
-    els.btnNext.addEventListener("click", next);
-    els.btnPrev.addEventListener("click", prev);
-    els.btnJugar.addEventListener("click", () => {
-      window.location.href = URL_JUEGO;
-    });
-  }
+        // IMAGEN
 
-  init();
+        elements.image.src =
+            IMG_BASE + item.image_file;
+
+        elements.image.alt =
+            item.word;
+
+
+        // PALABRA
+
+        elements.word.textContent =
+            item.word.toUpperCase();
+
+
+        // VIDEO LSA
+
+        if (item.lsa_video_file) {
+
+            elements.video.src =
+                VIDEO_BASE + item.lsa_video_file;
+
+            elements.video.hidden = false;
+
+            elements.videoPlaceholder.hidden = true;
+
+            elements.video.load();
+
+        } else {
+
+            elements.video.removeAttribute("src");
+
+            elements.video.hidden = true;
+
+            elements.videoPlaceholder.hidden = false;
+
+        }
+
+
+        // GUARDAR COMO VISTA
+
+        state.visited.add(
+            state.wordIndex
+        );
+
+
+        renderProgress();
+
+    }
+
+    function nextWord() {
+
+        if (
+            state.wordIndex <
+            PALABRAS.length - 1
+        ) {
+
+            state.wordIndex++;
+
+            renderWord();
+
+        } else {
+
+            // Terminó todos los conceptos.
+            // Continúa automáticamente al juego.
+
+            window.location.href =
+                URL_JUEGO;
+
+        }
+
+    }
+
+
+
+    function previousWord() {
+
+        if (state.wordIndex > 0) {
+
+            state.wordIndex--;
+
+            renderWord();
+
+        }
+
+    }
+
+    function init() {
+
+        if (
+            !PALABRAS ||
+            PALABRAS.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        renderWord();
+
+
+        elements.next.addEventListener(
+            "click",
+            nextWord
+        );
+
+
+        // BOTÓN <
+
+        elements.prev.addEventListener(
+            "click",
+            previousWord
+        );
+
+    }
+
+
+    init();
+
 })();

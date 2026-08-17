@@ -15,26 +15,26 @@
 
     <title>{% block title %}EDUSEÑAS{% endblock %}</title>
 
-    <!-- Fuentes -->
+    <!-- FUENTES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap"
         rel="stylesheet"
     >
 
-    <!-- Estilos generales -->
+    <!-- CSS GENERAL -->
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='css/base.css') }}"
     >
     <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/navbar.css') }}"
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/navbar.css') }}"
     >
 
-    <!-- Estilos específicos de cada página -->
+    <!-- CSS ESPECÍFICO DE CADA PÁGINA -->
     {% block styles %}
     {% endblock %}
 

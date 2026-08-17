@@ -1,45 +1,189 @@
 {% extends "base.html" %}
-{% block title %}Edu Señas — Juego: Emparejar — {{ categoria_nombre }}{% endblock %}
 
-{% block content %}
-<div class="trail" id="trail" aria-label="Progreso en esta categoría"></div>
-
-<main class="stage">
-  <p class="stage__eyebrow">Categoría: {{ categoria_nombre }}</p>
-
-  <button class="mode-toggle" id="modeToggle" type="button">
-    Modo: <span id="modeLabel">Imagen → Palabra</span>
-  </button>
-
-  <section class="prompt-card" id="promptImageCard">
-    <div class="prompt-card__sticker" id="promptSticker"></div>
-  </section>
-
-  <section class="prompt-card prompt-card--video" id="promptVideoCard" hidden>
-    <div class="video-frame">
-      <video id="lsaVideo" playsinline muted loop hidden></video>
-      <div class="video-frame__placeholder" id="videoPlaceholder">
-        <svg viewBox="0 0 64 64" width="46" height="46" aria-hidden="true">
-          <rect x="8" y="14" width="36" height="36" rx="8" fill="var(--turquoise)" opacity=".18"/>
-          <path d="M20 24l16 8-16 8V24z" fill="var(--turquoise-dark)"/>
-        </svg>
-        <p>Video en LSA<br><strong>pendiente de grabar</strong><br>con la intérprete</p>
-      </div>
-    </div>
-  </section>
-
-  <p class="stage__instruction" id="instruction">Tocá la palabra que corresponde</p>
-
-  <div class="options" id="options" role="group" aria-label="Opciones de respuesta"></div>
-
-  <p class="feedback" id="feedback" aria-live="polite"></p>
-</main>
+{% block title %}
+EDUSEÑAS — JUEGO
 {% endblock %}
 
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/juego1.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="trail" id="trail"></div>
+
+
+<main class="stage">
+
+    <p class="stage__eyebrow">
+        {{ categoria_nombre }}
+    </p>
+
+
+    <button
+        class="mode-toggle"
+        id="modeToggle"
+        type="button"
+        hidden
+    >
+        <span id="modeLabel">
+            IMAGEN → PALABRA
+        </span>
+    </button>
+
+
+    <section
+        class="prompt-card"
+        id="promptImageCard"
+    >
+
+        <div
+            class="prompt-card__sticker"
+            id="promptSticker"
+        ></div>
+
+    </section>
+
+
+    <section
+        class="prompt-card prompt-card--video"
+        id="promptVideoCard"
+        hidden
+    >
+
+        <div class="video-frame">
+
+            <video
+                id="lsaVideo"
+                playsinline
+                muted
+                loop
+                hidden
+            ></video>
+
+
+            <div
+                class="video-frame__placeholder"
+                id="videoPlaceholder"
+            >
+
+                <p>
+                    VIDEO LSA
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <p
+        class="stage__instruction"
+        id="instruction"
+    >
+        TOCÁ LA PALABRA QUE CORRESPONDE
+    </p>
+
+
+    <div
+        class="options"
+        id="options"
+    ></div>
+
+
+    <p
+        class="feedback"
+        id="feedback"
+    ></p>
+
+</main>
+
+
+<div class="tutorial" id="tutorial" hidden>
+
+    <div class="tutorial__background"></div>
+
+    <div class="tutorial__card">
+
+        <button
+            class="tutorial__close"
+            id="tutorialClose"
+            type="button"
+            aria-label="Cerrar">
+            ×
+        </button>
+
+        <div class="tutorial__progress">
+            <span class="tutorial-dot tutorial-dot--active"></span>
+            <span class="tutorial-dot"></span>
+            <span class="tutorial-dot"></span>
+        </div>
+
+        <div class="tutorial__content" id="tutorialContent">
+
+            <div class="tutorial__image">
+                <img id="tutorialImage" src="" alt="">
+            </div>
+
+            <div class="tutorial__options" id="tutorialOptions"></div>
+
+        </div>
+
+        <div class="tutorial__actions">
+
+            <button
+                class="tutorial__repeat"
+                id="tutorialRepeat"
+                type="button"
+                aria-label="Repetir tutorial">
+                ↶
+            </button>
+
+            <button
+                class="tutorial__next"
+                id="tutorialNext"
+                type="button"
+                aria-label="Continuar">
+                →
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+
 {% block scripts %}
-<script>
-  const PALABRAS = {{ palabras | tojson }};
-  const IMG_BASE = "{{ url_for('static', filename='img/' + categoria_slug) }}/";
-</script>
-<script src="{{ url_for('static', filename='javascript/games.js') }}"></script>
+
+    <script>
+
+        const PALABRAS =
+            {{ palabras | tojson }};
+
+        const IMG_BASE =
+            "{{ url_for('static', filename='img/' + categoria_slug) }}/";
+
+        const VIDEO_BASE =
+            "{{ url_for('static', filename='videos/lsa/' + categoria_slug) }}/";
+
+    </script>
+
+
+    <script
+        src="{{ url_for(
+            'static',
+            filename='javascript/games.js'
+        ) }}"
+    ></script>
+
 {% endblock %}
