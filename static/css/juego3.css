@@ -1,0 +1,381 @@
+.juego3 {
+    width: 100%;
+    min-height: calc(100vh - 90px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 25px 20px 40px;
+
+    color: #4A3B78;
+}
+
+
+.juego3__encabezado {
+    width: 100%;
+    max-width: 700px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.juego3__categoria {
+    background: #E3F6F4;
+
+    color: #237F7A;
+
+    padding: 8px 18px;
+
+    border-radius: 999px;
+
+    font-family: 'Nunito', sans-serif;
+
+    font-size: .8rem;
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+
+.juego3__progreso {
+    display: flex;
+    gap: 8px;
+}
+
+
+.juego3__progreso-punto {
+    width: 13px;
+    height: 13px;
+
+    border-radius: 50%;
+
+    background: #FFFFFF;
+
+    border: 2px solid #3DBFB8;
+
+    opacity: .5;
+}
+
+
+.juego3__progreso-punto.completado {
+    background: #3DBFB8;
+    opacity: 1;
+}
+
+
+.juego3__progreso-punto.actual {
+    background: #FFC64B;
+
+    border-color: #FFC64B;
+
+    opacity: 1;
+
+    transform: scale(1.25);
+}
+
+
+.juego3__consigna {
+    margin-top: 25px;
+
+    text-align: center;
+}
+
+
+.juego3__consigna p {
+    margin: 0;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.4rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+.juego3__contenido {
+    width: 100%;
+    max-width: 600px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 25px;
+}
+
+
+.juego3__imagen-contenedor {
+    width: 210px;
+    height: 210px;
+
+    border-radius: 50%;
+
+    background: #E3F6F4;
+
+    padding: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 10px 0 rgba(61, 191, 184, .15);
+}
+
+
+.juego3__imagen {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+.juego3__palabra {
+    min-height: 65px;
+
+    margin-top: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+}
+
+
+.juego3__letra-armada {
+    width: 48px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #FFFFFF;
+
+    border: 3px solid #3DBFB8;
+
+    border-radius: 12px;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    color: #4A3B78;
+
+    box-shadow:
+        0 5px 0 rgba(74,59,120,.15);
+}
+
+
+.juego3__letras {
+    width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+.juego3__letra {
+    width: 58px;
+    height: 58px;
+
+    border: 3px solid #3DBFB8;
+
+    border-radius: 16px;
+
+    background: #FFFFFF;
+
+    color: #4A3B78;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 0 rgba(74,59,120,.15);
+
+    transition:
+        transform .15s ease,
+        background .15s ease,
+        opacity .15s ease;
+}
+
+
+.juego3__letra:hover {
+    background: #E3F6F4;
+
+    transform: translateY(-3px);
+}
+
+
+.juego3__letra:active {
+    transform: translateY(3px);
+}
+
+
+.juego3__letra.usada {
+    opacity: .25;
+
+    pointer-events: none;
+}
+
+
+.juego3__feedback {
+    min-height: 35px;
+
+    margin-top: 20px;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.15rem;
+    font-weight: 700;
+
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+
+.juego3__feedback.correcto {
+    color: #3FA772;
+
+    animation: feedbackCorrecto .4s ease;
+}
+
+
+.juego3__feedback.incorrecto {
+    color: #FF8A5B;
+
+    animation: feedbackIncorrecto .35s ease;
+}
+
+
+@keyframes feedbackCorrecto {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+@keyframes feedbackIncorrecto {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-6px);
+    }
+
+    75% {
+        transform: translateX(6px);
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    .juego3 {
+        padding:
+            20px 12px 30px;
+    }
+
+
+    .juego3__consigna p {
+        font-size: 1.15rem;
+    }
+
+
+    .juego3__imagen-contenedor {
+        width: 180px;
+        height: 180px;
+    }
+
+
+    .juego3__palabra {
+        gap: 5px;
+    }
+
+
+    .juego3__letra-armada {
+        width: 38px;
+        height: 48px;
+
+        font-size: 1.25rem;
+    }
+
+
+    .juego3__letra {
+        width: 52px;
+        height: 52px;
+
+        font-size: 1.3rem;
+    }
+
+}
+
+
+@media (max-width: 380px) {
+
+    .juego3__imagen-contenedor {
+        width: 155px;
+        height: 155px;
+    }
+
+
+    .juego3__letra-armada {
+        width: 32px;
+        height: 42px;
+
+        font-size: 1.05rem;
+    }
+
+
+    .juego3__letra {
+        width: 48px;
+        height: 48px;
+
+        font-size: 1.2rem;
+    }
+
+}
+
+.juego3__letras {
+    position: relative;
+    z-index: 10;
+}
+
+.juego3__letra {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: visible;
+}
