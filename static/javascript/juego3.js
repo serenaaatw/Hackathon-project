@@ -1,20 +1,17 @@
-console.log("🔥 JUEGO 3 JS CARGADO 🔥");
-
 (function () {
 
-    console.log("🔥 JUEGO 3 EJECUTANDO 🔥");
+    "use strict";
+
 
     const state = {
-
         index: 0,
-
         orden: [],
-
-        palabraArmada: []
-
+        palabraArmada: [],
+        tutorialActivo: false
     };
 
 
+  
     const els = {
 
         imagen:
@@ -35,6 +32,20 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     };
 
 
+    
+
+    if (!Array.isArray(PALABRAS) || PALABRAS.length === 0) {
+
+        console.error(
+            "Juego 3: no se recibieron palabras."
+        );
+
+        return;
+
+    }
+
+
+
     function shuffle(array) {
 
         const copia = [...array];
@@ -53,8 +64,7 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
             [
                 copia[i],
                 copia[j]
-            ] =
-            [
+            ] = [
                 copia[j],
                 copia[i]
             ];
@@ -62,30 +72,25 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
         }
 
         return copia;
+
     }
 
 
+
+
+    function obtenerPalabraActual() {
+
+        const posicion =
+            state.orden[state.index];
+
+        return PALABRAS[posicion];
+
+    }
+
+
+
+
     function iniciar() {
-
-        console.log("JUEGO 3 INICIADO");
-
-        console.log("PALABRAS:", PALABRAS);
-
-        console.log("IMG_BASE:", IMG_BASE);
-
-
-        if (
-            !PALABRAS ||
-            PALABRAS.length === 0
-        ) {
-
-            els.feedback.textContent =
-                "NO HAY PALABRAS DISPONIBLES.";
-
-            return;
-
-        }
-
 
         state.orden =
             shuffle(
@@ -94,7 +99,6 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
                 )
             );
 
-
         crearProgreso();
 
         mostrarPalabra();
@@ -102,10 +106,14 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     }
 
 
+
     function crearProgreso() {
 
-        els.progreso.innerHTML = "";
+        if (!els.progreso) {
+            return;
+        }
 
+        els.progreso.innerHTML = "";
 
         PALABRAS.forEach(() => {
 
@@ -115,12 +123,9 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
             punto.className =
                 "juego3__progreso-punto";
 
-            els.progreso.appendChild(
-                punto
-            );
+            els.progreso.appendChild(punto);
 
         });
-
 
         actualizarProgreso();
 
@@ -128,6 +133,10 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
 
 
     function actualizarProgreso() {
+
+        if (!els.progreso) {
+            return;
+        }
 
         [
             ...els.progreso.children
@@ -150,29 +159,25 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     }
 
 
-    function obtenerPalabraActual() {
-
-        const posicion =
-            state.orden[state.index];
-
-        return PALABRAS[posicion];
-
-    }
-
 
     function mostrarPalabra() {
 
         const item =
             obtenerPalabraActual();
 
-
         if (!item) {
+
+            console.error(
+                "No se pudo obtener la palabra actual."
+            );
+
             return;
+
         }
 
 
         console.log(
-            "PALABRA ACTUAL:",
+            "Juego 3 - palabra:",
             item
         );
 
@@ -180,46 +185,46 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
         state.palabraArmada = [];
 
 
-        // Limpiar feedback
+        if (els.feedback) {
 
-        els.feedback.textContent = "";
+            els.feedback.textContent = "";
 
-        els.feedback.className =
-            "juego3__feedback";
+            els.feedback.className =
+                "juego3__feedback";
 
-
-        const imagen =
-            `${IMG_BASE}${item.image_file}`;
-
-        console.log(
-            "IMAGEN:",
-            imagen
-        );
+        }
 
 
-        els.imagen.src = imagen;
+       
+        if (els.imagen) {
 
-        els.imagen.alt =
-            item.word;
+            const imagen =
+                `${IMG_BASE}${CATEGORIA_SLUG}/${item.image_file}`;
 
+            console.log(
+                "Juego 3 - imagen:",
+                imagen
+            );
 
-        // Si la imagen falla
+            els.imagen.src = imagen;
 
-        els.imagen.onerror =
-            function () {
+            els.imagen.alt =
+                item.word;
 
-                console.error(
-                    "NO SE PUDO CARGAR:",
-                    imagen
-                );
+            els.imagen.style.display =
+                "block";
 
-            };
+        }
+
 
 
         mostrarPalabraArmada();
 
 
+      
         crearLetras(item);
+
+
 
 
         actualizarProgreso();
@@ -227,7 +232,13 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     }
 
 
+ 
     function crearLetras(item) {
+
+        if (!els.letras) {
+            return;
+        }
+
 
         els.letras.innerHTML = "";
 
@@ -235,28 +246,18 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
         const palabra =
             item.word
                 .toUpperCase()
-                .trim();
+                .split("");
 
 
-        console.log(
-            "CREANDO LETRAS:",
-            palabra
-        );
+        const letrasDesordenadas =
+            shuffle(palabra);
 
 
-        const letras =
-            shuffle(
-                palabra.split("")
-            );
-
-
-        letras.forEach(
-            (letra) => {
+        letrasDesordenadas.forEach(
+            (letra, index) => {
 
                 const boton =
-                    document.createElement(
-                        "button"
-                    );
+                    document.createElement("button");
 
 
                 boton.type =
@@ -269,6 +270,10 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
 
                 boton.textContent =
                     letra;
+
+
+                boton.dataset.index =
+                    index;
 
 
                 boton.addEventListener(
@@ -294,25 +299,20 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     }
 
 
+   
     function seleccionarLetra(
         boton,
         letra
     ) {
 
         if (
-            boton.classList.contains(
-                "usada"
-            )
+            boton.classList.contains("usada")
         ) {
-
             return;
-
         }
 
 
-        boton.classList.add(
-            "usada"
-        );
+        boton.classList.add("usada");
 
 
         state.palabraArmada.push(
@@ -339,19 +339,22 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     }
 
 
+  
     function mostrarPalabraArmada() {
 
-        els.palabraArmada.innerHTML =
-            "";
+        if (!els.palabraArmada) {
+            return;
+        }
+
+
+        els.palabraArmada.innerHTML = "";
 
 
         state.palabraArmada.forEach(
-            (letra) => {
+            letra => {
 
                 const elemento =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
 
                 elemento.className =
@@ -372,6 +375,7 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     }
 
 
+    
     function comprobarPalabra() {
 
         const item =
@@ -383,25 +387,10 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
 
 
         const correcta =
-            item.word
-                .toUpperCase()
-                .trim();
+            item.word.toUpperCase();
 
 
-        console.log(
-            "RESPUESTA:",
-            respuesta
-        );
-
-        console.log(
-            "CORRECTA:",
-            correcta
-        );
-
-
-        if (
-            respuesta === correcta
-        ) {
+        if (respuesta === correcta) {
 
             mostrarCorrecto();
 
@@ -414,7 +403,13 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     }
 
 
+   
     function mostrarCorrecto() {
+
+        if (!els.feedback) {
+            return;
+        }
+
 
         els.feedback.textContent =
             "¡MUY BIEN!";
@@ -432,7 +427,13 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     }
 
 
+   
     function mostrarIncorrecto() {
+
+        if (!els.feedback) {
+            return;
+        }
+
 
         els.feedback.textContent =
             "PROBÁ DE NUEVO";
@@ -451,21 +452,24 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
                 mostrarPalabraArmada();
 
 
-                [
-                    ...els.letras.children
-                ].forEach(
-                    (boton) => {
+                if (els.letras) {
 
-                        boton.classList.remove(
-                            "usada"
-                        );
+                    [
+                        ...els.letras.children
+                    ].forEach(
+                        boton => {
 
-                    }
-                );
+                            boton.classList.remove(
+                                "usada"
+                            );
+
+                        }
+                    );
+
+                }
 
 
-                els.feedback.textContent =
-                    "";
+                els.feedback.textContent = "";
 
 
                 els.feedback.className =
@@ -476,6 +480,7 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
         );
 
     }
+
 
 
     function siguientePalabra() {
@@ -489,7 +494,6 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
         ) {
 
             state.index = 0;
-
 
             state.orden =
                 shuffle(
@@ -506,6 +510,344 @@ console.log("🔥 JUEGO 3 JS CARGADO 🔥");
     }
 
 
+    function crearTutorial() {
+
+        const tutorial =
+            document.createElement("div");
+
+        tutorial.id =
+            "tutorialJuego3";
+
+        tutorial.className =
+            "juego3__tutorial";
+
+
+        tutorial.innerHTML = `
+
+            <div class="juego3__tutorial-contenido">
+
+                <button
+                    type="button"
+                    class="juego3__tutorial-cerrar"
+                    id="cerrarTutorialJuego3"
+                    aria-label="Cerrar tutorial"
+                >
+                    ×
+                </button>
+
+
+                <div class="juego3__tutorial-imagen">
+
+                    <img
+                        id="tutorialImagenJuego3"
+                        src=""
+                        alt=""
+                    >
+
+                </div>
+
+
+                <div
+                    class="juego3__tutorial-palabra"
+                    id="tutorialPalabraJuego3"
+                >
+                </div>
+
+
+                <div
+                    class="juego3__tutorial-letras"
+                    id="tutorialLetrasJuego3"
+                >
+                </div>
+
+
+                <div class="juego3__tutorial-controles">
+
+                    <button
+                        type="button"
+                        class="juego3__tutorial-reiniciar"
+                        id="reiniciarTutorialJuego3"
+                        aria-label="Repetir tutorial"
+                        title="Repetir"
+                    >
+                        ↻
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="juego3__tutorial-continuar"
+                        id="continuarTutorialJuego3"
+                        aria-label="Continuar"
+                        title="Continuar"
+                    >
+                        →
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        document.body.appendChild(
+            tutorial
+        );
+
+
+        const item =
+            obtenerPalabraActual();
+
+
+        if (item) {
+
+            const imagen =
+                document.getElementById(
+                    "tutorialImagenJuego3"
+                );
+
+
+            imagen.src =
+                `${IMG_BASE}${CATEGORIA_SLUG}/${item.image_file}`;
+
+
+            imagen.alt =
+                item.word;
+
+
+            crearLetrasTutorial(item);
+
+        }
+
+
+        document
+            .getElementById(
+                "cerrarTutorialJuego3"
+            )
+            .addEventListener(
+                "click",
+                cerrarTutorial
+            );
+
+
+        document
+            .getElementById(
+                "continuarTutorialJuego3"
+            )
+            .addEventListener(
+                "click",
+                cerrarTutorial
+            );
+
+
+        document
+            .getElementById(
+                "reiniciarTutorialJuego3"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    const item =
+                        obtenerPalabraActual();
+
+                    if (item) {
+                        crearLetrasTutorial(item);
+                    }
+
+                }
+            );
+
+    }
+
+
+    
+    function crearLetrasTutorial(item) {
+
+        const contenedor =
+            document.getElementById(
+                "tutorialLetrasJuego3"
+            );
+
+
+        if (!contenedor) {
+            return;
+        }
+
+
+        contenedor.innerHTML = "";
+
+
+        const letras =
+            item.word
+                .toUpperCase()
+                .split("");
+
+
+        shuffle(letras).forEach(
+            letra => {
+
+                const elemento =
+                    document.createElement("div");
+
+
+                elemento.className =
+                    "juego3__tutorial-letra";
+
+
+                elemento.textContent =
+                    letra;
+
+
+                contenedor.appendChild(
+                    elemento
+                );
+
+            }
+        );
+
+
+        // Después de un momento,
+        // mostramos cómo se ordena.
+
+        setTimeout(
+            () => {
+
+                const palabra =
+                    document.getElementById(
+                        "tutorialPalabraJuego3"
+                    );
+
+
+                if (!palabra) {
+                    return;
+                }
+
+
+                palabra.innerHTML = "";
+
+
+                letras.forEach(
+                    (letra, index) => {
+
+                        setTimeout(
+                            () => {
+
+                                const elemento =
+                                    document.createElement(
+                                        "div"
+                                    );
+
+
+                                elemento.className =
+                                    "juego3__tutorial-letra-armada";
+
+
+                                elemento.textContent =
+                                    letra;
+
+
+                                palabra.appendChild(
+                                    elemento
+                                );
+
+
+                                const letrasTutorial =
+                                    document.querySelectorAll(
+                                        ".juego3__tutorial-letra"
+                                    );
+
+
+                                if (
+                                    letrasTutorial[index]
+                                ) {
+
+                                    letrasTutorial[
+                                        index
+                                    ].classList.add(
+                                        "usada"
+                                    );
+
+                                }
+
+                            },
+                            index * 450
+                        );
+
+                    }
+                );
+
+            },
+            1000
+        );
+
+    }
+
+
+   
+    function cerrarTutorial() {
+
+        const tutorial =
+            document.getElementById(
+                "tutorialJuego3"
+            );
+
+
+        if (!tutorial) {
+            return;
+        }
+
+
+        tutorial.classList.add(
+            "oculto"
+        );
+
+
+        setTimeout(
+            () => {
+
+                tutorial.remove();
+
+            },
+            400
+        );
+
+
+        state.tutorialActivo =
+            false;
+
+    }
+
+
+   
+    function mostrarTutorial() {
+
+        if (state.tutorialActivo) {
+            return;
+        }
+
+
+        state.tutorialActivo =
+            true;
+
+
+        crearTutorial();
+
+    }
+
+
+
     iniciar();
+
+
+    // Mostrar tutorial después
+    // de cargar el juego.
+
+    setTimeout(
+        mostrarTutorial,
+        300
+    );
+
 
 })();

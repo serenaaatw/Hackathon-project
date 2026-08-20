@@ -30,9 +30,6 @@ def juego3(categoria_slug):
     if categoria is None:
         abort(404)
 
-    if len(palabras) < 1:
-        abort(404)
-
     return render_template(
         "games/juego3.html",
         categoria_slug=categoria_slug,

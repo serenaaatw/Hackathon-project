@@ -4,6 +4,7 @@
     Ordenar palabra - EDUseñas
 {% endblock %}
 
+
 {% block styles %}
 
 <link
@@ -47,9 +48,6 @@
 
     <div class="juego3__contenido">
 
-
-        <!-- IMAGEN DEL ANIMAL -->
-
         <div class="juego3__imagen-contenedor">
 
             <img
@@ -62,32 +60,22 @@
         </div>
 
 
-        <!-- PALABRA QUE EL NIÑO VA ARMANDO -->
-
         <div
             class="juego3__palabra"
             id="palabraArmada"
-        >
-        </div>
+        ></div>
 
-
-        <!-- LETRAS DISPONIBLES -->
 
         <div
             class="juego3__letras"
             id="letras"
-        >
-        </div>
+        ></div>
 
-
-        <!-- FEEDBACK -->
 
         <div
             class="juego3__feedback"
             id="feedback"
-        >
-        </div>
-
+        ></div>
 
     </div>
 
@@ -102,8 +90,11 @@
 
     const PALABRAS = {{ palabras | tojson }};
 
+    const CATEGORIA_SLUG =
+        "{{ categoria_slug }}";
+
     const IMG_BASE =
-        "{{ url_for('static', filename='img/animales/') }}";
+        "{{ url_for('static', filename='img/') }}";
 
 </script>
 
