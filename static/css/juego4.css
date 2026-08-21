@@ -1,0 +1,948 @@
+.juego4 {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 18px 20px 25px;
+
+    color: #4A3B78;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
+.juego4__encabezado {
+    width: 100%;
+    max-width: 650px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.juego4__categoria {
+    background: #E3F6F4;
+
+    color: #237F7A;
+
+    padding: 7px 16px;
+
+    border-radius: 999px;
+
+    font-family: 'Nunito', sans-serif;
+
+    font-size: .75rem;
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   PROGRESO
+   ========================================================= */
+
+.juego4__progreso {
+    display: flex;
+    gap: 6px;
+}
+
+
+.juego4__progreso-punto {
+    width: 11px;
+    height: 11px;
+
+    border-radius: 50%;
+
+    background: #FFFFFF;
+
+    border: 2px solid #3DBFB8;
+
+    opacity: .5;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+
+.juego4__progreso-punto.completado {
+    background: #3DBFB8;
+    opacity: 1;
+}
+
+
+.juego4__progreso-punto.actual {
+    background: #FFC64B;
+
+    border-color: #FFC64B;
+
+    opacity: 1;
+
+    transform: scale(1.2);
+}
+
+
+/* =========================================================
+   CONSIGNA
+   ========================================================= */
+
+.juego4__consigna {
+    margin-top: 12px;
+
+    text-align: center;
+}
+
+
+.juego4__consigna p {
+    margin: 0;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.15rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   CONTENIDO
+   ========================================================= */
+
+.juego4__contenido {
+    width: 100%;
+    max-width: 650px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 12px;
+}
+
+
+/* =========================================================
+   IMAGEN
+   ========================================================= */
+
+.juego4__imagen-contenedor {
+    width: 175px;
+    height: 175px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #E3F6F4;
+
+    padding: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 8px 0 rgba(61, 191, 184, .15);
+
+    overflow: hidden;
+}
+
+
+.juego4__imagen {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   PALABRA
+   ========================================================= */
+
+.juego4__palabra {
+    min-height: 62px;
+
+    margin-top: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+
+    flex-wrap: nowrap;
+}
+
+
+.juego4__letra {
+    width: 45px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 2rem;
+    font-weight: 700;
+
+    color: #4A3B78;
+
+    box-sizing: border-box;
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+
+/* =========================================================
+   ESPACIO DE LETRA FALTANTE
+   ========================================================= */
+
+.juego4__letra.oculta {
+    background: #FFFFFF;
+
+    border: 3px solid #3DBFB8;
+
+    border-radius: 12px;
+
+    color: #3DBFB8;
+
+    box-shadow:
+        0 4px 0 rgba(74, 59, 120, .12);
+
+    cursor: pointer;
+}
+
+
+.juego4__letra.oculta:hover {
+    transform: scale(1.06);
+
+    background: #E3F6F4;
+}
+
+
+/* =========================================================
+   OPCIONES
+   ========================================================= */
+
+.juego4__opciones {
+    width: 100%;
+    max-width: 440px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 9px;
+
+    margin-top: 13px;
+}
+
+
+/* =========================================================
+   BOTONES DE LETRAS
+   ========================================================= */
+
+.juego4__opcion {
+    width: 100%;
+    height: 50px;
+
+    border: 3px solid #3DBFB8;
+
+    border-radius: 13px;
+
+    background: #FFFFFF;
+
+    color: #4A3B78;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.4rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 0 rgba(74, 59, 120, .15);
+
+    transition:
+        transform .15s ease,
+        background .15s ease,
+        opacity .15s ease;
+}
+
+
+.juego4__opcion:hover {
+    background: #E3F6F4;
+
+    transform: translateY(-2px);
+}
+
+
+.juego4__opcion:active {
+    transform: translateY(2px);
+}
+
+
+.juego4__opcion.usada {
+    opacity: .25;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   FEEDBACK
+   ========================================================= */
+
+.juego4__feedback {
+    min-height: 32px;
+
+    margin-top: 9px;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.05rem;
+    font-weight: 700;
+
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+
+.juego4__feedback.correcto {
+    color: #3FA772;
+
+    animation: feedbackCorrecto .4s ease;
+}
+
+
+.juego4__feedback.incorrecto {
+    color: #FF8A5B;
+
+    animation: feedbackIncorrecto .35s ease;
+}
+
+
+/* =========================================================
+   ACCIONES
+   ========================================================= */
+
+.juego4__acciones {
+    margin-top: 7px;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+.juego4__boton {
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #FFFFFF;
+
+    color: #4A3B78;
+
+    font-size: 1.35rem;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 0 rgba(74, 59, 120, .12);
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+
+.juego4__boton:hover {
+    background: #E3F6F4;
+
+    transform: scale(1.05);
+}
+
+
+.juego4__tutorial {
+    position: fixed;
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(74, 59, 120, .35);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity .25s ease,
+        visibility .25s ease;
+}
+
+.juego4__tutorial.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.juego4__tutorial-contenido {
+    position: relative;
+
+    width: min(420px, 92vw);
+
+    padding: 28px 25px 22px;
+
+    background: #FFFFFF;
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 15px 40px rgba(74, 59, 120, .22);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.juego4__tutorial-cerrar {
+    position: absolute;
+
+    top: 12px;
+    right: 15px;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #FFE8E0;
+
+    color: #FF8A5B;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.juego4__tutorial-titulo {
+    margin-bottom: 15px;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.25rem;
+    font-weight: 700;
+
+    color: #4A3B78;
+
+    text-transform: uppercase;
+}
+
+.juego4__tutorial-imagen {
+    width: 95px;
+    height: 95px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 15px;
+
+    border-radius: 50%;
+
+    background: #E3F6F4;
+
+    font-size: 3.5rem;
+
+    box-shadow:
+        0 7px 0 rgba(61, 191, 184, .15);
+}
+
+.juego4__tutorial-palabra {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    margin-bottom: 20px;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 2.2rem;
+    font-weight: 700;
+
+    color: #4A3B78;
+
+    transition:
+        transform .2s ease;
+}
+
+.juego4__tutorial-palabra span {
+    width: 42px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #F7F9FC;
+}
+
+.juego4__tutorial-palabra .tutorial-faltante {
+    color: #3DBFB8;
+
+    border: 3px dashed #3DBFB8;
+
+    background: #E3F6F4;
+}
+
+.juego4__tutorial-palabra
+.tutorial-faltante.tutorial-animando {
+    animation:
+        espacioSacude .55s ease-in-out 2;
+}
+
+.juego4__tutorial-palabra
+.tutorial-faltante.tutorial-correcta {
+    color: #3FA772;
+
+    border-color: #3FA772;
+
+    background: #E8F7EF;
+
+    animation:
+        letraCorrecta .45s ease;
+}
+
+.juego4__tutorial-palabra
+.tutorial-palabra-animada {
+    animation:
+        palabraCompleta .5s ease;
+}
+
+.juego4__tutorial-opciones {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 9px;
+
+    max-width: 270px;
+
+    margin-bottom: 18px;
+}
+
+.juego4__tutorial-opciones button {
+    width: 100%;
+    height: 48px;
+
+    border: 3px solid #3DBFB8;
+
+    border-radius: 12px;
+
+    background: #FFFFFF;
+
+    color: #4A3B78;
+
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 1.25rem;
+    font-weight: 700;
+
+    box-shadow:
+        0 4px 0 rgba(74, 59, 120, .12);
+}
+
+.juego4__tutorial-opciones
+.tutorial-letra-correcta {
+    background: #FFF3C7;
+
+    border-color: #FFC64B;
+
+    animation:
+        opcionCorrecta .7s ease-in-out infinite;
+}
+
+.juego4__tutorial-indicacion {
+    min-height: 42px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+
+    text-align: center;
+
+    font-family: 'Fredoka', sans-serif;
+
+    color: #4A3B78;
+
+    font-size: .95rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+#tutorialIndicador {
+    font-size: 1.6rem;
+
+    animation:
+        dedoMovimiento .7s ease-in-out infinite;
+}
+
+.juego4__tutorial-avanzar {
+    margin-top: 15px;
+
+    width: 52px;
+    height: 52px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #3DBFB8;
+
+    color: #FFFFFF;
+
+    font-family: sans-serif;
+
+    font-size: 1.8rem;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 0 rgba(35, 127, 122, .25);
+
+    transition:
+        transform .15s ease;
+}
+
+.juego4__tutorial-avanzar:hover {
+    transform: translateY(-2px);
+}
+
+.juego4__tutorial-avanzar:active {
+    transform: translateY(3px);
+}
+.juego4__tutorial-botones {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    margin-top: 15px;
+}
+
+.juego4__tutorial-repetir,
+.juego4__tutorial-avanzar {
+    width: 52px;
+    height: 52px;
+
+    border: none;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-family: sans-serif;
+    font-size: 1.7rem;
+
+    transition:
+        transform .15s ease;
+}
+
+.juego4__tutorial-repetir {
+    background: #f7906e;
+    color: #ae4f2a;
+
+    box-shadow:
+        0 5px 0 rgba(255, 138, 91, .2);
+}
+
+.juego4__tutorial-avanzar {
+    background: #3DBFB8;
+    color: #FFFFFF;
+
+    box-shadow:
+        0 5px 0 rgba(35, 127, 122, .25);
+}
+
+.juego4__tutorial-repetir:hover,
+.juego4__tutorial-avanzar:hover {
+    transform: translateY(-2px);
+}
+
+.juego4__tutorial-repetir:active,
+.juego4__tutorial-avanzar:active {
+    transform: translateY(3px);
+}
+
+@keyframes opcionCorrecta {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes dedoMovimiento {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(5px);
+    }
+}
+
+@keyframes espacioSacude {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    75% {
+        transform: translateX(4px);
+    }
+}
+
+@keyframes letraCorrecta {
+
+    0% {
+        transform: scale(.8);
+        opacity: .4;
+    }
+
+    60% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes palabraCompleta {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.07);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 520px) {
+
+    .juego4__tutorial-contenido {
+        width: min(360px, 92vw);
+
+        padding:
+            25px 18px 18px;
+    }
+
+    .juego4__tutorial-palabra {
+        font-size: 1.8rem;
+
+        gap: 5px;
+    }
+
+    .juego4__tutorial-palabra span {
+        width: 36px;
+        height: 46px;
+    }
+
+    .juego4__tutorial-opciones {
+        max-width: 240px;
+    }
+
+    .juego4__tutorial-opciones button {
+        height: 44px;
+
+        font-size: 1.1rem;
+    }
+}
+
+
+/* =========================================================
+   ANIMACIONES
+   ========================================================= */
+
+@keyframes feedbackCorrecto {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+@keyframes feedbackIncorrecto {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+
+/* =========================================================
+   PANTALLAS PEQUEÑAS
+   ========================================================= */
+
+@media (max-width: 520px) {
+
+    .juego4 {
+        padding:
+            15px 12px 20px;
+    }
+
+
+    .juego4__imagen-contenedor {
+        width: 155px;
+        height: 155px;
+    }
+
+
+    .juego4__palabra {
+        margin-top: 10px;
+    }
+
+
+    .juego4__letra {
+        width: 38px;
+        height: 48px;
+
+        font-size: 1.7rem;
+    }
+
+
+    .juego4__opciones {
+        max-width: 350px;
+
+        gap: 8px;
+
+        margin-top: 10px;
+    }
+
+
+    .juego4__opcion {
+        height: 46px;
+
+        font-size: 1.25rem;
+    }
+
+
+    .juego4__feedback {
+        margin-top: 7px;
+
+        font-size: .95rem;
+    }
+}
+
+
+@media (max-width: 380px) {
+
+    .juego4__imagen-contenedor {
+        width: 135px;
+        height: 135px;
+    }
+
+
+    .juego4__letra {
+        width: 32px;
+        height: 43px;
+
+        font-size: 1.5rem;
+    }
+
+
+    .juego4__opciones {
+        max-width: 310px;
+
+        gap: 7px;
+    }
+
+
+    .juego4__opcion {
+        height: 43px;
+
+        font-size: 1.15rem;
+    }
+}
