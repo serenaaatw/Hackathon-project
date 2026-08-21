@@ -702,9 +702,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const correcta =
             tutorial.querySelector(
-                ".tutorial-letra-correcta"
+                "#tutorialOpciones button:nth-child(2)"
             );
-
         const texto =
             document.getElementById(
                 "tutorialTexto"
@@ -840,7 +839,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const correcta =
             tutorial.querySelector(
-                ".tutorial-letra-correcta"
+                "#tutorialOpciones button:nth-child(2)"
             );
 
         const texto =
