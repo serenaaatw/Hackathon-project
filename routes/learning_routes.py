@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, abort
 
 from services.exercise_service import ExerciseService
-
+from flask import Blueprint, render_template, abort, session
 
 learning_bp = Blueprint(
     "learning",
@@ -12,9 +12,10 @@ learning_bp = Blueprint(
 
 @learning_bp.route("/")
 def aprender():
+    id_user = session.get("usuario_id")
 
     categoria, palabras = (
-        ExerciseService.obtener_siguiente_aprendizaje()
+        ExerciseService.obtener_siguiente_aprendizaje(id_user)
     )
 
 

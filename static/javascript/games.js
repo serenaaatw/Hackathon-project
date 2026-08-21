@@ -87,6 +87,14 @@
         return a;
     }
 
+    function registrarResultado(idWord, correcto) {
+    fetch("/juego/registrar-resultado", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_word: idWord, correcto: correcto }),
+    }).catch(() => {});
+}
+
 
     function currentWord() {
 
@@ -275,7 +283,7 @@
 
                     handleAnswer(
                         btn,
-                        opcion.word === item.word
+                        opcion.word === item.word, item.id_word
                     );
 
                 }
@@ -289,13 +297,15 @@
     }
 
 
-    function handleAnswer(btn, correcto) {
+    function handleAnswer(btn, correcto, idWord) {
 
         if (state.answered) {
             return;
         }
 
         state.answered = true;
+
+        registrarResultado(idWord, correcto);
 
 
         [...els.options.children].forEach(
