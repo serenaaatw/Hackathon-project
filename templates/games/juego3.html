@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Ordenar palabra - EDUseñas
+{% endblock %}
+
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/juego3.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section
+    class="juego3"
+    id="juego3"
+    data-categoria="{{ categoria_slug }}"
+>
+
+    <div class="juego3__encabezado">
+
+        <span class="juego3__categoria">
+            {{ categoria_nombre }}
+        </span>
+
+        <div
+            class="juego3__progreso"
+            id="progreso"
+        ></div>
+
+    </div>
+
+
+    <div class="juego3__consigna">
+
+        <p>
+            ORDENÁ LAS LETRAS
+        </p>
+
+    </div>
+
+
+    <div class="juego3__contenido">
+
+        <div class="juego3__imagen-contenedor">
+
+            <img
+                id="imagenPalabra"
+                class="juego3__imagen"
+                src=""
+                alt=""
+            >
+
+        </div>
+
+
+        <div
+            class="juego3__palabra"
+            id="palabraArmada"
+        ></div>
+
+
+        <div
+            class="juego3__letras"
+            id="letras"
+        ></div>
+
+
+        <div
+            class="juego3__feedback"
+            id="feedback"
+        ></div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    const PALABRAS = {{ palabras | tojson }};
+
+    const CATEGORIA_SLUG =
+        "{{ categoria_slug }}";
+
+    const IMG_BASE =
+        "{{ url_for('static', filename='img/') }}";
+
+</script>
+
+
+<script
+    src="{{ url_for('static', filename='javascript/juego3.js') }}"
+></script>
+
+{% endblock %}
