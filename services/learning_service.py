@@ -11,20 +11,14 @@ class LearningService:
         )
         return categoria
 
-
     @staticmethod
-    def obtener_siguiente_aprendizaje():
+    def obtener_siguiente_aprendizaje(id_user):
+        from services.progress_service import ProgressService
 
-        categoria = Category.query.first()
-
+        categoria = ProgressService.siguiente_categoria(id_user)
 
         if categoria is None:
-
             return None, []
 
-        palabras = [
-            palabra.serialize()
-            for palabra in categoria.words
-        ]
-
+        palabras = [palabra.serialize() for palabra in categoria.words]
         return categoria, palabras
