@@ -1,5 +1,4 @@
-
-# Carga la categoría "Animales" y sus primeras 4 palabras en la base de datos.
+# Carga la categoría "Animales" y sus palabras en la base de datos.
 # Correr UNA VEZ (o cuando agreguen palabras/categorías nuevas) desde la raíz del proyecto: python seed_animales.py
 
 from app import app
@@ -8,10 +7,11 @@ from models.category import Category
 from models.word import Word
 
 PALABRAS_ANIMALES = [
-    {"word": "PERRO", "image_file": "perro.png"},
-    {"word": "GATO", "image_file": "gato.png"},
-    {"word": "PEZ", "image_file": "pez.png"},
-    {"word": "PÁJARO", "image_file": "pajarito.png"},
+    {"word": "PERRO", "articulo": "EL", "image_file": "perro.png"},
+    {"word": "GATO", "articulo": "EL", "image_file": "gato.png"},
+    {"word": "PEZ", "articulo": "EL", "image_file": "pez.png"},
+    {"word": "PÁJARO", "articulo": "EL", "image_file": "pajarito.png"},
+    {"word": "VACA", "articulo": "LA", "image_file": "vaca.png"},
 ]
 
 
@@ -38,6 +38,7 @@ def seed():
 
             palabra = Word(
                 word=item["word"],
+                articulo=item["articulo"],
                 image_file=item["image_file"],
                 id_category=categoria.id_category,
             )
