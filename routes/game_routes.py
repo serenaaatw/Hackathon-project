@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template, abort, request
+from flask import Blueprint, render_template, abort, request, jsonify, session
 from services.exercise_service import ExerciseService
-from flask import request, jsonify, session
 from services.progress_service import ProgressService
 
 game_bp = Blueprint("game", __name__, url_prefix="/juego")
@@ -22,6 +21,7 @@ def juego1(categoria_slug):
         palabras=palabras,
     )
 
+
 @game_bp.route("/registrar-resultado", methods=["POST"])
 def registrar_resultado():
     id_user = session.get("usuario_id")
@@ -37,6 +37,23 @@ def registrar_resultado():
 
     progreso = ProgressService.registrar_resultado(id_user, id_word, bool(correcto))
     return jsonify({"ok": True, "progreso": progreso.serialize()})
+
+
+@game_bp.route("/unir/<categoria_slug>")
+def juego_unir(categoria_slug):
+    # Juego Unir: conectar cada imagen con su palabra correspondiente
+    categoria, palabras = ExerciseService.obtener_categoria_con_palabras(categoria_slug)
+
+    if categoria is None:
+        abort(404)
+
+    return render_template(
+        "games/juego_unir.html",
+        categoria_slug=categoria_slug,
+        categoria_nombre=categoria.name,
+        palabras=palabras,
+    )
+
 
 @game_bp.route("/3/<categoria_slug>")
 def juego3(categoria_slug):
@@ -54,6 +71,7 @@ def juego3(categoria_slug):
         palabras=palabras,
     )
 
+
 @game_bp.route("/4/<categoria_slug>")
 def juego4(categoria_slug):
 
@@ -65,7 +83,6 @@ def juego4(categoria_slug):
 
     if categoria is None:
         abort(404)
-
 
     try:
         dificultad = int(

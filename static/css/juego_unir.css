@@ -1,0 +1,571 @@
+:root {
+    --bg: #FCF7EC;
+
+    --turquoise: #3DBFB8;
+    --turquoise-dark: #237F7A;
+    --turquoise-pale: #E3F6F4;
+
+    --yellow: #FFC64B;
+    --coral: #FF7A59;
+
+    --ink: #4A3B78;
+
+    --success: #3FA772;
+    --success-bg: #E7F6EE;
+
+    --retry: #FF8A5B;
+    --retry-bg: #FFF0E6;
+
+    --white: #FFFFFF;
+
+    --radius-lg: 28px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+
+    --shadow-card:
+        0 10px 0 rgba(74, 59, 120, 0.10),
+        0 14px 24px rgba(74, 59, 120, 0.12);
+
+    --shadow-btn:
+        0 6px 0 rgba(74, 59, 120, 0.18);
+
+    --font-display: 'Fredoka', system-ui, sans-serif;
+    --font-body: 'Nunito', system-ui, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 12% 8%,
+            var(--turquoise-pale) 0%,
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            #FFF3DC 0%,
+            transparent 45%
+        ),
+        var(--bg);
+
+    font-family: var(--font-body);
+    color: var(--ink);
+
+    -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+    width: 100%;
+    min-height: calc(100vh - 100px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 18px;
+    padding-bottom: 40px;
+}
+
+.trail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+    margin: 22px 0 6px;
+
+    min-height: 20px;
+}
+
+.trail__step {
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: var(--white);
+    border: 2.5px solid var(--turquoise);
+
+    opacity: .5;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        opacity .2s ease;
+}
+
+.trail__step.is-done {
+    background: var(--turquoise);
+    opacity: 1;
+}
+
+.stage__eyebrow {
+    font-family: var(--font-body);
+    font-weight: 800;
+
+    font-size: .78rem;
+    letter-spacing: .06em;
+
+    text-transform: uppercase;
+
+    color: var(--turquoise-dark);
+    background: var(--turquoise-pale);
+
+    padding: 7px 16px;
+    border-radius: 999px;
+
+    margin: 0 0 18px;
+}
+
+.stage__instruction {
+    font-family: var(--font-display);
+    font-weight: 600;
+
+    font-size: 1.15rem;
+
+    color: var(--ink);
+
+    margin: 4px 0 22px;
+
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+.stage__round {
+    font-family: var(--font-body);
+    font-weight: 700;
+
+    font-size: .85rem;
+
+    color: var(--coral);
+
+    margin: 0 0 4px;
+
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+/* ---------- Tablero de Unir ---------- */
+
+.unir-board {
+    width: 100%;
+    max-width: 460px;
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 24px;
+}
+
+.unir-col {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+.unir-item {
+    font-family: var(--font-display);
+    font-weight: 600;
+
+    font-size: 1rem;
+
+    color: var(--ink);
+    background: var(--white);
+
+    border: 3px solid var(--turquoise);
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-btn);
+
+    padding: 14px 10px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 84px;
+
+    transition:
+        transform .1s ease,
+        box-shadow .1s ease,
+        background .15s ease;
+
+    text-transform: uppercase;
+}
+
+.unir-item:hover {
+    background: var(--turquoise-pale);
+}
+
+.unir-item:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+}
+
+.unir-item__img {
+    width: 56px;
+    height: 56px;
+
+    object-fit: contain;
+}
+
+.unir-item.is-selected {
+    border-color: var(--yellow);
+    background: #FFF8E8;
+
+    transform: scale(1.04);
+}
+
+.unir-item.is-matched {
+    background: var(--success-bg);
+    border-color: var(--success);
+    color: var(--success);
+
+    opacity: .55;
+    cursor: default;
+    pointer-events: none;
+
+    animation: pop .35s ease;
+}
+
+.unir-item.is-wrong {
+    background: var(--retry-bg);
+    border-color: var(--retry);
+    color: var(--retry);
+
+    animation: shake .35s ease;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-6px);
+    }
+
+    75% {
+        transform: translateX(6px);
+    }
+}
+
+.feedback {
+    min-height: 30px;
+
+    margin-top: 18px;
+
+    font-family: var(--font-display);
+    font-weight: 600;
+
+    font-size: 1.05rem;
+
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+.feedback.is-success {
+    color: var(--success);
+}
+
+.feedback.is-retry {
+    color: var(--retry);
+}
+
+@media (max-width: 380px) {
+    .unir-board {
+        gap: 12px;
+    }
+
+    .unir-item {
+        font-size: .85rem;
+        padding: 10px 6px;
+        min-height: 68px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* ---------- Tutorial (misma ventana modal que los demás juegos) ---------- */
+
+.tutorial {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity .4s ease,
+        visibility .4s ease;
+}
+
+.tutorial[hidden] {
+    display: flex;
+}
+
+.tutorial--visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tutorial__background {
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(74, 59, 120, .35);
+
+    backdrop-filter: blur(6px);
+}
+
+.tutorial__card {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+    max-width: 430px;
+
+    min-height: 380px;
+
+    padding: 28px;
+
+    background: var(--white);
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 25px 60px rgba(74, 59, 120, .25);
+
+    text-align: center;
+
+    transform:
+        translateY(25px)
+        scale(.92);
+
+    transition:
+        transform .45s ease;
+}
+
+.tutorial--visible .tutorial__card {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+.tutorial__close {
+    position: absolute;
+
+    top: 12px;
+    right: 15px;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: var(--turquoise-pale);
+
+    color: var(--turquoise-dark);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 30px;
+    font-weight: 400;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+.tutorial__close:hover {
+    background: #D2EFEC;
+
+    transform: scale(1.08);
+}
+
+.tutorial__close:active {
+    transform: scale(.92);
+}
+
+.tutorial__content {
+    position: relative;
+
+    min-height: 260px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 24px;
+}
+
+.tutorial__label {
+    font-family: var(--font-display);
+    font-weight: 600;
+
+    font-size: 1rem;
+
+    color: var(--ink);
+
+    text-align: center;
+    text-transform: uppercase;
+
+    margin: 0;
+}
+
+.tutorial__unir-demo {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+}
+
+.tutorial__unir-col {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    width: 110px;
+}
+
+.tutorial__unir-col .unir-item {
+    min-height: 64px;
+    font-size: .8rem;
+    cursor: default;
+}
+
+.tutorial__unir-col .unir-item__img {
+    width: 42px;
+    height: 42px;
+}
+
+.tutorial__actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-top: 12px;
+}
+
+.tutorial__repeat,
+.tutorial__next {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    border: none;
+
+    font-family: Arial, sans-serif;
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+.tutorial__repeat {
+    background: var(--white);
+
+    border: 3px solid var(--turquoise);
+
+    color: var(--turquoise-dark);
+
+    font-size: 28px;
+
+    box-shadow: var(--shadow-btn);
+}
+
+.tutorial__next {
+    background: var(--turquoise);
+
+    border: 3px solid var(--turquoise);
+
+    color: var(--white);
+
+    font-size: 27px;
+
+    box-shadow: var(--shadow-btn);
+}
+
+.tutorial__repeat:hover,
+.tutorial__next:hover {
+    transform: scale(1.08);
+}
+
+.tutorial__repeat:active,
+.tutorial__next:active {
+    transform: translateY(3px) scale(.98);
+
+    box-shadow:
+        0 2px 0 rgba(74, 59, 120, .18);
+}
