@@ -35,3 +35,17 @@ def registrar_resultado():
 
     progreso = ProgressService.registrar_resultado(id_user, id_word, bool(correcto))
     return jsonify({"ok": True, "progreso": progreso.serialize()})
+
+@game_bp.route("/unir/<categoria_slug>")
+def juego_unir(categoria_slug):
+    # Juego Unir: conectar cada imagen con su palabra correspondiente
+    categoria, palabras = ExerciseService.obtener_categoria_con_palabras(categoria_slug)
+    if categoria is None:
+        abort(404)
+
+    return render_template(
+        "games/juego_unir.html",
+        categoria_slug=categoria_slug,
+        categoria_nombre=categoria.name,
+        palabras=palabras,
+    )
