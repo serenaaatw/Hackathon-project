@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Progreso — EDUseñas
+{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/progreso.css') }}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<section class="progreso">
+
+    <div class="progreso__encabezado">
+
+        <h1>PROGRESO</h1>
+
+        <p>
+            MIRÁ CÓMO VA APRENDIENDO
+        </p>
+
+    </div>
+
+    <div class="progreso__categorias">
+
+        {% for categoria in datos %}
+
+        <article class="progreso__categoria">
+
+            <div class="progreso__categoria-header">
+
+                <div>
+
+                    <h2>
+                        {{ categoria.name }}
+                    </h2>
+
+                    <span>
+                        {{ categoria.dominio }}% APRENDIDO
+                    </span>
+
+                </div>
+
+                <div class="progreso__porcentaje">
+                    {{ categoria.dominio }}%
+                </div>
+
+            </div>
+
+            <div class="progreso__barra">
+
+                <div
+                    class="progreso__barra-completado"
+                    style="width: {{ categoria.dominio }}%;"
+                ></div>
+
+            </div>
+
+            <div class="progreso__palabras">
+
+                {% for palabra in categoria.palabras %}
+
+                <div class="progreso__palabra{% if palabra.dominada %} progreso__palabra--dominada{% endif %}">
+
+                    <div class="progreso__palabra-info">
+
+                        <strong>
+
+                            {% if palabra.articulo %}
+                                {{ palabra.articulo }}
+                            {% endif %}
+
+                            {{ palabra.word }}
+
+                        </strong>
+
+                        <span>
+                            {{ palabra.dominio }}%
+                        </span>
+
+                    </div>
+
+                    <div class="progreso__palabra-barra">
+
+                        <div
+                            class="progreso__palabra-barra-completada"
+                            style="width: {{ palabra.dominio }}%;"
+                        ></div>
+
+                    </div>
+
+                    <span class="progreso__palabra-intentos">
+                        {{ palabra.aciertos }} / {{ palabra.intentos }}
+                    </span>
+
+                    {% if palabra.dominada %}
+
+                    <span class="progreso__palabra-estado">
+                        APRENDIDA
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

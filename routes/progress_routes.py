@@ -1,7 +1,27 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, session, redirect, url_for
 
-progress = Blueprint("progress", __name__)
+from services.progress_service import ProgressService
 
-@progress.route("/progreso")
+progress_routes = Blueprint(
+    "progress",
+    __name__,
+    url_prefix="/progreso"
+)
+
+
+@progress_routes.route("/")
 def progreso():
-    return "Progreso en desarrollo"
+
+    id_user = session.get("usuario_id")
+
+    if id_user is None:
+        return redirect(url_for("auth.login"))
+
+    datos = ProgressService.obtener_progreso_usuario(
+        id_user
+    )
+
+    return render_template(
+        "progreso.html",
+        datos=datos
+    )

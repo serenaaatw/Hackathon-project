@@ -4,7 +4,6 @@
 EDUSEÑAS — JUEGO
 {% endblock %}
 
-
 {% block styles %}
 
 <link
@@ -14,18 +13,15 @@ EDUSEÑAS — JUEGO
 
 {% endblock %}
 
-
 {% block content %}
 
 <div class="trail" id="trail"></div>
-
 
 <main class="stage">
 
     <p class="stage__eyebrow">
         {{ categoria_nombre }}
     </p>
-
 
     <button
         class="mode-toggle"
@@ -38,7 +34,6 @@ EDUSEÑAS — JUEGO
         </span>
     </button>
 
-
     <section
         class="prompt-card"
         id="promptImageCard"
@@ -50,7 +45,6 @@ EDUSEÑAS — JUEGO
         ></div>
 
     </section>
-
 
     <section
         class="prompt-card prompt-card--video"
@@ -68,22 +62,18 @@ EDUSEÑAS — JUEGO
                 hidden
             ></video>
 
-
             <div
                 class="video-frame__placeholder"
                 id="videoPlaceholder"
             >
-
                 <p>
                     VIDEO LSA
                 </p>
-
             </div>
 
         </div>
 
     </section>
-
 
     <p
         class="stage__instruction"
@@ -92,12 +82,10 @@ EDUSEÑAS — JUEGO
         TOCÁ LA PALABRA QUE CORRESPONDE
     </p>
 
-
     <div
         class="options"
         id="options"
     ></div>
-
 
     <p
         class="feedback"
@@ -105,7 +93,6 @@ EDUSEÑAS — JUEGO
     ></p>
 
 </main>
-
 
 <div class="tutorial" id="tutorial" hidden>
 
@@ -117,7 +104,8 @@ EDUSEÑAS — JUEGO
             class="tutorial__close"
             id="tutorialClose"
             type="button"
-            aria-label="Cerrar">
+            aria-label="Cerrar"
+        >
             ×
         </button>
 
@@ -127,13 +115,23 @@ EDUSEÑAS — JUEGO
             <span class="tutorial-dot"></span>
         </div>
 
-        <div class="tutorial__content" id="tutorialContent">
+        <div
+            class="tutorial__content"
+            id="tutorialContent"
+        >
 
             <div class="tutorial__image">
-                <img id="tutorialImage" src="" alt="">
+                <img
+                    id="tutorialImage"
+                    src=""
+                    alt=""
+                >
             </div>
 
-            <div class="tutorial__options" id="tutorialOptions"></div>
+            <div
+                class="tutorial__options"
+                id="tutorialOptions"
+            ></div>
 
         </div>
 
@@ -143,7 +141,8 @@ EDUSEÑAS — JUEGO
                 class="tutorial__repeat"
                 id="tutorialRepeat"
                 type="button"
-                aria-label="Repetir tutorial">
+                aria-label="Repetir tutorial"
+            >
                 ↶
             </button>
 
@@ -151,7 +150,8 @@ EDUSEÑAS — JUEGO
                 class="tutorial__next"
                 id="tutorialNext"
                 type="button"
-                aria-label="Continuar">
+                aria-label="Continuar"
+            >
                 →
             </button>
 
@@ -160,30 +160,40 @@ EDUSEÑAS — JUEGO
     </div>
 
 </div>
-{% endblock %}
 
+{% endblock %}
 
 {% block scripts %}
 
-    <script>
+<script>
 
-        const PALABRAS =
-            {{ palabras | tojson }};
+    const PALABRAS =
+        {{ palabras | tojson }};
 
-        const IMG_BASE =
-            "{{ url_for('static', filename='img/' + categoria_slug) }}/";
+    const IMG_BASE =
+        "{{ url_for('static', filename='img/' + categoria_slug) }}/";
 
-        const VIDEO_BASE =
-            "{{ url_for('static', filename='videos/lsa/' + categoria_slug) }}/";
+    const VIDEO_BASE =
+        "{{ url_for('static', filename='videos/lsa/' + categoria_slug) }}/";
 
-    </script>
+    const DIFICULTAD =
+        {{ dificultad }};
 
+</script>
 
-    <script
-        src="{{ url_for(
-            'static',
-            filename='javascript/games.js'
-        ) }}"
-    ></script>
+<script
+    src="{{ url_for('static', filename='javascript/progreso.js') }}"
+></script>
+
+<script
+    src="{{ url_for('static', filename='javascript/juego1.js') }}"
+></script>
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/games.js'
+    ) }}"
+></script>
 
 {% endblock %}

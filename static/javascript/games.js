@@ -14,7 +14,6 @@
     };
 
     const els = {
-
         trail: document.getElementById("trail"),
 
         promptImageCard:
@@ -64,16 +63,12 @@
 
         tutorialDots:
             document.querySelectorAll(".tutorial-dot")
-
     };
 
-
     function shuffle(arr) {
-
         const a = [...arr];
 
         for (let i = a.length - 1; i > 0; i--) {
-
             const j =
                 Math.floor(
                     Math.random() * (i + 1)
@@ -81,36 +76,51 @@
 
             [a[i], a[j]] =
                 [a[j], a[i]];
-
         }
 
         return a;
     }
 
     function registrarResultado(idWord, correcto) {
-    fetch("/juego/registrar-resultado", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id_word: idWord, correcto: correcto }),
-    }).catch(() => {});
-}
+        if (!idWord) {
+            return;
+        }
 
+        fetch("/juego/registrar-resultado", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id_word: idWord,
+                correcto: correcto
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("No se pudo registrar el resultado");
+            }
+
+            return response.json();
+        })
+        .catch(error => {
+            console.error(
+                "Error al registrar progreso:",
+                error
+            );
+        });
+    }
 
     function currentWord() {
-
         return PALABRAS[
             state.order[state.index]
         ];
-
     }
 
-
     function buildTrail() {
-
         els.trail.innerHTML = "";
 
         PALABRAS.forEach(() => {
-
             const dot =
                 document.createElement("div");
 
@@ -118,14 +128,10 @@
                 "trail__step";
 
             els.trail.appendChild(dot);
-
         });
-
     }
 
-
     function updateTrail() {
-
         [...els.trail.children].forEach(
             (dot, i) => {
 
@@ -138,19 +144,16 @@
                     "is-current",
                     i === state.index
                 );
-
             }
         );
-
     }
 
-
     function renderPrompt() {
-
         const item = currentWord();
 
-        if (!item) return;
-
+        if (!item) {
+            return;
+        }
 
         if (state.mode === "A") {
 
@@ -177,25 +180,29 @@
                 "MIRÁ LA SEÑA Y TOCÁ LA IMAGEN QUE CORRESPONDE";
 
             renderLSAVideo(item);
-
         }
-
     }
 
-
     function renderLSAVideo(item) {
-
-        if (!els.lsaVideo || !els.videoPlaceholder) {
+        if (
+            !els.lsaVideo ||
+            !els.videoPlaceholder
+        ) {
             return;
         }
 
         const videoFile =
+            item.lsa_video_file ||
             item.video_file ||
             item.lsa_video ||
             item.video ||
             "";
 
         if (!videoFile) {
+
+            els.lsaVideo.pause();
+            els.lsaVideo.removeAttribute("src");
+            els.lsaVideo.load();
 
             els.lsaVideo.hidden = true;
             els.videoPlaceholder.hidden = false;
@@ -212,9 +219,7 @@
         els.lsaVideo.currentTime = 0;
 
         els.lsaVideo.play().catch(() => {});
-
     }
-
 
     function renderOptions() {
 
@@ -227,16 +232,19 @@
 
         state.answered = false;
 
-
         const item = currentWord();
+
+        if (!item) {
+            return;
+        }
 
         const distractores =
             shuffle(
                 PALABRAS.filter(
-                    w => w.word !== item.word
+                    word =>
+                        word.id_word !== item.id_word
                 )
             ).slice(0, 2);
-
 
         const opciones =
             shuffle([
@@ -244,14 +252,12 @@
                 ...distractores
             ]);
 
-
         opciones.forEach(opcion => {
 
             const btn =
                 document.createElement("button");
 
             btn.type = "button";
-
 
             if (state.mode === "A") {
 
@@ -273,9 +279,7 @@
                         class="option-img"
                     >
                 `;
-
             }
-
 
             btn.addEventListener(
                 "click",
@@ -283,21 +287,21 @@
 
                     handleAnswer(
                         btn,
-                        opcion.word === item.word, item.id_word
+                        opcion.id_word === item.id_word,
+                        item.id_word
                     );
-
                 }
             );
 
-
             els.options.appendChild(btn);
-
         });
-
     }
 
-
-    function handleAnswer(btn, correcto, idWord) {
+    function handleAnswer(
+        btn,
+        correcto,
+        idWord
+    ) {
 
         if (state.answered) {
             return;
@@ -305,13 +309,18 @@
 
         state.answered = true;
 
-        registrarResultado(idWord, correcto);
-
-
-        [...els.options.children].forEach(
-            b => b.classList.add("is-disabled")
+        registrarResultado(
+            idWord,
+            correcto
         );
 
+        [...els.options.children].forEach(
+            button => {
+                button.classList.add(
+                    "is-disabled"
+                );
+            }
+        );
 
         if (correcto) {
 
@@ -329,7 +338,6 @@
             els.feedback.classList.add(
                 "is-success"
             );
-
 
             setTimeout(
                 nextWord,
@@ -353,21 +361,20 @@
                 "is-retry"
             );
 
-
             setTimeout(() => {
 
                 [...els.options.children].forEach(
-                    b => {
+                    button => {
 
-                        b.classList.remove(
+                        button.classList.remove(
                             "is-disabled",
                             "is-wrong"
                         );
-
                     }
                 );
 
-                els.feedback.textContent = "";
+                els.feedback.textContent =
+                    "";
 
                 els.feedback.className =
                     "feedback";
@@ -375,16 +382,12 @@
                 state.answered = false;
 
             }, 900);
-
         }
-
     }
-
 
     function nextWord() {
 
         state.index++;
-
 
         if (
             state.index >=
@@ -411,29 +414,22 @@
                 showTutorial("B");
 
                 return;
-
-            } else {
-
-                state.order =
-                    shuffle(
-                        PALABRAS.map(
-                            (_, i) => i
-                        )
-                    );
-
-                state.index = 0;
-
             }
 
-        }
+            state.order =
+                shuffle(
+                    PALABRAS.map(
+                        (_, i) => i
+                    )
+                );
 
+            state.index = 0;
+        }
 
         updateTrail();
         renderPrompt();
         renderOptions();
-
     }
-
 
     function clearTutorialTimer() {
 
@@ -444,11 +440,8 @@
             );
 
             tutorialState.timer = null;
-
         }
-
     }
-
 
     function clearTutorialAnimation() {
 
@@ -462,12 +455,9 @@
                     "tutorial-option--success",
                     "tutorial__fake-word--pop"
                 );
-
             }
         );
-
     }
-
 
     function createTutorialOptions(item) {
 
@@ -476,10 +466,10 @@
         const distractores =
             shuffle(
                 PALABRAS.filter(
-                    w => w.word !== item.word
+                    word =>
+                        word.id_word !== item.id_word
                 )
             ).slice(0, 2);
-
 
         const opciones =
             shuffle([
@@ -487,18 +477,17 @@
                 ...distractores
             ]);
 
-
         opciones.forEach(opcion => {
 
             const option =
                 document.createElement("div");
 
-
             option.className =
                 "tutorial__fake-word";
 
-
-            if (tutorialState.mode === "A") {
+            if (
+                tutorialState.mode === "A"
+            ) {
 
                 option.textContent =
                     opcion.word.toUpperCase();
@@ -511,24 +500,18 @@
                         alt=""
                     >
                 `;
-
             }
 
-
             option.dataset.correct =
-                opcion.word === item.word
+                opcion.id_word === item.id_word
                     ? "true"
                     : "false";
-
 
             els.tutorialOptions.appendChild(
                 option
             );
-
         });
-
     }
-
 
     function createTutorialVideo(item) {
 
@@ -541,18 +524,16 @@
             existingVideo.remove();
         }
 
-
         const videoFile =
+            item.lsa_video_file ||
             item.video_file ||
             item.lsa_video ||
             item.video ||
             "";
 
-
         if (!videoFile) {
             return;
         }
-
 
         const video =
             document.createElement("video");
@@ -569,25 +550,19 @@
         );
 
         video.muted = true;
-
         video.autoplay = true;
-
         video.loop = true;
 
         video.src =
             `${VIDEO_BASE}${videoFile}`;
-
 
         els.tutorialContent.insertBefore(
             video,
             els.tutorialImage
         );
 
-
         video.play().catch(() => {});
-
     }
-
 
     function showCorrectAnimation() {
 
@@ -606,66 +581,64 @@
             return;
         }
 
-        tutorialState.timer = setTimeout(() => {
+        tutorialState.timer =
+            setTimeout(() => {
 
-            correcta.classList.add(
-                "tutorial-option--highlight"
-            );
-
-            tutorialState.timer = setTimeout(() => {
-
-                correcta.classList.remove(
+                correcta.classList.add(
                     "tutorial-option--highlight"
                 );
 
-                correcta.classList.add(
-                    "tutorial-option--success"
-                );
+                tutorialState.timer =
+                    setTimeout(() => {
 
-                correcta.classList.add(
-                    "tutorial__fake-word--pop"
-                );
+                        correcta.classList.remove(
+                            "tutorial-option--highlight"
+                        );
 
-            }, 2500);
+                        correcta.classList.add(
+                            "tutorial-option--success"
+                        );
 
-        }, 900);
+                        correcta.classList.add(
+                            "tutorial__fake-word--pop"
+                        );
 
+                    }, 2500);
+
+            }, 900);
     }
-
 
     function renderTutorial() {
 
         clearTutorialAnimation();
 
-
         const item =
             PALABRAS[0];
-
 
         if (!item) {
             return;
         }
 
-
         els.tutorialImage.src =
             `${IMG_BASE}${item.image_file}`;
 
+        els.tutorialImage.alt =
+            item.word;
 
         createTutorialOptions(item);
-
 
         const existingVideo =
             document.getElementById(
                 "tutorialLsaVideo"
             );
 
-
         if (existingVideo) {
             existingVideo.remove();
         }
 
-
-        if (tutorialState.mode === "B") {
+        if (
+            tutorialState.mode === "B"
+        ) {
 
             els.tutorialImage.style.display =
                 "none";
@@ -676,70 +649,59 @@
 
             els.tutorialImage.style.display =
                 "flex";
-
         }
 
-
         showCorrectAnimation();
-
     }
-
 
     function showTutorial(mode) {
 
         clearTutorialTimer();
 
-        tutorialState.mode = mode;
+        tutorialState.mode =
+            mode;
 
-        tutorialState.active = true;
+        tutorialState.active =
+            true;
 
-
-        els.tutorial.hidden = false;
-
+        els.tutorial.hidden =
+            false;
 
         requestAnimationFrame(() => {
 
             els.tutorial.classList.add(
                 "tutorial--visible"
             );
-
         });
 
-
         renderTutorial();
-
     }
-
 
     function closeTutorial() {
 
         clearTutorialTimer();
 
-        tutorialState.active = false;
-
+        tutorialState.active =
+            false;
 
         els.tutorial.classList.remove(
             "tutorial--visible"
         );
 
-
         setTimeout(() => {
 
-            els.tutorial.hidden = true;
+            els.tutorial.hidden =
+                true;
 
         }, 450);
-
     }
-
 
     function repeatTutorial() {
 
         clearTutorialAnimation();
 
         renderTutorial();
-
     }
-
 
     function initTutorial() {
 
@@ -748,30 +710,39 @@
         }
 
         if (els.tutorialRepeat) {
+
             els.tutorialRepeat.addEventListener(
                 "click",
-                function (e) {
-                    e.preventDefault();
+                function (event) {
+
+                    event.preventDefault();
+
                     repeatTutorial();
                 }
             );
         }
 
         if (els.tutorialNext) {
+
             els.tutorialNext.addEventListener(
                 "click",
-                function (e) {
-                    e.preventDefault();
+                function (event) {
+
+                    event.preventDefault();
+
                     closeTutorial();
                 }
             );
         }
 
         if (els.tutorialClose) {
+
             els.tutorialClose.addEventListener(
                 "click",
-                function (e) {
-                    e.preventDefault();
+                function (event) {
+
+                    event.preventDefault();
+
                     closeTutorial();
                 }
             );
@@ -793,9 +764,7 @@
                 "ESTA CATEGORÍA TODAVÍA NO TIENE SUFICIENTES PALABRAS.";
 
             return;
-
         }
-
 
         state.order =
             shuffle(
@@ -803,7 +772,6 @@
                     (_, i) => i
                 )
             );
-
 
         buildTrail();
 
@@ -814,9 +782,7 @@
         renderOptions();
 
         initTutorial();
-
     }
-
 
     init();
 

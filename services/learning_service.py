@@ -1,6 +1,8 @@
 from models.category import Category
 
+
 class LearningService:
+
     @staticmethod
     def obtener_categoria(slug):
 
@@ -9,10 +11,12 @@ class LearningService:
             .filter_by(slug=slug)
             .first()
         )
+
         return categoria
 
     @staticmethod
     def obtener_siguiente_aprendizaje(id_user):
+
         from services.progress_service import ProgressService
 
         categoria = ProgressService.siguiente_categoria(id_user)
@@ -20,5 +24,9 @@ class LearningService:
         if categoria is None:
             return None, []
 
-        palabras = [palabra.serialize() for palabra in categoria.words]
+        palabras = [
+            palabra.serialize()
+            for palabra in categoria.words
+        ]
+
         return categoria, palabras
