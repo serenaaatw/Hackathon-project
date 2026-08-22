@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, request, jsonify, session
 from services.exercise_service import ExerciseService
-from flask import request, jsonify, session
 from services.progress_service import ProgressService
 
 game_bp = Blueprint("game", __name__, url_prefix="/juego")
@@ -8,8 +7,10 @@ game_bp = Blueprint("game", __name__, url_prefix="/juego")
 
 @game_bp.route("/1/<categoria_slug>")
 def juego1(categoria_slug):
-    #Juego 1 (Emparejar): imagen, palabra
-    categoria, palabras = ExerciseService.obtener_categoria_con_palabras(categoria_slug)
+    categoria, palabras = ExerciseService.obtener_categoria_con_palabras(
+        categoria_slug
+    )
+
     if categoria is None:
         abort(404)
 
@@ -19,6 +20,7 @@ def juego1(categoria_slug):
         categoria_nombre=categoria.name,
         palabras=palabras,
     )
+
 
 @game_bp.route("/registrar-resultado", methods=["POST"])
 def registrar_resultado():
@@ -36,10 +38,12 @@ def registrar_resultado():
     progreso = ProgressService.registrar_resultado(id_user, id_word, bool(correcto))
     return jsonify({"ok": True, "progreso": progreso.serialize()})
 
+
 @game_bp.route("/unir/<categoria_slug>")
 def juego_unir(categoria_slug):
     # Juego Unir: conectar cada imagen con su palabra correspondiente
     categoria, palabras = ExerciseService.obtener_categoria_con_palabras(categoria_slug)
+
     if categoria is None:
         abort(404)
 
@@ -48,4 +52,54 @@ def juego_unir(categoria_slug):
         categoria_slug=categoria_slug,
         categoria_nombre=categoria.name,
         palabras=palabras,
+    )
+
+
+@game_bp.route("/3/<categoria_slug>")
+def juego3(categoria_slug):
+    categoria, palabras = ExerciseService.obtener_categoria_con_palabras(
+        categoria_slug
+    )
+
+    if categoria is None:
+        abort(404)
+
+    return render_template(
+        "games/juego3.html",
+        categoria_slug=categoria_slug,
+        categoria_nombre=categoria.name,
+        palabras=palabras,
+    )
+
+
+@game_bp.route("/4/<categoria_slug>")
+def juego4(categoria_slug):
+
+    categoria, palabras = (
+        ExerciseService.obtener_categoria_con_palabras(
+            categoria_slug
+        )
+    )
+
+    if categoria is None:
+        abort(404)
+
+    try:
+        dificultad = int(
+            request.args.get("dificultad", 1)
+        )
+    except (TypeError, ValueError):
+        dificultad = 1
+
+    dificultad = max(
+        1,
+        min(dificultad, 3)
+    )
+
+    return render_template(
+        "games/juego4.html",
+        categoria_slug=categoria_slug,
+        categoria_nombre=categoria.name,
+        palabras=palabras,
+        dificultad=dificultad,
     )
