@@ -1,0 +1,165 @@
+
+.profile-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Tarjeta Principal */
+.profile-card {
+    background-color: var(--white);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-large);
+    box-shadow: var(--shadow-card);
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+/* Avatar y Foto de Perfil */
+.avatar-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid var(--blue-pale);
+    box-shadow: 0 8px 20px rgba(0, 87, 217, 0.15);
+}
+
+.role-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--blue);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: 3px solid var(--white);
+    box-shadow: var(--shadow-soft);
+}
+
+/* Cabecera del Perfil */
+.profile-header {
+    margin-bottom: 20px;
+}
+
+.child-name {
+    font-size: 1.8rem;
+    color: var(--dark);
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.child-username {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+/* Etiquetas e Información Detallada */
+.profile-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.detail-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--radius-medium);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.pill-yellow {
+    background-color: var(--yellow-pale);
+    color: var(--dark);
+    border: 1px solid var(--yellow);
+}
+
+.pill-turquoise {
+    background-color: var(--turquoise-pale);
+    color: var(--dark);
+    border: 1px solid var(--turquoise);
+}
+
+.pill-icon {
+    font-size: 1.1rem;
+}
+
+/* Botones de Navegación */
+.profile-actions {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+
+.btn-profile {
+    flex: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    border-radius: var(--radius-medium);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--blue);
+    color: var(--white);
+    box-shadow: 0 8px 20px rgba(0, 87, 217, 0.25);
+}
+
+.btn-secondary {
+    background-color: var(--white);
+    color: var(--dark);
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-card);
+}
+
+.btn-profile:hover {
+    transform: translateY(-3px);
+}
+
+.btn-primary:hover {
+    background-color: #0046b0;
+}
+
+.btn-secondary:hover {
+    background-color: var(--blue-pale);
+    border-color: var(--blue-light);
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 480px) {
+    .profile-actions {
+        flex-direction: column;
+    }
+    
+    .child-name {
+        font-size: 1.4rem;
+    }
+}
