@@ -15,7 +15,7 @@
         
         <div class="avatar-wrapper">
             <img src="{{ url_for('static', filename=child.profile_picture) }}" alt="Foto de perfil de {{ child.name }}" class="profile-avatar">
-            <span class="role-badge">Niño</span>
+            <span class="role-badge">NIÑO</span>
         </div>
 
         <div class="profile-header">
@@ -24,10 +24,10 @@
         </div>
 
         <div class="profile-details">
-            {% if child.age %}
+            {% if child.edad %}
                 <div class="detail-pill pill-yellow">
                     <span class="pill-icon">🎈</span>
-                    <span class="pill-text">{{ child.age }} AÑOS</span>
+                    <span class="pill-text">{{ child.edad }} AÑOS</span>
                 </div>
             {% endif %}
 
@@ -47,11 +47,9 @@
 
     <!-- BOTONES DE NAVEGACIÓN Y ACCIÓN -->
     <div class="profile-actions">
-        <a href="{{ url_for('menu_principal.menu') }}" class="btn-profile btn-secondary">
+        <!-- Ruta oficial al menú principal -->
+        <a href="{{ url_for('menu_principal.mostrar_menu') }}" class="btn-profile btn-secondary">
             🏠 MENÚ PRINCIPAL
-        </a>
-        <a href="{{ url_for('learning.learning') }}" class="btn-profile btn-primary">
-            📚 IR A APRENDER
         </a>
     </div>
 
