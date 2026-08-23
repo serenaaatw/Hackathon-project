@@ -34,14 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const progreso =
         document.getElementById("progreso");
 
-    const tutorialPalabra =
-        document.getElementById("tutorialPalabra");
-
-    const tutorialImagen =
-        document.querySelector(
-            ".juego4__tutorial-imagen"
-        );
-
     const PALABRAS_JUEGO =
         Array.isArray(window.PALABRAS)
             ? window.PALABRAS
@@ -95,6 +87,70 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         return copia;
+    }
+
+    function registrarResultado(idWord, correcto) {
+
+        if (!idWord) {
+            return;
+        }
+
+        fetch("/juego/registrar-resultado", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id_word: idWord,
+                correcto: correcto
+            })
+        })
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error(
+                    "No se pudo registrar el progreso"
+                );
+            }
+
+            return response.json();
+
+        })
+        .then(data => {
+
+            if (
+                data &&
+                data.ok &&
+                data.progreso
+            ) {
+
+                actualizarProgresoPalabra(
+                    data.progreso
+                );
+            }
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Error al guardar progreso:",
+                error
+            );
+
+        });
+    }
+
+    function actualizarProgresoPalabra(progresoPalabra) {
+
+        const evento =
+            new CustomEvent(
+                "progresoActualizado",
+                {
+                    detail: progresoPalabra
+                }
+            );
+
+        document.dispatchEvent(evento);
     }
 
     function cantidadLetrasOcultas(texto) {
@@ -510,9 +566,19 @@ document.addEventListener("DOMContentLoaded", () => {
             textoCorrecto
         ) {
 
+            registrarResultado(
+                state.palabraActual.id_word,
+                true
+            );
+
             mostrarCorrecto();
 
         } else {
+
+            registrarResultado(
+                state.palabraActual.id_word,
+                false
+            );
 
             mostrarIncorrecto();
         }
@@ -704,6 +770,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tutorial.querySelector(
                 "#tutorialOpciones button:nth-child(2)"
             );
+
         const texto =
             document.getElementById(
                 "tutorialTexto"
@@ -741,7 +808,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (indicador) {
-            indicador.textContent = "👆";
+            indicador.textContent = "";
         }
 
         tutorialTimer = setTimeout(() => {
@@ -774,7 +841,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (indicador) {
-                indicador.textContent = "✓";
+                indicador.textContent = "";
             }
 
         }, 1800);
@@ -859,6 +926,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (faltante) {
             faltante.textContent = "_";
+
             faltante.classList.remove(
                 "tutorial-animando",
                 "tutorial-correcta"
@@ -883,7 +951,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (indicador) {
-            indicador.textContent = "👆";
+            indicador.textContent = "";
         }
 
         void tutorial.offsetWidth;
@@ -933,7 +1001,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (indicador) {
-                indicador.textContent = "✓";
+                indicador.textContent = "";
             }
 
         }, 1800);
@@ -966,6 +1034,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (btnRepetirTutorial) {
+
         btnRepetirTutorial.addEventListener(
             "click",
             (event) => {
@@ -1000,4 +1069,5 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarPalabra();
 
     mostrarTutorial();
+
 });

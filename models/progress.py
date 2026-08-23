@@ -52,7 +52,7 @@ class Progress(db.Model):
         backref='progresos'
     )
 
-    INTENTOS_MINIMOS = 3
+    INTENTOS_MINIMOS = 5
     UMBRAL_DOMINIO = 80
 
     def __init__(self, id_user, id_word):
