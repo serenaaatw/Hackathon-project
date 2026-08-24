@@ -1,35 +1,21 @@
 (function () {
 
+    "use strict";
+
     const state = {
         wordIndex: 0,
         visited: new Set()
     };
 
-
     const elements = {
-
         video: document.getElementById("lsaVideo"),
-
-        videoPlaceholder:
-            document.getElementById("videoPlaceholder"),
-
-        image:
-            document.getElementById("wordImage"),
-
-        word:
-            document.getElementById("wordText"),
-
-        progress:
-            document.getElementById("learningProgress"),
-
-        next:
-            document.getElementById("btnNext"),
-
-        prev:
-            document.getElementById("btnPrev")
-
+        videoPlaceholder: document.getElementById("videoPlaceholder"),
+        image: document.getElementById("wordImage"),
+        word: document.getElementById("wordText"),
+        progress: document.getElementById("learningProgress"),
+        next: document.getElementById("btnNext"),
+        prev: document.getElementById("btnPrev")
     };
-
 
     function renderProgress() {
 
@@ -41,11 +27,9 @@
 
             dot.className = "learning-dot";
 
-
             if (index === state.wordIndex) {
                 dot.classList.add("current");
             }
-
 
             if (
                 state.visited.has(index) &&
@@ -54,26 +38,19 @@
                 dot.classList.add("done");
             }
 
-
             elements.progress.appendChild(dot);
 
         });
 
     }
 
-
     function renderWord() {
 
-        const item =
-            PALABRAS[state.wordIndex];
-
+        const item = PALABRAS[state.wordIndex];
 
         if (!item) {
             return;
         }
-
-
-        // IMAGEN
 
         elements.image.src =
             IMG_BASE + item.image_file;
@@ -81,14 +58,8 @@
         elements.image.alt =
             item.word;
 
-
-        // PALABRA
-
         elements.word.textContent =
             item.word.toUpperCase();
-
-
-        // VIDEO LSA
 
         if (item.lsa_video_file) {
 
@@ -96,30 +67,79 @@
                 VIDEO_BASE + item.lsa_video_file;
 
             elements.video.hidden = false;
-
             elements.videoPlaceholder.hidden = true;
 
             elements.video.load();
 
         } else {
 
+            elements.video.pause();
             elements.video.removeAttribute("src");
+            elements.video.load();
 
             elements.video.hidden = true;
-
             elements.videoPlaceholder.hidden = false;
 
         }
-
-
-        // GUARDAR COMO VISTA
 
         state.visited.add(
             state.wordIndex
         );
 
-
         renderProgress();
+
+    }
+
+    function iniciarEjercicios() {
+
+        fetch(
+            "/aprender/iniciar-ejercicios",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "No se pudieron iniciar los ejercicios"
+                );
+            }
+
+            return response.json();
+
+        })
+        .then(function (data) {
+
+            if (
+                data &&
+                data.ok &&
+                Number(data.juego_actual) === 1
+            ) {
+
+                window.location.assign(
+                    "/juego/1"
+                );
+
+                return;
+            }
+
+            throw new Error(
+                "El backend no inició el Juego 1"
+            );
+
+        })
+        .catch(function (error) {
+
+            console.error(
+                "Error al iniciar el Juego 1:",
+                error
+            );
+
+        });
 
     }
 
@@ -134,19 +154,12 @@
 
             renderWord();
 
-        } else {
-
-            // Terminó todos los conceptos.
-            // Continúa automáticamente al juego.
-
-            window.location.href =
-                URL_JUEGO;
-
+            return;
         }
 
+        iniciarEjercicios();
+
     }
-
-
 
     function previousWord() {
 
@@ -163,25 +176,19 @@
     function init() {
 
         if (
-            !PALABRAS ||
+            !Array.isArray(PALABRAS) ||
             PALABRAS.length === 0
         ) {
 
             return;
-
         }
 
-
         renderWord();
-
 
         elements.next.addEventListener(
             "click",
             nextWord
         );
-
-
-        // BOTÓN <
 
         elements.prev.addEventListener(
             "click",
@@ -189,7 +196,6 @@
         );
 
     }
-
 
     init();
 

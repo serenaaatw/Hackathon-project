@@ -20,7 +20,7 @@ EDUSEÑAS — JUEGO
 <main class="stage">
 
     <p class="stage__eyebrow">
-        {{ categoria_nombre }}
+        JUEGO
     </p>
 
     <button
@@ -94,7 +94,11 @@ EDUSEÑAS — JUEGO
 
 </main>
 
-<div class="tutorial" id="tutorial" hidden>
+<div
+    class="tutorial"
+    id="tutorial"
+    hidden
+>
 
     <div class="tutorial__background"></div>
 
@@ -110,9 +114,19 @@ EDUSEÑAS — JUEGO
         </button>
 
         <div class="tutorial__progress">
-            <span class="tutorial-dot tutorial-dot--active"></span>
-            <span class="tutorial-dot"></span>
-            <span class="tutorial-dot"></span>
+
+            <span
+                class="tutorial-dot tutorial-dot--active"
+            ></span>
+
+            <span
+                class="tutorial-dot"
+            ></span>
+
+            <span
+                class="tutorial-dot"
+            ></span>
+
         </div>
 
         <div
@@ -121,11 +135,13 @@ EDUSEÑAS — JUEGO
         >
 
             <div class="tutorial__image">
+
                 <img
                     id="tutorialImage"
                     src=""
                     alt=""
                 >
+
             </div>
 
             <div
@@ -170,23 +186,20 @@ EDUSEÑAS — JUEGO
     const PALABRAS =
         {{ palabras | tojson }};
 
-    const IMG_BASE =
-        "{{ url_for('static', filename='img/' + categoria_slug) }}/";
-
-    const VIDEO_BASE =
-        "{{ url_for('static', filename='videos/lsa/' + categoria_slug) }}/";
-
-    const DIFICULTAD =
-        {{ dificultad }};
-
 </script>
 
 <script
-    src="{{ url_for('static', filename='javascript/progreso.js') }}"
+    src="{{ url_for(
+        'static',
+        filename='javascript/progreso.js'
+    ) }}"
 ></script>
 
 <script
-    src="{{ url_for('static', filename='javascript/juego1.js') }}"
+    src="{{ url_for(
+        'static',
+        filename='javascript/juego1.js'
+    ) }}"
 ></script>
 
 <script

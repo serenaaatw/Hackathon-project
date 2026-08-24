@@ -73,11 +73,7 @@
         correcto
     ) {
 
-        if (!idWord) {
-            return;
-        }
-
-        fetch(
+        return fetch(
             "/juego/registrar-resultado",
             {
                 method: "POST",
@@ -94,22 +90,17 @@
         .then(response => {
 
             if (!response.ok) {
+
                 throw new Error(
                     "No se pudo registrar el resultado"
                 );
+
             }
 
             return response.json();
 
-        })
-        .catch(error => {
-
-            console.error(
-                "Error al registrar progreso:",
-                error
-            );
-
         });
+
     }
 
     function obtenerPalabraActual() {
@@ -182,6 +173,7 @@
 
             }
         );
+
     }
 
     function mostrarPalabra() {
@@ -190,11 +182,7 @@
             obtenerPalabraActual();
 
         if (!item) {
-
-            console.error(
-                "No se pudo obtener la palabra actual."
-            );
-
+            finalizarJuego();
             return;
         }
 
@@ -202,26 +190,24 @@
 
         if (els.feedback) {
 
-            els.feedback.textContent =
-                "";
+            els.feedback.textContent = "";
 
             els.feedback.className =
                 "juego3__feedback";
+
         }
 
         if (els.imagen) {
 
-            const imagen =
-                `${IMG_BASE}${CATEGORIA_SLUG}/${item.image_file}`;
-
             els.imagen.src =
-                imagen;
+                item.image_url;
 
             els.imagen.alt =
                 item.word;
 
             els.imagen.style.display =
                 "block";
+
         }
 
         mostrarPalabraArmada();
@@ -229,6 +215,7 @@
         crearLetras(item);
 
         actualizarProgreso();
+
     }
 
     function crearLetras(item) {
@@ -255,8 +242,7 @@
                         "button"
                     );
 
-                boton.type =
-                    "button";
+                boton.type = "button";
 
                 boton.className =
                     "juego3__letra";
@@ -282,8 +268,10 @@
                 els.letras.appendChild(
                     boton
                 );
+
             }
         );
+
     }
 
     function seleccionarLetra(
@@ -318,7 +306,9 @@
         ) {
 
             comprobarPalabra();
+
         }
+
     }
 
     function mostrarPalabraArmada() {
@@ -346,8 +336,10 @@
                 els.palabraArmada.appendChild(
                     elemento
                 );
+
             }
         );
+
     }
 
     function comprobarPalabra() {
@@ -367,16 +359,29 @@
         registrarResultado(
             item.id_word,
             esCorrecta
-        );
+        )
+        .then(() => {
 
-        if (esCorrecta) {
+            if (esCorrecta) {
 
-            mostrarCorrecto();
+                mostrarCorrecto();
 
-        } else {
+            } else {
 
-            mostrarIncorrecto();
-        }
+                mostrarIncorrecto();
+
+            }
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Error al registrar progreso:",
+                error
+            );
+
+        });
+
     }
 
     function mostrarCorrecto() {
@@ -395,6 +400,7 @@
             siguientePalabra,
             1000
         );
+
     }
 
     function mostrarIncorrecto() {
@@ -412,8 +418,7 @@
         setTimeout(
             () => {
 
-                state.palabraArmada =
-                    [];
+                state.palabraArmada = [];
 
                 mostrarPalabraArmada();
 
@@ -427,8 +432,10 @@
                             boton.classList.remove(
                                 "usada"
                             );
+
                         }
                     );
+
                 }
 
                 els.feedback.textContent =
@@ -440,6 +447,7 @@
             },
             800
         );
+
     }
 
     function siguientePalabra() {
@@ -451,17 +459,86 @@
             state.orden.length
         ) {
 
-            state.index = 0;
+            finalizarJuego();
 
-            state.orden =
-                shuffle(
-                    PALABRAS.map(
-                        (_, index) => index
-                    )
-                );
+            return;
         }
 
         mostrarPalabra();
+
+    }
+
+    function finalizarJuego() {
+
+        if (els.feedback) {
+
+            els.feedback.textContent =
+                "¡MUY BIEN!";
+
+            els.feedback.className =
+                "juego3__feedback correcto";
+
+        }
+
+        fetch(
+            "/juego/completar",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+                body: JSON.stringify({
+                    numero_juego: 3
+                })
+            }
+        )
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "No se pudo completar el juego"
+                );
+
+            }
+
+            return response.json();
+
+        })
+        .then(data => {
+
+            if (!data.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "No se pudo continuar"
+                );
+
+            }
+
+            if (data.ronda_completada) {
+
+                window.location.href =
+                    "/aprender";
+
+                return;
+            }
+
+            window.location.assign(
+                "/juego/4"
+            );
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Error al completar juego 3:",
+                error
+            );
+
+        });
+
     }
 
     function limpiarTimersTutorial() {
@@ -473,6 +550,7 @@
         );
 
         state.tutorialTimers = [];
+
     }
 
     function crearTutorial() {
@@ -565,13 +643,15 @@
             if (imagen) {
 
                 imagen.src =
-                    `${IMG_BASE}${CATEGORIA_SLUG}/${item.image_file}`;
+                    item.image_url;
 
                 imagen.alt =
                     item.word;
+
             }
 
             crearLetrasTutorial(item);
+
         }
 
         const cerrar =
@@ -585,6 +665,7 @@
                 "click",
                 cerrarTutorial
             );
+
         }
 
         const continuar =
@@ -598,6 +679,7 @@
                 "click",
                 cerrarTutorial
             );
+
         }
 
         const reiniciar =
@@ -615,13 +697,18 @@
                         obtenerPalabraActual();
 
                     if (item) {
+
                         crearLetrasTutorial(
                             item
                         );
+
                     }
+
                 }
             );
+
         }
+
     }
 
     function crearLetrasTutorial(item) {
@@ -674,6 +761,7 @@
                 contenedor.appendChild(
                     elemento
                 );
+
             }
         );
 
@@ -717,6 +805,7 @@
                                             ].classList.add(
                                                 "usada"
                                             );
+
                                         }
 
                                     },
@@ -726,6 +815,7 @@
                             state.tutorialTimers.push(
                                 timer
                             );
+
                         }
                     );
 
@@ -736,6 +826,7 @@
         state.tutorialTimers.push(
             timerInicial
         );
+
     }
 
     function cerrarTutorial() {
@@ -768,6 +859,7 @@
 
         state.tutorialActivo =
             false;
+
     }
 
     function mostrarTutorial() {
@@ -782,6 +874,7 @@
             true;
 
         crearTutorial();
+
     }
 
     iniciar();

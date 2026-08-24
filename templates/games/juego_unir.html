@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}
+EDUSEÑAS — UNIR
+{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/juego_unir.css') }}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="trail" id="trail"></div>
+
+<main class="stage">
+
+    <p class="stage__eyebrow">
+        {{ categoria_nombre }}
+    </p>
+
+    <p
+        class="stage__round"
+        id="roundLabel">
+    </p>
+
+    <p
+        class="stage__instruction"
+        id="instruction">
+        UNÍ CADA IMAGEN CON SU PALABRA
+    </p>
+
+    <div class="unir-board">
+
+        <div
+            class="unir-col unir-col--images"
+            id="colImagenes">
+        </div>
+
+        <div
+            class="unir-col unir-col--words"
+            id="colPalabras">
+        </div>
+
+    </div>
+
+    <p
+        class="feedback"
+        id="feedback">
+    </p>
+
+</main>
+
+<div
+    class="tutorial"
+    id="tutorial"
+    hidden
+>
+
+    <div class="tutorial__background"></div>
+
+    <div class="tutorial__card">
+
+        <button
+            class="tutorial__close"
+            id="tutorialClose"
+            type="button"
+            aria-label="Cerrar">
+            ×
+        </button>
+
+        <div
+            class="tutorial__content"
+            id="tutorialContent">
+
+            <p class="tutorial__label">
+                TOCÁ Y UNÍ
+            </p>
+
+            <div class="tutorial__unir-demo">
+
+                <div
+                    class="tutorial__unir-col"
+                    id="tutorialImgs">
+                </div>
+
+                <div
+                    class="tutorial__unir-col"
+                    id="tutorialWords">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="tutorial__actions">
+
+            <button
+                class="tutorial__repeat"
+                id="tutorialRepeat"
+                type="button"
+                aria-label="Repetir tutorial">
+                ↶
+            </button>
+
+            <button
+                class="tutorial__next"
+                id="tutorialNext"
+                type="button"
+                aria-label="Continuar">
+                →
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+    const PALABRAS =
+        {{ palabras | tojson }};
+
+    const IMG_BASE =
+        "{{ url_for('static', filename='img/' + categoria_slug) }}/";
+
+</script>
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/unir.js'
+    ) }}"
+></script>
+
+{% endblock %}

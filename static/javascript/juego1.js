@@ -1,5 +1,7 @@
 (function () {
 
+    "use strict";
+
     const state = {
         mode: "A",
         order: [],
@@ -59,68 +61,122 @@
             document.getElementById("tutorialNext"),
 
         tutorialClose:
-            document.getElementById("tutorialClose"),
-
-        tutorialDots:
-            document.querySelectorAll(".tutorial-dot")
+            document.getElementById("tutorialClose")
     };
 
     function shuffle(arr) {
+
         const a = [...arr];
 
-        for (let i = a.length - 1; i > 0; i--) {
+        for (
+            let i = a.length - 1;
+            i > 0;
+            i--
+        ) {
+
             const j =
                 Math.floor(
                     Math.random() * (i + 1)
                 );
 
-            [a[i], a[j]] =
-                [a[j], a[i]];
+            [
+                a[i],
+                a[j]
+            ] = [
+                a[j],
+                a[i]
+            ];
+
         }
 
         return a;
+
     }
 
-    function registrarResultado(idWord, correcto) {
+    function registrarResultado(
+        idWord,
+        correcto
+    ) {
+
         if (!idWord) {
             return;
         }
 
-        fetch("/juego/registrar-resultado", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                id_word: idWord,
-                correcto: correcto
-            })
-        })
-        .then(response => {
+        fetch(
+            "/juego/registrar-resultado",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    id_word: idWord,
+                    correcto: correcto
+                })
+            }
+        )
+        .then(function (response) {
+
             if (!response.ok) {
-                throw new Error("No se pudo registrar el resultado");
+                throw new Error(
+                    "No se pudo registrar el resultado"
+                );
             }
 
             return response.json();
+
         })
-        .catch(error => {
+        .then(function (data) {
+
+            if (
+                data &&
+                data.ok &&
+                data.progreso
+            ) {
+
+                document.dispatchEvent(
+                    new CustomEvent(
+                        "progresoActualizado",
+                        {
+                            detail:
+                                data.progreso
+                        }
+                    )
+                );
+
+            }
+
+        })
+        .catch(function (error) {
+
             console.error(
                 "Error al registrar progreso:",
                 error
             );
+
         });
+
     }
 
     function currentWord() {
+
         return PALABRAS[
-            state.order[state.index]
+            state.order[
+                state.index
+            ]
         ];
+
     }
 
     function buildTrail() {
+
         els.trail.innerHTML = "";
 
-        PALABRAS.forEach(() => {
+        PALABRAS.forEach(function () {
+
             const dot =
                 document.createElement("div");
 
@@ -128,27 +184,33 @@
                 "trail__step";
 
             els.trail.appendChild(dot);
+
         });
+
     }
 
     function updateTrail() {
-        [...els.trail.children].forEach(
-            (dot, i) => {
 
-                dot.classList.toggle(
-                    "is-done",
-                    i < state.index
-                );
+        [
+            ...els.trail.children
+        ].forEach(function (dot, i) {
 
-                dot.classList.toggle(
-                    "is-current",
-                    i === state.index
-                );
-            }
-        );
+            dot.classList.toggle(
+                "is-done",
+                i < state.index
+            );
+
+            dot.classList.toggle(
+                "is-current",
+                i === state.index
+            );
+
+        });
+
     }
 
     function renderPrompt() {
+
         const item = currentWord();
 
         if (!item) {
@@ -162,7 +224,7 @@
 
             els.promptSticker.innerHTML = `
                 <img
-                    src="${IMG_BASE}${item.image_file}"
+                    src="${item.image_url}"
                     alt="${item.word}"
                     class="prompt-img"
                 >
@@ -180,10 +242,13 @@
                 "MIRÁ LA SEÑA Y TOCÁ LA IMAGEN QUE CORRESPONDE";
 
             renderLSAVideo(item);
+
         }
+
     }
 
     function renderLSAVideo(item) {
+
         if (
             !els.lsaVideo ||
             !els.videoPlaceholder
@@ -192,16 +257,16 @@
         }
 
         const videoFile =
-            item.lsa_video_file ||
-            item.video_file ||
-            item.lsa_video ||
-            item.video ||
-            "";
+            item.lsa_video_url;
 
         if (!videoFile) {
 
             els.lsaVideo.pause();
-            els.lsaVideo.removeAttribute("src");
+
+            els.lsaVideo.removeAttribute(
+                "src"
+            );
+
             els.lsaVideo.load();
 
             els.lsaVideo.hidden = true;
@@ -211,14 +276,16 @@
         }
 
         els.lsaVideo.src =
-            `${VIDEO_BASE}${videoFile}`;
+            videoFile;
 
         els.lsaVideo.hidden = false;
         els.videoPlaceholder.hidden = true;
 
         els.lsaVideo.currentTime = 0;
 
-        els.lsaVideo.play().catch(() => {});
+        els.lsaVideo.play()
+            .catch(function () {});
+
     }
 
     function renderOptions() {
@@ -226,9 +293,7 @@
         els.options.innerHTML = "";
 
         els.feedback.textContent = "";
-
-        els.feedback.className =
-            "feedback";
+        els.feedback.className = "feedback";
 
         state.answered = false;
 
@@ -241,8 +306,14 @@
         const distractores =
             shuffle(
                 PALABRAS.filter(
-                    word =>
-                        word.id_word !== item.id_word
+                    function (word) {
+
+                        return (
+                            word.id_word !==
+                            item.id_word
+                        );
+
+                    }
                 )
             ).slice(0, 2);
 
@@ -252,7 +323,7 @@
                 ...distractores
             ]);
 
-        opciones.forEach(opcion => {
+        opciones.forEach(function (opcion) {
 
             const btn =
                 document.createElement("button");
@@ -261,8 +332,7 @@
 
             if (state.mode === "A") {
 
-                btn.className =
-                    "option";
+                btn.className = "option";
 
                 btn.textContent =
                     opcion.word.toUpperCase();
@@ -274,27 +344,32 @@
 
                 btn.innerHTML = `
                     <img
-                        src="${IMG_BASE}${opcion.image_file}"
+                        src="${opcion.image_url}"
                         alt="${opcion.word}"
                         class="option-img"
                     >
                 `;
+
             }
 
             btn.addEventListener(
                 "click",
-                () => {
+                function () {
 
                     handleAnswer(
                         btn,
-                        opcion.id_word === item.id_word,
+                        opcion.id_word ===
+                            item.id_word,
                         item.id_word
                     );
+
                 }
             );
 
             els.options.appendChild(btn);
+
         });
+
     }
 
     function handleAnswer(
@@ -314,13 +389,15 @@
             correcto
         );
 
-        [...els.options.children].forEach(
-            button => {
-                button.classList.add(
-                    "is-disabled"
-                );
-            }
-        );
+        [
+            ...els.options.children
+        ].forEach(function (button) {
+
+            button.classList.add(
+                "is-disabled"
+            );
+
+        });
 
         if (correcto) {
 
@@ -340,7 +417,9 @@
             );
 
             setTimeout(
-                nextWord,
+                function () {
+                    nextWord();
+                },
                 1100
             );
 
@@ -361,28 +440,95 @@
                 "is-retry"
             );
 
-            setTimeout(() => {
+            setTimeout(
+                function () {
 
-                [...els.options.children].forEach(
-                    button => {
+                    [
+                        ...els.options.children
+                    ].forEach(function (button) {
 
                         button.classList.remove(
                             "is-disabled",
                             "is-wrong"
                         );
-                    }
+
+                    });
+
+                    els.feedback.textContent =
+                        "";
+
+                    els.feedback.className =
+                        "feedback";
+
+                    state.answered = false;
+
+                },
+                900
+            );
+
+        }
+
+    }
+
+    function completarJuego1() {
+
+        fetch(
+            "/juego/completar",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    numero_juego: 1
+                })
+            }
+        )
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "No se pudo completar el Juego 1"
+                );
+            }
+
+            return response.json();
+
+        })
+        .then(function (data) {
+
+            if (!data.ok) {
+                throw new Error(
+                    "El servidor no pudo completar el Juego 1"
+                );
+            }
+
+            if (data.ronda_completada) {
+
+                window.location.assign(
+                    "/aprender/"
                 );
 
-                els.feedback.textContent =
-                    "";
+                return;
+            }
 
-                els.feedback.className =
-                    "feedback";
+            window.location.assign(
+                "/juego/3"
+            );
 
-                state.answered = false;
+        })
+        .catch(function (error) {
 
-            }, 900);
-        }
+            console.error(
+                "Error al completar el Juego 1:",
+                error
+            );
+
+        });
+
     }
 
     function nextWord() {
@@ -401,7 +547,9 @@
                 state.order =
                     shuffle(
                         PALABRAS.map(
-                            (_, i) => i
+                            function (_, i) {
+                                return i;
+                            }
                         )
                     );
 
@@ -416,19 +564,15 @@
                 return;
             }
 
-            state.order =
-                shuffle(
-                    PALABRAS.map(
-                        (_, i) => i
-                    )
-                );
+            completarJuego1();
 
-            state.index = 0;
+            return;
         }
 
         updateTrail();
         renderPrompt();
         renderOptions();
+
     }
 
     function clearTutorialTimer() {
@@ -440,23 +584,31 @@
             );
 
             tutorialState.timer = null;
+
         }
+
     }
 
     function clearTutorialAnimation() {
 
         clearTutorialTimer();
 
-        [...els.tutorialOptions.children].forEach(
-            option => {
+        if (!els.tutorialOptions) {
+            return;
+        }
 
-                option.classList.remove(
-                    "tutorial-option--highlight",
-                    "tutorial-option--success",
-                    "tutorial__fake-word--pop"
-                );
-            }
-        );
+        [
+            ...els.tutorialOptions.children
+        ].forEach(function (option) {
+
+            option.classList.remove(
+                "tutorial-option--highlight",
+                "tutorial-option--success",
+                "tutorial__fake-word--pop"
+            );
+
+        });
+
     }
 
     function createTutorialOptions(item) {
@@ -466,8 +618,14 @@
         const distractores =
             shuffle(
                 PALABRAS.filter(
-                    word =>
-                        word.id_word !== item.id_word
+                    function (word) {
+
+                        return (
+                            word.id_word !==
+                            item.id_word
+                        );
+
+                    }
                 )
             ).slice(0, 2);
 
@@ -477,7 +635,7 @@
                 ...distractores
             ]);
 
-        opciones.forEach(opcion => {
+        opciones.forEach(function (opcion) {
 
             const option =
                 document.createElement("div");
@@ -486,7 +644,8 @@
                 "tutorial__fake-word";
 
             if (
-                tutorialState.mode === "A"
+                tutorialState.mode ===
+                "A"
             ) {
 
                 option.textContent =
@@ -496,21 +655,25 @@
 
                 option.innerHTML = `
                     <img
-                        src="${IMG_BASE}${opcion.image_file}"
+                        src="${opcion.image_url}"
                         alt=""
                     >
                 `;
+
             }
 
             option.dataset.correct =
-                opcion.id_word === item.id_word
+                opcion.id_word ===
+                item.id_word
                     ? "true"
                     : "false";
 
             els.tutorialOptions.appendChild(
                 option
             );
+
         });
+
     }
 
     function createTutorialVideo(item) {
@@ -525,11 +688,7 @@
         }
 
         const videoFile =
-            item.lsa_video_file ||
-            item.video_file ||
-            item.lsa_video ||
-            item.video ||
-            "";
+            item.lsa_video_url;
 
         if (!videoFile) {
             return;
@@ -554,27 +713,36 @@
         video.loop = true;
 
         video.src =
-            `${VIDEO_BASE}${videoFile}`;
+            videoFile;
 
         els.tutorialContent.insertBefore(
             video,
             els.tutorialImage
         );
 
-        video.play().catch(() => {});
+        video.play()
+            .catch(function () {});
+
     }
 
     function showCorrectAnimation() {
 
         clearTutorialTimer();
 
-        const opciones =
-            [...els.tutorialOptions.children];
+        const opciones = [
+            ...els.tutorialOptions.children
+        ];
 
         const correcta =
             opciones.find(
-                option =>
-                    option.dataset.correct === "true"
+                function (option) {
+
+                    return (
+                        option.dataset.correct ===
+                        "true"
+                    );
+
+                }
             );
 
         if (!correcta) {
@@ -582,30 +750,37 @@
         }
 
         tutorialState.timer =
-            setTimeout(() => {
+            setTimeout(
+                function () {
 
-                correcta.classList.add(
-                    "tutorial-option--highlight"
-                );
+                    correcta.classList.add(
+                        "tutorial-option--highlight"
+                    );
 
-                tutorialState.timer =
-                    setTimeout(() => {
+                    tutorialState.timer =
+                        setTimeout(
+                            function () {
 
-                        correcta.classList.remove(
-                            "tutorial-option--highlight"
+                                correcta.classList.remove(
+                                    "tutorial-option--highlight"
+                                );
+
+                                correcta.classList.add(
+                                    "tutorial-option--success"
+                                );
+
+                                correcta.classList.add(
+                                    "tutorial__fake-word--pop"
+                                );
+
+                            },
+                            2500
                         );
 
-                        correcta.classList.add(
-                            "tutorial-option--success"
-                        );
+                },
+                900
+            );
 
-                        correcta.classList.add(
-                            "tutorial__fake-word--pop"
-                        );
-
-                    }, 2500);
-
-            }, 900);
     }
 
     function renderTutorial() {
@@ -620,7 +795,7 @@
         }
 
         els.tutorialImage.src =
-            `${IMG_BASE}${item.image_file}`;
+            item.image_url;
 
         els.tutorialImage.alt =
             item.word;
@@ -637,7 +812,8 @@
         }
 
         if (
-            tutorialState.mode === "B"
+            tutorialState.mode ===
+            "B"
         ) {
 
             els.tutorialImage.style.display =
@@ -649,9 +825,11 @@
 
             els.tutorialImage.style.display =
                 "flex";
+
         }
 
         showCorrectAnimation();
+
     }
 
     function showTutorial(mode) {
@@ -664,17 +842,24 @@
         tutorialState.active =
             true;
 
-        els.tutorial.hidden =
-            false;
+        if (!els.tutorial) {
+            return;
+        }
 
-        requestAnimationFrame(() => {
+        els.tutorial.hidden = false;
 
-            els.tutorial.classList.add(
-                "tutorial--visible"
-            );
-        });
+        requestAnimationFrame(
+            function () {
+
+                els.tutorial.classList.add(
+                    "tutorial--visible"
+                );
+
+            }
+        );
 
         renderTutorial();
+
     }
 
     function closeTutorial() {
@@ -684,16 +869,23 @@
         tutorialState.active =
             false;
 
+        if (!els.tutorial) {
+            return;
+        }
+
         els.tutorial.classList.remove(
             "tutorial--visible"
         );
 
-        setTimeout(() => {
+        setTimeout(
+            function () {
 
-            els.tutorial.hidden =
-                true;
+                els.tutorial.hidden = true;
 
-        }, 450);
+            },
+            450
+        );
+
     }
 
     function repeatTutorial() {
@@ -701,6 +893,7 @@
         clearTutorialAnimation();
 
         renderTutorial();
+
     }
 
     function initTutorial() {
@@ -718,8 +911,10 @@
                     event.preventDefault();
 
                     repeatTutorial();
+
                 }
             );
+
         }
 
         if (els.tutorialNext) {
@@ -731,8 +926,10 @@
                     event.preventDefault();
 
                     closeTutorial();
+
                 }
             );
+
         }
 
         if (els.tutorialClose) {
@@ -744,24 +941,36 @@
                     event.preventDefault();
 
                     closeTutorial();
+
                 }
             );
+
         }
 
-        setTimeout(() => {
-            showTutorial("A");
-        }, 700);
+        setTimeout(
+            function () {
+
+                showTutorial("A");
+
+            },
+            700
+        );
+
     }
 
     function init() {
 
         if (
-            !PALABRAS ||
+            !Array.isArray(PALABRAS) ||
             PALABRAS.length < 3
         ) {
 
-            els.instruction.textContent =
-                "ESTA CATEGORÍA TODAVÍA NO TIENE SUFICIENTES PALABRAS.";
+            if (els.instruction) {
+
+                els.instruction.textContent =
+                    "NO HAY SUFICIENTES PALABRAS PARA ESTE JUEGO.";
+
+            }
 
             return;
         }
@@ -769,19 +978,18 @@
         state.order =
             shuffle(
                 PALABRAS.map(
-                    (_, i) => i
+                    function (_, i) {
+                        return i;
+                    }
                 )
             );
 
         buildTrail();
-
         updateTrail();
-
         renderPrompt();
-
         renderOptions();
-
         initTutorial();
+
     }
 
     init();

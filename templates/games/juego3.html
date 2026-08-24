@@ -4,7 +4,6 @@
     Ordenar palabra - EDUseñas
 {% endblock %}
 
-
 {% block styles %}
 
 <link
@@ -14,19 +13,17 @@
 
 {% endblock %}
 
-
 {% block content %}
 
 <section
     class="juego3"
     id="juego3"
-    data-categoria="{{ categoria_slug }}"
 >
 
     <div class="juego3__encabezado">
 
         <span class="juego3__categoria">
-            {{ categoria_nombre }}
+            {{ palabras[0].categoria_nombre if palabras else "" }}
         </span>
 
         <div
@@ -36,7 +33,6 @@
 
     </div>
 
-
     <div class="juego3__consigna">
 
         <p>
@@ -44,7 +40,6 @@
         </p>
 
     </div>
-
 
     <div class="juego3__contenido">
 
@@ -59,18 +54,15 @@
 
         </div>
 
-
         <div
             class="juego3__palabra"
             id="palabraArmada"
         ></div>
 
-
         <div
             class="juego3__letras"
             id="letras"
         ></div>
-
 
         <div
             class="juego3__feedback"
@@ -83,21 +75,13 @@
 
 {% endblock %}
 
-
 {% block scripts %}
 
 <script>
 
     const PALABRAS = {{ palabras | tojson }};
 
-    const CATEGORIA_SLUG =
-        "{{ categoria_slug }}";
-
-    const IMG_BASE =
-        "{{ url_for('static', filename='img/') }}";
-
 </script>
-
 
 <script
     src="{{ url_for('static', filename='javascript/juego3.js') }}"
