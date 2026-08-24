@@ -163,3 +163,59 @@
         font-size: 1.4rem;
     }
 }
+/* Badge especial para Tutor */
+.role-badge.role-tutor {
+    background-color: var(--color-tertiary-purple, #8E44AD);
+    color: #FFFFFF;
+}
+
+.tutor-email {
+    font-size: 0.95rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Lista de niños asignados */
+.children-section {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.children-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.child-item-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #F8F9FA;
+    margin-bottom: 10px;
+}
+
+.child-mini-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.child-info h3 {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.child-info p {
+    font-size: 0.85rem;
+    color: #777;
+    margin: 0;
+}
