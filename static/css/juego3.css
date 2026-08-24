@@ -11,7 +11,6 @@
     color: #4A3B78;
 }
 
-
 .juego3__encabezado {
     width: 100%;
     max-width: 700px;
@@ -22,7 +21,6 @@
 
     gap: 20px;
 }
-
 
 .juego3__categoria {
     background: #E3F6F4;
@@ -41,12 +39,10 @@
     text-transform: uppercase;
 }
 
-
 .juego3__progreso {
     display: flex;
     gap: 8px;
 }
-
 
 .juego3__progreso-punto {
     width: 13px;
@@ -61,12 +57,10 @@
     opacity: .5;
 }
 
-
 .juego3__progreso-punto.completado {
     background: #3DBFB8;
     opacity: 1;
 }
-
 
 .juego3__progreso-punto.actual {
     background: #FFC64B;
@@ -78,13 +72,11 @@
     transform: scale(1.25);
 }
 
-
 .juego3__consigna {
     margin-top: 25px;
 
     text-align: center;
 }
-
 
 .juego3__consigna p {
     margin: 0;
@@ -97,7 +89,6 @@
     text-transform: uppercase;
 }
 
-
 .juego3__contenido {
     width: 100%;
     max-width: 600px;
@@ -108,7 +99,6 @@
 
     margin-top: 25px;
 }
-
 
 .juego3__imagen-contenedor {
     width: 210px;
@@ -128,14 +118,12 @@
         0 10px 0 rgba(61, 191, 184, .15);
 }
 
-
 .juego3__imagen {
     width: 100%;
     height: 100%;
 
     object-fit: contain;
 }
-
 
 .juego3__palabra {
     min-height: 65px;
@@ -148,7 +136,6 @@
 
     gap: 8px;
 }
-
 
 .juego3__letra-armada {
     width: 48px;
@@ -175,7 +162,6 @@
         0 5px 0 rgba(74,59,120,.15);
 }
 
-
 .juego3__letras {
     width: 100%;
 
@@ -188,7 +174,6 @@
 
     margin-top: 25px;
 }
-
 
 .juego3__letra {
     width: 58px;
@@ -218,25 +203,21 @@
         opacity .15s ease;
 }
 
-
 .juego3__letra:hover {
     background: #E3F6F4;
 
     transform: translateY(-3px);
 }
 
-
 .juego3__letra:active {
     transform: translateY(3px);
 }
-
 
 .juego3__letra.usada {
     opacity: .25;
 
     pointer-events: none;
 }
-
 
 .juego3__feedback {
     min-height: 35px;
@@ -253,20 +234,17 @@
     text-transform: uppercase;
 }
 
-
 .juego3__feedback.correcto {
     color: #3FA772;
 
     animation: feedbackCorrecto .4s ease;
 }
 
-
 .juego3__feedback.incorrecto {
     color: #FF8A5B;
 
     animation: feedbackIncorrecto .35s ease;
 }
-
 
 @keyframes feedbackCorrecto {
 
@@ -282,7 +260,6 @@
         transform: scale(1);
     }
 }
-
 
 @keyframes feedbackIncorrecto {
 
@@ -300,7 +277,6 @@
     }
 }
 
-
 @media (max-width: 520px) {
 
     .juego3 {
@@ -308,22 +284,18 @@
             20px 12px 30px;
     }
 
-
     .juego3__consigna p {
         font-size: 1.15rem;
     }
-
 
     .juego3__imagen-contenedor {
         width: 180px;
         height: 180px;
     }
 
-
     .juego3__palabra {
         gap: 5px;
     }
-
 
     .juego3__letra-armada {
         width: 38px;
@@ -332,16 +304,13 @@
         font-size: 1.25rem;
     }
 
-
     .juego3__letra {
         width: 52px;
         height: 52px;
 
         font-size: 1.3rem;
     }
-
 }
-
 
 @media (max-width: 380px) {
 
@@ -350,7 +319,6 @@
         height: 155px;
     }
 
-
     .juego3__letra-armada {
         width: 32px;
         height: 42px;
@@ -358,14 +326,12 @@
         font-size: 1.05rem;
     }
 
-
     .juego3__letra {
         width: 48px;
         height: 48px;
 
         font-size: 1.2rem;
     }
-
 }
 
 .juego3__letras {
@@ -379,6 +345,8 @@
     justify-content: center;
     visibility: visible;
 }
+
+
 
 
 .juego3__tutorial {
@@ -395,70 +363,97 @@
 
     padding: 20px;
 
-    background: rgba(74, 59, 120, .45);
+    opacity: 0;
+    visibility: hidden;
 
-    backdrop-filter: blur(5px);
+    background: rgba(74, 59, 120, .35);
 
-    opacity: 1;
+    backdrop-filter: blur(6px);
 
-    transition: opacity .4s ease;
+    transition:
+        opacity .4s ease,
+        visibility .4s ease;
 }
-
 
 .juego3__tutorial.oculto {
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
 }
 
+.juego3__tutorial:not(.oculto) {
+    opacity: 1;
+    visibility: visible;
+}
 
 .juego3__tutorial-contenido {
     position: relative;
 
-    width: 100%;
-    max-width: 500px;
+    z-index: 2;
 
+    width: 100%;
+    max-width: 430px;
+
+    min-height: 0;
     max-height: 90vh;
 
     overflow-y: auto;
 
-    padding: 30px 25px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    text-align: center;
+    padding: 24px 25px 22px;
 
     background: #FFFFFF;
 
     border-radius: 30px;
 
     box-shadow:
-        0 15px 40px rgba(74, 59, 120, .25);
+        0 25px 60px rgba(74, 59, 120, .25);
+
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    transform:
+        translateY(25px)
+        scale(.92);
+
+    transition:
+        transform .45s ease;
 }
+
+.juego3__tutorial:not(.oculto) .juego3__tutorial-contenido {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
 
 
 .juego3__tutorial-cerrar {
     position: absolute;
 
     top: 12px;
-    right: 16px;
+    right: 15px;
 
     width: 42px;
     height: 42px;
 
     border: none;
 
-    background: #FFE7DF;
-
-    color: #FF8A5B;
-
     border-radius: 50%;
 
-    font-family: 'Fredoka', sans-serif;
+    background: #E3F6F4;
 
-    font-size: 1.8rem;
-    font-weight: 700;
+    color: #237F7A;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 30px;
+    font-weight: 400;
+
+    line-height: 1;
 
     cursor: pointer;
 
@@ -471,26 +466,33 @@
         background .15s ease;
 }
 
-
 .juego3__tutorial-cerrar:hover {
-    transform: scale(1.08);
+    background: #D2EFEC;
 
-    background: #FFD8CD;
+    transform: scale(1.08);
 }
+
+.juego3__tutorial-cerrar:active {
+    transform: scale(.92);
+}
+
 
 
 
 .juego3__tutorial-titulo {
-    margin-top: 5px;
-    margin-bottom: 20px;
+    margin-top: 3px;
+    margin-bottom: 12px;
 
     font-family: 'Fredoka', sans-serif;
 
-    font-size: 1.7rem;
+    font-size: 1.45rem;
     font-weight: 700;
 
     color: #4A3B78;
+
+    text-transform: uppercase;
 }
+
 
 
 
@@ -498,17 +500,23 @@
     width: 150px;
     height: 150px;
 
-    padding: 15px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 50%;
 
     background: #E3F6F4;
 
-    border-radius: 50%;
-}
+    padding: 14px;
 
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 8px 0 rgba(61, 191, 184, .15);
+
+    animation:
+        tutorialImageAppear .8s ease both;
+}
 
 .juego3__tutorial-imagen img {
     width: 100%;
@@ -519,81 +527,46 @@
 
 
 
+
 .juego3__tutorial-texto {
-    margin: 20px 0 10px;
+    margin: 12px 0 5px;
 
     font-family: 'Fredoka', sans-serif;
 
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 700;
 
     color: #4A3B78;
+
+    text-transform: uppercase;
 }
+
 
 
 
 .juego3__tutorial-palabra {
-    min-height: 55px;
+    min-height: 48px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    gap: 7px;
+    gap: 5px;
 
-    margin: 10px 0 15px;
+    margin: 8px 0 12px;
 }
-
 
 .juego3__tutorial-letra-armada {
-    width: 42px;
-    height: 48px;
+    width: 38px;
+    height: 44px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    background: #FFFFFF;
-
-    border: 3px solid #3DBFB8;
-
-    border-radius: 10px;
-
-    font-family: 'Fredoka', sans-serif;
-
-    font-size: 1.3rem;
-    font-weight: 700;
-
-    color: #4A3B78;
-
-    box-shadow:
-        0 4px 0 rgba(74, 59, 120, .12);
-
-    animation:
-        tutorialLetra .3s ease;
-}
-
-
-.juego3__tutorial-letras {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    justify-content: center;
-
-    gap: 9px;
-
-    margin-bottom: 25px;
-}
-
-
-.juego3__tutorial-letra {
-    width: 48px;
-    height: 48px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 4px;
 
     background: #FFFFFF;
 
@@ -603,140 +576,111 @@
 
     font-family: 'Fredoka', sans-serif;
 
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 700;
 
     color: #4A3B78;
 
     box-shadow:
-        0 4px 0 rgba(74, 59, 120, .12);
+        0 6px 0 rgba(74, 59, 120, .18);
 
-    transition:
-        opacity .25s ease,
-        transform .25s ease;
+    animation:
+        tutorialLetra .3s ease;
 }
 
 
-.juego3__tutorial-letra.usada {
-    opacity: .25;
 
-    transform: scale(.9);
+
+.juego3__tutorial-letras {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 9px;
+
+    margin-bottom: 10px;
+
+    min-height: 0;
 }
 
-.juego3__tutorial-continuar {
-    min-width: 180px;
+.juego3__tutorial-letra {
+    width: 100%;
+    height: 54px;
 
-    padding: 13px 25px;
+    min-height: 54px;
 
-    border: none;
+    display: flex;
 
-    border-radius: 999px;
+    align-items: center;
+    justify-content: center;
 
-    background: #FFC64B;
+    padding: 5px;
 
-    color: #4A3B78;
+    background: #FFFFFF;
+
+    border: 3px solid #3DBFB8;
+
+    border-radius: 14px;
 
     font-family: 'Fredoka', sans-serif;
 
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 700;
+
+    color: #4A3B78;
+
+    box-shadow:
+        0 6px 0 rgba(74, 59, 120, .18);
 
     cursor: pointer;
 
-    box-shadow:
-        0 5px 0 rgba(74, 59, 120, .15);
-
     transition:
         transform .15s ease,
-        box-shadow .15s ease;
+        background .15s ease,
+        opacity .15s ease;
 }
 
+.juego3__tutorial-letra:hover {
+    background: #E3F6F4;
 
-.juego3__tutorial-continuar:hover {
     transform: translateY(-2px);
-
-    box-shadow:
-        0 7px 0 rgba(74, 59, 120, .15);
 }
 
-
-.juego3__tutorial-continuar:active {
+.juego3__tutorial-letra:active {
     transform: translateY(3px);
 
     box-shadow:
-        0 2px 0 rgba(74, 59, 120, .15);
+        0 2px 0 rgba(74, 59, 120, .18);
+}
+
+.juego3__tutorial-letra.usada {
+    opacity: .45;
+
+    pointer-events: none;
 }
 
 
-@keyframes tutorialLetra {
 
-    0% {
-        transform: scale(.7);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-}
-
-
-@media (max-width: 520px) {
-
-    .juego3__tutorial-contenido {
-        padding: 25px 18px;
-    }
-
-    .juego3__tutorial-imagen {
-        width: 125px;
-        height: 125px;
-    }
-
-    .juego3__tutorial-titulo {
-        font-size: 1.45rem;
-    }
-
-    .juego3__tutorial-texto {
-        font-size: 1rem;
-    }
-
-    .juego3__tutorial-letra,
-    .juego3__tutorial-letra-armada {
-        width: 40px;
-        height: 42px;
-    }
-
-}
-
-/* =========================================================
-   CONTROLES DEL TUTORIAL
-   ========================================================= */
 
 .juego3__tutorial-controles {
-
     width: 100%;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 18px;
 
-    margin-top: 15px;
-
+    margin-top: 8px;
 }
 
 
-/* ---------------------------------------------------------
-   BOTÓN REINICIAR
-   --------------------------------------------------------- */
+
 
 .juego3__tutorial-reiniciar {
-
     width: 52px;
     height: 52px;
 
@@ -749,191 +693,223 @@
 
     border-radius: 50%;
 
-    background: #E3F6F4;
+    background: #FFFFFF;
 
     color: #237F7A;
 
     font-family: Arial, sans-serif;
 
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 400;
 
     line-height: 1;
 
     cursor: pointer;
 
     box-shadow:
-        0 4px 0 rgba(74, 59, 120, .12);
+        0 6px 0 rgba(74, 59, 120, .18);
 
     transition:
         transform .15s ease,
-        background .15s ease;
-
+        background .15s ease,
+        box-shadow .15s ease;
 }
-
 
 .juego3__tutorial-reiniciar:hover {
-
-    background: #D4F1EF;
+    background: #E3F6F4;
 
     transform: scale(1.08);
-
 }
-
 
 .juego3__tutorial-reiniciar:active {
+    transform: translateY(3px) scale(.98);
 
-    transform: translateY(3px);
-
+    box-shadow:
+        0 2px 0 rgba(74, 59, 120, .18);
 }
 
 
-/* ---------------------------------------------------------
-   BOTÓN FLECHA
-   --------------------------------------------------------- */
+
 
 .juego3__tutorial-continuar {
-
-    width: 62px;
+    width: 52px;
     height: 52px;
+
+    min-width: 52px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    border: none;
+    padding: 0;
 
-    border-radius: 999px;
+    border: 3px solid #3DBFB8;
 
-    background: #FFC64B;
+    border-radius: 50%;
 
-    color: #4A3B78;
+    background: #3DBFB8;
+
+    color: #FFFFFF;
 
     font-family: Arial, sans-serif;
 
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 27px;
+    font-weight: 400;
 
     line-height: 1;
 
     cursor: pointer;
 
     box-shadow:
-        0 5px 0 rgba(74, 59, 120, .15);
+        0 6px 0 rgba(74, 59, 120, .18);
 
     transition:
         transform .15s ease,
+        background .15s ease,
         box-shadow .15s ease;
-
 }
-
 
 .juego3__tutorial-continuar:hover {
+    background: #3DBFB8;
 
-    transform: translateX(3px);
-
+    transform: scale(1.08);
 }
-
 
 .juego3__tutorial-continuar:active {
-
-    transform: translateY(3px);
+    transform: translateY(3px) scale(.98);
 
     box-shadow:
-        0 2px 0 rgba(74, 59, 120, .15);
-
-}
-
-
-.juego3__tutorial-contenido {
-
-    padding: 28px 25px 24px;
-
-}
-
-
-.juego3__tutorial-imagen {
-
-    width: 170px;
-    height: 170px;
-
-    margin-top: 5px;
-
-}
-
-
-.juego3__tutorial-letras {
-
-    min-height: 55px;
-
-    margin-top: 5px;
-
-}
-
-
-.juego3__tutorial-palabra {
-
-    min-height: 55px;
-
-    margin-top: 18px;
-
-    margin-bottom: 8px;
-
+        0 2px 0 rgba(74, 59, 120, .18);
 }
 
 
 
-.juego3__tutorial-letra {
 
-    width: 46px;
-    height: 46px;
+@keyframes tutorialImageAppear {
 
+    0% {
+        opacity: 0;
+        transform: scale(.75);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes tutorialLetra {
+
+    0% {
+        transform: scale(.7);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 
-.juego3__tutorial-letra-armada {
-
-    width: 42px;
-    height: 48px;
-
-}
 
 
 @media (max-width: 520px) {
 
-    .juego3__tutorial-imagen {
-
-        width: 135px;
-        height: 135px;
-
+    .juego3__tutorial {
+        padding: 14px;
     }
 
+    .juego3__tutorial-contenido {
+        max-width: 400px;
+
+        padding: 22px 18px 20px;
+
+        border-radius: 25px;
+    }
+
+    .juego3__tutorial-imagen {
+        width: 125px;
+        height: 125px;
+    }
+
+    .juego3__tutorial-titulo {
+        font-size: 1.3rem;
+    }
+
+    .juego3__tutorial-texto {
+        font-size: .95rem;
+    }
+
+    .juego3__tutorial-palabra {
+        gap: 5px;
+    }
 
     .juego3__tutorial-letra {
+        height: 50px;
+        min-height: 50px;
 
-        width: 40px;
-        height: 40px;
+        font-size: 1.05rem;
 
-        font-size: 1.15rem;
-
+        border-width: 2.5px;
     }
-
 
     .juego3__tutorial-letra-armada {
+        width: 35px;
+        height: 40px;
 
-        width: 36px;
-        height: 42px;
-
-        font-size: 1.15rem;
-
+        font-size: 1.05rem;
     }
-
 
     .juego3__tutorial-controles {
-
         margin-top: 10px;
+    }
+}
 
+@media (max-width: 380px) {
+
+    .juego3__tutorial-contenido {
+        padding: 20px 14px 18px;
     }
 
+    .juego3__tutorial-imagen {
+        width: 115px;
+        height: 115px;
+    }
+
+    .juego3__tutorial-letras {
+        gap: 8px;
+    }
+
+    .juego3__tutorial-letra {
+        height: 46px;
+        min-height: 46px;
+
+        font-size: 1rem;
+    }
+
+    .juego3__tutorial-letra-armada {
+        width: 32px;
+        height: 38px;
+
+        font-size: .95rem;
+    }
+
+    .juego3__tutorial-controles {
+        gap: 14px;
+    }
+
+    .juego3__tutorial-reiniciar,
+    .juego3__tutorial-continuar {
+        width: 48px;
+        height: 48px;
+
+        min-width: 48px;
+    }
 }

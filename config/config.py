@@ -1,12 +1,14 @@
-import os
 from dotenv import load_dotenv
+import os
+
+
 
 load_dotenv()
 
-HOST= os.getenv("DB_HOST")
-USER= os.getenv("DB_USER")
-PASSWORD= os.getenv("DB_PASSWORD")
-PORT= os.getenv("DB_PORT")
-NAME= os.getenv("DB_NAME")
+MYSQL_HOST= os.getenv("MYSQL_HOST")
+MYSQL_USER= os.getenv("MYSQL_USER")
+MYSQL_PASSWORD= os.getenv("MYSQL_PASSWORD")
+MYSQL_PORT= os.getenv("MYSQL_PORT")
+MYSQL_DATABASE= os.getenv("MYSQL_DATABASE")
 
-DATABASE_CONNECTION_URI = f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}"
+DATABASE_CONNECTION_URI = f"mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}:{MYSQL_PORT}/{MYSQL_DATABASE}"
