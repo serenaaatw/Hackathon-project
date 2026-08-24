@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil de Tutor - {{ tutor.name }} - EDUSEÑAS{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="profile-container">
+
+    <!-- TARJETA DEL TUTOR -->
+    <article class="profile-card">
+        
+        <div class="avatar-wrapper">
+            <img src="{{ url_for('static', filename=tutor.profile_picture) }}" alt="Foto de {{ tutor.name }}" class="profile-avatar">
+            <span class="role-badge role-tutor">TUTOR / DOCENTE</span>
+        </div>
+
+        <div class="profile-header">
+            <h1 class="child-name">{{ tutor.name }} {{ tutor.last_name }}</h1>
+            <p class="child-username">@{{ tutor.username }}</p>
+            <p class="tutor-email">📧 {{ tutor.email }}</p>
+        </div>
+
+    </article>
+
+    <!-- SECCIÓN DE NIÑOS A CARGO -->
+    <div class="children-section">
+        <h2>👦👧 Niños a Cargo</h2>
+
+        {% if children %}
+            <div class="children-grid">
+                {% for child in children %}
+                    <div class="child-item-card">
+                        <img src="{{ url_for('static', filename=child.profile_picture) }}" alt="{{ child.name }}" class="child-mini-avatar">
+                        <div class="child-info">
+                            <h3>{{ child.name }} {{ child.last_name }}</h3>
+                            <p>@{{ child.username }} {% if child.edad %}- {{ child.edad }} años{% endif %}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-children-msg">Aún no tienes niños o alumnos asignados.</p>
+        {% endif %}
+    </div>
+
+    <!-- BOTONES DE ACCIÓN -->
+    <div class="profile-actions">
+        <a href="{{ url_for('menu_principal.mostrar_menu') }}" class="btn-profile btn-secondary">
+            🏠 MENÚ PRINCIPAL
+        </a>
+    </div>
+
+</section>
+{% endblock %}
