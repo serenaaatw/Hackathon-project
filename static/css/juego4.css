@@ -13,10 +13,9 @@
     box-sizing: border-box;
 }
 
-
 /* =========================================================
-   ENCABEZADO
-   ========================================================= */
+ENCABEZADO
+========================================================= */
 
 .juego4__encabezado {
     width: 100%;
@@ -28,7 +27,6 @@
 
     gap: 15px;
 }
-
 
 .juego4__categoria {
     background: #E3F6F4;
@@ -47,16 +45,14 @@
     text-transform: uppercase;
 }
 
-
 /* =========================================================
-   PROGRESO
-   ========================================================= */
+PROGRESO
+========================================================= */
 
 .juego4__progreso {
     display: flex;
     gap: 6px;
 }
-
 
 .juego4__progreso-punto {
     width: 11px;
@@ -75,12 +71,10 @@
         background .2s ease;
 }
 
-
 .juego4__progreso-punto.completado {
     background: #3DBFB8;
     opacity: 1;
 }
-
 
 .juego4__progreso-punto.actual {
     background: #FFC64B;
@@ -92,17 +86,15 @@
     transform: scale(1.2);
 }
 
-
 /* =========================================================
-   CONSIGNA
-   ========================================================= */
+CONSIGNA
+========================================================= */
 
 .juego4__consigna {
     margin-top: 12px;
 
     text-align: center;
 }
-
 
 .juego4__consigna p {
     margin: 0;
@@ -115,10 +107,9 @@
     text-transform: uppercase;
 }
 
-
 /* =========================================================
-   CONTENIDO
-   ========================================================= */
+CONTENIDO
+========================================================= */
 
 .juego4__contenido {
     width: 100%;
@@ -131,10 +122,9 @@
     margin-top: 12px;
 }
 
-
 /* =========================================================
-   IMAGEN
-   ========================================================= */
+IMAGEN
+========================================================= */
 
 .juego4__imagen-contenedor {
     width: 175px;
@@ -158,7 +148,6 @@
     overflow: hidden;
 }
 
-
 .juego4__imagen {
     width: 100%;
     height: 100%;
@@ -166,10 +155,9 @@
     object-fit: contain;
 }
 
-
 /* =========================================================
-   PALABRA
-   ========================================================= */
+PALABRA
+========================================================= */
 
 .juego4__palabra {
     min-height: 62px;
@@ -184,7 +172,6 @@
 
     flex-wrap: nowrap;
 }
-
 
 .juego4__letra {
     width: 45px;
@@ -210,10 +197,9 @@
         background .15s ease;
 }
 
-
 /* =========================================================
-   ESPACIO DE LETRA FALTANTE
-   ========================================================= */
+ESPACIO DE LETRA FALTANTE
+========================================================= */
 
 .juego4__letra.oculta {
     background: #FFFFFF;
@@ -230,17 +216,15 @@
     cursor: pointer;
 }
 
-
 .juego4__letra.oculta:hover {
     transform: scale(1.06);
 
     background: #E3F6F4;
 }
 
-
 /* =========================================================
-   OPCIONES
-   ========================================================= */
+OPCIONES
+========================================================= */
 
 .juego4__opciones {
     width: 100%;
@@ -256,10 +240,9 @@
     margin-top: 13px;
 }
 
-
 /* =========================================================
-   BOTONES DE LETRAS
-   ========================================================= */
+BOTONES DE LETRAS
+========================================================= */
 
 .juego4__opcion {
     width: 100%;
@@ -289,18 +272,15 @@
         opacity .15s ease;
 }
 
-
 .juego4__opcion:hover {
     background: #E3F6F4;
 
     transform: translateY(-2px);
 }
 
-
 .juego4__opcion:active {
     transform: translateY(2px);
 }
-
 
 .juego4__opcion.usada {
     opacity: .25;
@@ -308,10 +288,9 @@
     pointer-events: none;
 }
 
-
 /* =========================================================
-   FEEDBACK
-   ========================================================= */
+FEEDBACK
+========================================================= */
 
 .juego4__feedback {
     min-height: 32px;
@@ -328,13 +307,11 @@
     text-transform: uppercase;
 }
 
-
 .juego4__feedback.correcto {
     color: #3FA772;
 
     animation: feedbackCorrecto .4s ease;
 }
-
 
 .juego4__feedback.incorrecto {
     color: #FF8A5B;
@@ -342,10 +319,9 @@
     animation: feedbackIncorrecto .35s ease;
 }
 
-
 /* =========================================================
-   ACCIONES
-   ========================================================= */
+ACCIONES
+========================================================= */
 
 .juego4__acciones {
     margin-top: 7px;
@@ -353,7 +329,6 @@
     display: flex;
     justify-content: center;
 }
-
 
 .juego4__boton {
     width: 42px;
@@ -379,7 +354,6 @@
         background .15s ease;
 }
 
-
 .juego4__boton:hover {
     background: #E3F6F4;
 
@@ -387,13 +361,19 @@
 }
 
 
+/* =========================================================
+                    TUTORIAL
+========================================================= */
+
 .juego4__tutorial {
     position: fixed;
+
     inset: 0;
 
-    z-index: 1000;
+    z-index: 9999;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -401,12 +381,14 @@
 
     background: rgba(74, 59, 120, .35);
 
+    backdrop-filter: blur(6px);
+
     opacity: 0;
     visibility: hidden;
 
     transition:
-        opacity .25s ease,
-        visibility .25s ease;
+        opacity .4s ease,
+        visibility .4s ease;
 }
 
 .juego4__tutorial.visible {
@@ -414,24 +396,58 @@
     visibility: visible;
 }
 
+
+/* =========================================================
+TARJETA DEL TUTORIAL
+========================================================= */
+
 .juego4__tutorial-contenido {
     position: relative;
 
-    width: min(420px, 92vw);
+    z-index: 2;
 
-    padding: 28px 25px 22px;
+    width: 100%;
+    max-width: 430px;
+
+    min-height: 0;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: 24px 25px 22px;
 
     background: #FFFFFF;
 
     border-radius: 30px;
 
     box-shadow:
-        0 15px 40px rgba(74, 59, 120, .22);
+        0 25px 60px rgba(74, 59, 120, .25);
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    text-align: center;
+
+    transform:
+        translateY(25px)
+        scale(.92);
+
+    transition:
+        transform .45s ease;
 }
+
+.juego4__tutorial.visible .juego4__tutorial-contenido {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+/* =========================================================
+BOTÓN CERRAR
+========================================================= */
 
 .juego4__tutorial-cerrar {
     position: absolute;
@@ -439,30 +455,57 @@
     top: 12px;
     right: 15px;
 
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
 
     border: none;
+
     border-radius: 50%;
 
-    background: #FFE8E0;
+    background: #E3F6F4;
 
-    color: #FF8A5B;
+    color: #237F7A;
 
-    font-family: 'Fredoka', sans-serif;
+    font-family: Arial, sans-serif;
 
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 30px;
+    font-weight: 400;
+
+    line-height: 1;
 
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
 }
 
+.juego4__tutorial-cerrar:hover {
+    background: #D2EFEC;
+
+    transform: scale(1.08);
+}
+
+.juego4__tutorial-cerrar:active {
+    transform: scale(.92);
+}
+
+
+/* =========================================================
+TÍTULO
+========================================================= */
+
 .juego4__tutorial-titulo {
-    margin-bottom: 15px;
+    margin-top: 3px;
+    margin-bottom: 12px;
 
     font-family: 'Fredoka', sans-serif;
 
-    font-size: 1.25rem;
+    font-size: 1.45rem;
     font-weight: 700;
 
     color: #4A3B78;
@@ -470,38 +513,52 @@
     text-transform: uppercase;
 }
 
+
+/* =========================================================
+IMAGEN DEL TUTORIAL
+========================================================= */
+
 .juego4__tutorial-imagen {
-    width: 95px;
-    height: 95px;
+    width: 145px;
+    height: 145px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 
     border-radius: 50%;
 
     background: #E3F6F4;
 
-    font-size: 3.5rem;
+    font-size: 3.2rem;
 
     box-shadow:
-        0 7px 0 rgba(61, 191, 184, .15);
+        0 8px 0 rgba(61, 191, 184, .15);
+
+    animation:
+        tutorialImageAppear .8s ease both;
 }
+
+
+/* =========================================================
+PALABRA DEL TUTORIAL
+========================================================= */
 
 .juego4__tutorial-palabra {
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    gap: 7px;
+    gap: 6px;
 
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 
     font-family: 'Fredoka', sans-serif;
 
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
 
     color: #4A3B78;
@@ -511,24 +568,33 @@
 }
 
 .juego4__tutorial-palabra span {
-    width: 42px;
-    height: 52px;
+    width: 40px;
+    height: 48px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    border-radius: 10px;
+    border-radius: 12px;
 
-    background: #F7F9FC;
+    background: #FFFFFF;
+
+    border: 3px solid #3DBFB8;
+
+    box-shadow:
+        0 5px 0 rgba(74, 59, 120, .15);
 }
 
 .juego4__tutorial-palabra .tutorial-faltante {
     color: #3DBFB8;
 
-    border: 3px dashed #3DBFB8;
+    border: 3px solid #FFC64B;
 
-    background: #E3F6F4;
+    background: #FFF9E8;
+
+    box-shadow:
+        0 5px 0 rgba(74, 59, 120, .15);
 }
 
 .juego4__tutorial-palabra
@@ -543,7 +609,7 @@
 
     border-color: #3FA772;
 
-    background: #E8F7EF;
+    background: #E7F6EE;
 
     animation:
         letraCorrecta .45s ease;
@@ -555,6 +621,11 @@
         palabraCompleta .5s ease;
 }
 
+
+/* =========================================================
+OPCIONES DEL TUTORIAL
+========================================================= */
+
 .juego4__tutorial-opciones {
     width: 100%;
 
@@ -563,20 +634,20 @@
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 9px;
+    gap: 10px;
 
-    max-width: 270px;
+    max-width: 300px;
 
-    margin-bottom: 18px;
+    margin-bottom: 12px;
 }
 
 .juego4__tutorial-opciones button {
     width: 100%;
-    height: 48px;
+    height: 58px;
 
     border: 3px solid #3DBFB8;
 
-    border-radius: 12px;
+    border-radius: 16px;
 
     background: #FFFFFF;
 
@@ -587,13 +658,33 @@
     font-size: 1.25rem;
     font-weight: 700;
 
+    cursor: pointer;
+
     box-shadow:
-        0 4px 0 rgba(74, 59, 120, .12);
+        0 6px 0 rgba(74, 59, 120, .18);
+
+    transition:
+        transform .15s ease,
+        background .15s ease,
+        box-shadow .15s ease;
+}
+
+.juego4__tutorial-opciones button:hover {
+    background: #E3F6F4;
+
+    transform: translateY(-2px);
+}
+
+.juego4__tutorial-opciones button:active {
+    transform: translateY(3px);
+
+    box-shadow:
+        0 2px 0 rgba(74, 59, 120, .18);
 }
 
 .juego4__tutorial-opciones
 .tutorial-letra-correcta {
-    background: #FFF3C7;
+    background: #FFF9E8;
 
     border-color: #FFC64B;
 
@@ -601,10 +692,16 @@
         opcionCorrecta .7s ease-in-out infinite;
 }
 
+
+/* =========================================================
+INDICACIÓN
+========================================================= */
+
 .juego4__tutorial-indicacion {
     min-height: 42px;
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
@@ -631,47 +728,20 @@
         dedoMovimiento .7s ease-in-out infinite;
 }
 
-.juego4__tutorial-avanzar {
-    margin-top: 15px;
 
-    width: 52px;
-    height: 52px;
+/* =========================================================
+BOTONES DEL TUTORIAL
+========================================================= */
 
-    border: none;
-
-    border-radius: 50%;
-
-    background: #3DBFB8;
-
-    color: #FFFFFF;
-
-    font-family: sans-serif;
-
-    font-size: 1.8rem;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 5px 0 rgba(35, 127, 122, .25);
-
-    transition:
-        transform .15s ease;
-}
-
-.juego4__tutorial-avanzar:hover {
-    transform: translateY(-2px);
-}
-
-.juego4__tutorial-avanzar:active {
-    transform: translateY(3px);
-}
 .juego4__tutorial-botones {
     display: flex;
+
     align-items: center;
     justify-content: center;
-    gap: 12px;
 
-    margin-top: 15px;
+    gap: 18px;
+
+    margin-top: 10px;
 }
 
 .juego4__tutorial-repetir,
@@ -679,46 +749,83 @@
     width: 52px;
     height: 52px;
 
-    border: none;
     border-radius: 50%;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     cursor: pointer;
 
-    font-family: sans-serif;
-    font-size: 1.7rem;
+    font-family: Arial, sans-serif;
+
+    font-size: 27px;
+
+    line-height: 1;
 
     transition:
-        transform .15s ease;
+        transform .15s ease,
+        background .15s ease,
+        box-shadow .15s ease;
 }
 
 .juego4__tutorial-repetir {
-    background: #f7906e;
-    color: #ae4f2a;
+    background: #FFFFFF;
+
+    border: 3px solid #3DBFB8;
+
+    color: #237F7A;
 
     box-shadow:
-        0 5px 0 rgba(255, 138, 91, .2);
+        0 6px 0 rgba(74, 59, 120, .18);
 }
 
 .juego4__tutorial-avanzar {
     background: #3DBFB8;
+
+    border: 3px solid #3DBFB8;
+
     color: #FFFFFF;
 
     box-shadow:
-        0 5px 0 rgba(35, 127, 122, .25);
+        0 6px 0 rgba(74, 59, 120, .18);
 }
 
 .juego4__tutorial-repetir:hover,
 .juego4__tutorial-avanzar:hover {
-    transform: translateY(-2px);
+    transform: scale(1.08);
 }
 
 .juego4__tutorial-repetir:active,
 .juego4__tutorial-avanzar:active {
-    transform: translateY(3px);
+    transform: translateY(3px) scale(.98);
+
+    box-shadow:
+        0 2px 0 rgba(74, 59, 120, .18);
+}
+
+
+/* =========================================================
+ANIMACIONES DEL TUTORIAL
+========================================================= */
+
+@keyframes tutorialImageAppear {
+
+    0% {
+        opacity: 0;
+        transform: scale(.75);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes opcionCorrecta {
@@ -793,41 +900,10 @@
     }
 }
 
-@media (max-width: 520px) {
-
-    .juego4__tutorial-contenido {
-        width: min(360px, 92vw);
-
-        padding:
-            25px 18px 18px;
-    }
-
-    .juego4__tutorial-palabra {
-        font-size: 1.8rem;
-
-        gap: 5px;
-    }
-
-    .juego4__tutorial-palabra span {
-        width: 36px;
-        height: 46px;
-    }
-
-    .juego4__tutorial-opciones {
-        max-width: 240px;
-    }
-
-    .juego4__tutorial-opciones button {
-        height: 44px;
-
-        font-size: 1.1rem;
-    }
-}
-
 
 /* =========================================================
-   ANIMACIONES
-   ========================================================= */
+ANIMACIONES GENERALES
+========================================================= */
 
 @keyframes feedbackCorrecto {
 
@@ -843,7 +919,6 @@
         transform: scale(1);
     }
 }
-
 
 @keyframes feedbackIncorrecto {
 
@@ -863,8 +938,80 @@
 
 
 /* =========================================================
-   PANTALLAS PEQUEÑAS
-   ========================================================= */
+TUTORIAL - PANTALLAS PEQUEÑAS
+========================================================= */
+
+@media (max-width: 520px) {
+
+    .juego4__tutorial {
+        padding: 14px;
+    }
+
+    .juego4__tutorial-contenido {
+        width: min(380px, 92vw);
+
+        padding: 22px 18px 20px;
+
+        border-radius: 25px;
+    }
+
+    .juego4__tutorial-titulo {
+        font-size: 1.3rem;
+
+        margin-bottom: 10px;
+    }
+
+    .juego4__tutorial-imagen {
+        width: 125px;
+        height: 125px;
+
+        margin-bottom: 10px;
+
+        font-size: 2.8rem;
+    }
+
+    .juego4__tutorial-palabra {
+        font-size: 1.7rem;
+
+        gap: 5px;
+
+        margin-bottom: 13px;
+    }
+
+    .juego4__tutorial-palabra span {
+        width: 35px;
+        height: 43px;
+    }
+
+    .juego4__tutorial-opciones {
+        max-width: 270px;
+
+        gap: 8px;
+    }
+
+    .juego4__tutorial-opciones button {
+        height: 52px;
+
+        font-size: 1.15rem;
+
+        border-width: 2.5px;
+    }
+
+    .juego4__tutorial-indicacion {
+        font-size: .85rem;
+    }
+
+    .juego4__tutorial-botones {
+        margin-top: 8px;
+
+        gap: 15px;
+    }
+}
+
+
+/* =========================================================
+JUEGO - PANTALLAS PEQUEÑAS
+========================================================= */
 
 @media (max-width: 520px) {
 
@@ -873,17 +1020,14 @@
             15px 12px 20px;
     }
 
-
     .juego4__imagen-contenedor {
         width: 155px;
         height: 155px;
     }
 
-
     .juego4__palabra {
         margin-top: 10px;
     }
-
 
     .juego4__letra {
         width: 38px;
@@ -891,7 +1035,6 @@
 
         font-size: 1.7rem;
     }
-
 
     .juego4__opciones {
         max-width: 350px;
@@ -901,13 +1044,11 @@
         margin-top: 10px;
     }
 
-
     .juego4__opcion {
         height: 46px;
 
         font-size: 1.25rem;
     }
-
 
     .juego4__feedback {
         margin-top: 7px;
@@ -916,14 +1057,12 @@
     }
 }
 
-
 @media (max-width: 380px) {
 
     .juego4__imagen-contenedor {
         width: 135px;
         height: 135px;
     }
-
 
     .juego4__letra {
         width: 32px;
@@ -932,13 +1071,11 @@
         font-size: 1.5rem;
     }
 
-
     .juego4__opciones {
         max-width: 310px;
 
         gap: 7px;
     }
-
 
     .juego4__opcion {
         height: 43px;
