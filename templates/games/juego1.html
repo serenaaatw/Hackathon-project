@@ -4,7 +4,6 @@
 EDUSEÑAS — JUEGO
 {% endblock %}
 
-
 {% block styles %}
 
 <link
@@ -14,18 +13,15 @@ EDUSEÑAS — JUEGO
 
 {% endblock %}
 
-
 {% block content %}
 
 <div class="trail" id="trail"></div>
 
-
 <main class="stage">
 
     <p class="stage__eyebrow">
-        {{ categoria_nombre }}
+        JUEGO
     </p>
-
 
     <button
         class="mode-toggle"
@@ -38,7 +34,6 @@ EDUSEÑAS — JUEGO
         </span>
     </button>
 
-
     <section
         class="prompt-card"
         id="promptImageCard"
@@ -50,7 +45,6 @@ EDUSEÑAS — JUEGO
         ></div>
 
     </section>
-
 
     <section
         class="prompt-card prompt-card--video"
@@ -68,22 +62,18 @@ EDUSEÑAS — JUEGO
                 hidden
             ></video>
 
-
             <div
                 class="video-frame__placeholder"
                 id="videoPlaceholder"
             >
-
                 <p>
                     VIDEO LSA
                 </p>
-
             </div>
 
         </div>
 
     </section>
-
 
     <p
         class="stage__instruction"
@@ -92,12 +82,10 @@ EDUSEÑAS — JUEGO
         TOCÁ LA PALABRA QUE CORRESPONDE
     </p>
 
-
     <div
         class="options"
         id="options"
     ></div>
-
 
     <p
         class="feedback"
@@ -106,8 +94,11 @@ EDUSEÑAS — JUEGO
 
 </main>
 
-
-<div class="tutorial" id="tutorial" hidden>
+<div
+    class="tutorial"
+    id="tutorial"
+    hidden
+>
 
     <div class="tutorial__background"></div>
 
@@ -117,23 +108,46 @@ EDUSEÑAS — JUEGO
             class="tutorial__close"
             id="tutorialClose"
             type="button"
-            aria-label="Cerrar">
+            aria-label="Cerrar"
+        >
             ×
         </button>
 
         <div class="tutorial__progress">
-            <span class="tutorial-dot tutorial-dot--active"></span>
-            <span class="tutorial-dot"></span>
-            <span class="tutorial-dot"></span>
+
+            <span
+                class="tutorial-dot tutorial-dot--active"
+            ></span>
+
+            <span
+                class="tutorial-dot"
+            ></span>
+
+            <span
+                class="tutorial-dot"
+            ></span>
+
         </div>
 
-        <div class="tutorial__content" id="tutorialContent">
+        <div
+            class="tutorial__content"
+            id="tutorialContent"
+        >
 
             <div class="tutorial__image">
-                <img id="tutorialImage" src="" alt="">
+
+                <img
+                    id="tutorialImage"
+                    src=""
+                    alt=""
+                >
+
             </div>
 
-            <div class="tutorial__options" id="tutorialOptions"></div>
+            <div
+                class="tutorial__options"
+                id="tutorialOptions"
+            ></div>
 
         </div>
 
@@ -143,7 +157,8 @@ EDUSEÑAS — JUEGO
                 class="tutorial__repeat"
                 id="tutorialRepeat"
                 type="button"
-                aria-label="Repetir tutorial">
+                aria-label="Repetir tutorial"
+            >
                 ↶
             </button>
 
@@ -151,7 +166,8 @@ EDUSEÑAS — JUEGO
                 class="tutorial__next"
                 id="tutorialNext"
                 type="button"
-                aria-label="Continuar">
+                aria-label="Continuar"
+            >
                 →
             </button>
 
@@ -160,30 +176,37 @@ EDUSEÑAS — JUEGO
     </div>
 
 </div>
-{% endblock %}
 
+{% endblock %}
 
 {% block scripts %}
 
-    <script>
+<script>
 
-        const PALABRAS =
-            {{ palabras | tojson }};
+    const PALABRAS =
+        {{ palabras | tojson }};
 
-        const IMG_BASE =
-            "{{ url_for('static', filename='img/' + categoria_slug) }}/";
+</script>
 
-        const VIDEO_BASE =
-            "{{ url_for('static', filename='videos/lsa/' + categoria_slug) }}/";
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/progreso.js'
+    ) }}"
+></script>
 
-    </script>
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/juego1.js'
+    ) }}"
+></script>
 
-
-    <script
-        src="{{ url_for(
-            'static',
-            filename='javascript/games.js'
-        ) }}"
-    ></script>
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/games.js'
+    ) }}"
+></script>
 
 {% endblock %}

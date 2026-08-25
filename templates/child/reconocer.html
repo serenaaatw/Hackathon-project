@@ -3,34 +3,30 @@
 {% block title %}EDUSEÑAS — RECONOCER{% endblock %}
 
 {% block styles %}
+
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/reconocer.css') }}"
 >
+
 {% endblock %}
 
 {% block content %}
 
 <main class="learning-stage">
 
-    <!-- PROGRESO -->
     <div
         class="learning-progress"
         id="learningProgress"
         aria-label="PROGRESO DEL APRENDIZAJE">
     </div>
 
-
-    <!-- CATEGORÍA -->
     <div class="learning-category">
         {{ categoria_nombre }}
     </div>
 
-
-    <!-- TARJETA DE APRENDIZAJE -->
     <section class="learning-card">
 
-        <!-- VIDEO DE LSA -->
         <div class="learning-video">
 
             <video
@@ -51,8 +47,6 @@
 
         </div>
 
-
-        <!-- IMAGEN DEL CONCEPTO -->
         <div class="learning-image">
 
             <img
@@ -62,8 +56,6 @@
 
         </div>
 
-
-        <!-- PALABRA -->
         <div class="learning-word">
 
             <span id="wordText"></span>
@@ -72,8 +64,6 @@
 
     </section>
 
-
-    <!-- BOTONES -->
     <div class="learning-navigation">
 
         <button
@@ -85,7 +75,6 @@
             &lt;
 
         </button>
-
 
         <button
             id="btnNext"
@@ -103,7 +92,6 @@
 
 {% endblock %}
 
-
 {% block scripts %}
 
 <script>
@@ -116,8 +104,9 @@
     const VIDEO_BASE =
         "{{ url_for('static', filename='videos/lsa/' + categoria_slug) }}/";
 
-    const URL_JUEGO =
-        "{{ url_for('game.juego1', categoria_slug=categoria_slug) }}";
+
+    const URL_INICIAR_EJERCICIOS =
+        "{{ url_for('learning.iniciar_ejercicios') }}";
 
 </script>
 

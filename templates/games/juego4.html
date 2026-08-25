@@ -4,7 +4,6 @@
     Letra faltante - EDUseñas
 {% endblock %}
 
-
 {% block styles %}
 
 <link
@@ -13,7 +12,6 @@
 >
 
 {% endblock %}
-
 
 {% block content %}
 
@@ -30,14 +28,12 @@
             {{ categoria_nombre }}
         </span>
 
-
         <div
             class="juego4__progreso"
             id="progreso"
         ></div>
 
     </div>
-
 
     <div class="juego4__consigna">
 
@@ -48,7 +44,6 @@
     </div>
 
     <div class="juego4__contenido">
-
 
         <div class="juego4__imagen-contenedor">
 
@@ -61,20 +56,15 @@
 
         </div>
 
-
         <div
             class="juego4__palabra"
             id="palabra"
         ></div>
 
-
         <div
             class="juego4__opciones"
             id="opciones"
         ></div>
-
-
-        <!-- FEEDBACK -->
 
         <div
             class="juego4__feedback"
@@ -84,111 +74,115 @@
     </div>
 
     <div
-    class="juego4__tutorial"
-    id="tutorial"
->
-    <div class="juego4__tutorial-contenido">
+        class="juego4__tutorial"
+        id="tutorial"
+    >
 
-        <button
-            type="button"
-            class="juego4__tutorial-cerrar"
-            id="cerrarTutorial"
-            aria-label="Cerrar tutorial"
-        >
-            ×
-        </button>
-
-        <div class="juego4__tutorial-imagen">
-            <img
-                src="{{ url_for('static', filename='img/animales/perro.png') }}"
-                alt="Perro"
-            >
-        </div>
-
-        <div
-            class="juego4__tutorial-palabra"
-            id="tutorialPalabra"
-        >
-            <span>P</span>
-            <span class="tutorial-faltante">_</span>
-            <span>R</span>
-            <span>R</span>
-            <span>O</span>
-        </div>
-
-        <div
-            class="juego4__tutorial-opciones"
-            id="tutorialOpciones"
-        >
-            <button type="button">A</button>
-            <button
-                type="button"
-                class="tutorial-letra-correcta"
-            >
-                E
-            </button>
-            <button type="button">I</button>
-
-            <button type="button">O</button>
-            <button type="button">U</button>
-            <button type="button">M</button>
-        </div>
-
-        <div class="juego4__tutorial-indicacion">
-            <span id="tutorialIndicador">👆</span>
-            <span id="tutorialTexto">
-                ELEGÍ LA LETRA QUE FALTA
-            </span>
-        </div>
-
-        <div class="juego4__tutorial-botones">
+        <div class="juego4__tutorial-contenido">
 
             <button
                 type="button"
-                class="juego4__tutorial-repetir"
-                id="repetirTutorial"
-                aria-label="Repetir tutorial"
-                title="Repetir"
+                class="juego4__tutorial-cerrar"
+                id="cerrarTutorial"
+                aria-label="Cerrar tutorial"
             >
-                ↻
+                ×
             </button>
 
-            <button
-                type="button"
-                class="juego4__tutorial-avanzar"
-                id="avanzarTutorial"
-                aria-label="Continuar"
-                title="Continuar"
+            <div class="juego4__tutorial-imagen">
+
+                <img
+                    src="{{ url_for('static', filename='img/animales/perro.png') }}"
+                    alt="Perro"
+                >
+
+            </div>
+
+            <div
+                class="juego4__tutorial-palabra"
+                id="tutorialPalabra"
             >
-                →
-            </button>
+
+                <span>P</span>
+                <span class="tutorial-faltante">_</span>
+                <span>R</span>
+                <span>R</span>
+                <span>O</span>
+
+            </div>
+
+            <div
+                class="juego4__tutorial-opciones"
+                id="tutorialOpciones"
+            >
+
+                <button type="button">A</button>
+
+                <button
+                    type="button"
+                    class="tutorial-letra-correcta"
+                >
+                    E
+                </button>
+
+                <button type="button">I</button>
+                <button type="button">O</button>
+                <button type="button">U</button>
+                <button type="button">M</button>
+
+            </div>
+
+            <div class="juego4__tutorial-indicacion">
+
+                <span id="tutorialIndicador">
+                    👆
+                </span>
+
+                <span id="tutorialTexto">
+                    ELEGÍ LA LETRA QUE FALTA
+                </span>
+
+            </div>
+
+            <div class="juego4__tutorial-botones">
+
+                <button
+                    type="button"
+                    class="juego4__tutorial-repetir"
+                    id="repetirTutorial"
+                    aria-label="Repetir tutorial"
+                    title="Repetir"
+                >
+                    ↻
+                </button>
+
+                <button
+                    type="button"
+                    class="juego4__tutorial-avanzar"
+                    id="avanzarTutorial"
+                    aria-label="Continuar"
+                    title="Continuar"
+                >
+                    →
+                </button>
+
+            </div>
 
         </div>
 
     </div>
-   
-
-</div>
 
 </section>
 
 {% endblock %}
-
 
 {% block scripts %}
 
 <script>
 
     const PALABRAS = {{ palabras | tojson }};
+
     window.PALABRAS = PALABRAS;
-
-    const CATEGORIA = "{{ categoria_slug }}";
-
-    const IMG_BASE =
-        "{{ url_for('static', filename='img/') }}";
-
-    const DIFICULTAD =
-        {{ dificultad }};
 
 </script>
 

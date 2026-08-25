@@ -4,7 +4,6 @@
 EDUSEÑAS — UNIR
 {% endblock %}
 
-
 {% block styles %}
 
 <link
@@ -14,11 +13,9 @@ EDUSEÑAS — UNIR
 
 {% endblock %}
 
-
 {% block content %}
 
 <div class="trail" id="trail"></div>
-
 
 <main class="stage">
 
@@ -26,23 +23,43 @@ EDUSEÑAS — UNIR
         {{ categoria_nombre }}
     </p>
 
-    <p class="stage__round" id="roundLabel"></p>
+    <p
+        class="stage__round"
+        id="roundLabel">
+    </p>
 
-    <p class="stage__instruction" id="instruction">
+    <p
+        class="stage__instruction"
+        id="instruction">
         UNÍ CADA IMAGEN CON SU PALABRA
     </p>
 
     <div class="unir-board">
-        <div class="unir-col unir-col--images" id="colImagenes"></div>
-        <div class="unir-col unir-col--words" id="colPalabras"></div>
+
+        <div
+            class="unir-col unir-col--images"
+            id="colImagenes">
+        </div>
+
+        <div
+            class="unir-col unir-col--words"
+            id="colPalabras">
+        </div>
+
     </div>
 
-    <p class="feedback" id="feedback"></p>
+    <p
+        class="feedback"
+        id="feedback">
+    </p>
 
 </main>
 
-
-<div class="tutorial" id="tutorial" hidden>
+<div
+    class="tutorial"
+    id="tutorial"
+    hidden
+>
 
     <div class="tutorial__background"></div>
 
@@ -56,15 +73,26 @@ EDUSEÑAS — UNIR
             ×
         </button>
 
-        <div class="tutorial__content" id="tutorialContent">
+        <div
+            class="tutorial__content"
+            id="tutorialContent">
 
             <p class="tutorial__label">
-                TOCÁ UNA IMAGEN Y DESPUÉS SU PALABRA
+                TOCÁ Y UNÍ
             </p>
 
             <div class="tutorial__unir-demo">
-                <div class="tutorial__unir-col" id="tutorialImgs"></div>
-                <div class="tutorial__unir-col" id="tutorialWords"></div>
+
+                <div
+                    class="tutorial__unir-col"
+                    id="tutorialImgs">
+                </div>
+
+                <div
+                    class="tutorial__unir-col"
+                    id="tutorialWords">
+                </div>
+
             </div>
 
         </div>
@@ -95,25 +123,23 @@ EDUSEÑAS — UNIR
 
 {% endblock %}
 
-
 {% block scripts %}
 
-    <script>
+<script>
 
-        const PALABRAS =
-            {{ palabras | tojson }};
+    const PALABRAS =
+        {{ palabras | tojson }};
 
-        const IMG_BASE =
-            "{{ url_for('static', filename='img/' + categoria_slug) }}/";
+    const IMG_BASE =
+        "{{ url_for('static', filename='img/' + categoria_slug) }}/";
 
-    </script>
+</script>
 
-
-    <script
-        src="{{ url_for(
-            'static',
-            filename='javascript/unir.js'
-        ) }}"
-    ></script>
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/unir.js'
+    ) }}"
+></script>
 
 {% endblock %}

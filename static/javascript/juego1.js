@@ -1,5 +1,7 @@
 (function () {
 
+    "use strict";
+
     const state = {
         mode: "A",
         order: [],
@@ -14,7 +16,6 @@
     };
 
     const els = {
-
         trail: document.getElementById("trail"),
 
         promptImageCard:
@@ -60,56 +61,121 @@
             document.getElementById("tutorialNext"),
 
         tutorialClose:
-            document.getElementById("tutorialClose"),
-
-        tutorialDots:
-            document.querySelectorAll(".tutorial-dot")
-
+            document.getElementById("tutorialClose")
     };
-
 
     function shuffle(arr) {
 
         const a = [...arr];
 
-        for (let i = a.length - 1; i > 0; i--) {
+        for (
+            let i = a.length - 1;
+            i > 0;
+            i--
+        ) {
 
             const j =
                 Math.floor(
                     Math.random() * (i + 1)
                 );
 
-            [a[i], a[j]] =
-                [a[j], a[i]];
+            [
+                a[i],
+                a[j]
+            ] = [
+                a[j],
+                a[i]
+            ];
 
         }
 
         return a;
+
     }
 
-    function registrarResultado(idWord, correcto) {
-    fetch("/juego/registrar-resultado", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id_word: idWord, correcto: correcto }),
-    }).catch(() => {});
-}
+    function registrarResultado(
+        idWord,
+        correcto
+    ) {
 
+        if (!idWord) {
+            return;
+        }
+
+        fetch(
+            "/juego/registrar-resultado",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    id_word: idWord,
+                    correcto: correcto
+                })
+            }
+        )
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "No se pudo registrar el resultado"
+                );
+            }
+
+            return response.json();
+
+        })
+        .then(function (data) {
+
+            if (
+                data &&
+                data.ok &&
+                data.progreso
+            ) {
+
+                document.dispatchEvent(
+                    new CustomEvent(
+                        "progresoActualizado",
+                        {
+                            detail:
+                                data.progreso
+                        }
+                    )
+                );
+
+            }
+
+        })
+        .catch(function (error) {
+
+            console.error(
+                "Error al registrar progreso:",
+                error
+            );
+
+        });
+
+    }
 
     function currentWord() {
 
         return PALABRAS[
-            state.order[state.index]
+            state.order[
+                state.index
+            ]
         ];
 
     }
-
 
     function buildTrail() {
 
         els.trail.innerHTML = "";
 
-        PALABRAS.forEach(() => {
+        PALABRAS.forEach(function () {
 
             const dot =
                 document.createElement("div");
@@ -123,34 +189,33 @@
 
     }
 
-
     function updateTrail() {
 
-        [...els.trail.children].forEach(
-            (dot, i) => {
+        [
+            ...els.trail.children
+        ].forEach(function (dot, i) {
 
-                dot.classList.toggle(
-                    "is-done",
-                    i < state.index
-                );
+            dot.classList.toggle(
+                "is-done",
+                i < state.index
+            );
 
-                dot.classList.toggle(
-                    "is-current",
-                    i === state.index
-                );
+            dot.classList.toggle(
+                "is-current",
+                i === state.index
+            );
 
-            }
-        );
+        });
 
     }
-
 
     function renderPrompt() {
 
         const item = currentWord();
 
-        if (!item) return;
-
+        if (!item) {
+            return;
+        }
 
         if (state.mode === "A") {
 
@@ -159,7 +224,7 @@
 
             els.promptSticker.innerHTML = `
                 <img
-                    src="${IMG_BASE}${item.image_file}"
+                    src="${item.image_url}"
                     alt="${item.word}"
                     class="prompt-img"
                 >
@@ -182,20 +247,27 @@
 
     }
 
-
     function renderLSAVideo(item) {
 
-        if (!els.lsaVideo || !els.videoPlaceholder) {
+        if (
+            !els.lsaVideo ||
+            !els.videoPlaceholder
+        ) {
             return;
         }
 
         const videoFile =
-            item.video_file ||
-            item.lsa_video ||
-            item.video ||
-            "";
+            item.lsa_video_url;
 
         if (!videoFile) {
+
+            els.lsaVideo.pause();
+
+            els.lsaVideo.removeAttribute(
+                "src"
+            );
+
+            els.lsaVideo.load();
 
             els.lsaVideo.hidden = true;
             els.videoPlaceholder.hidden = false;
@@ -204,39 +276,46 @@
         }
 
         els.lsaVideo.src =
-            `${VIDEO_BASE}${videoFile}`;
+            videoFile;
 
         els.lsaVideo.hidden = false;
         els.videoPlaceholder.hidden = true;
 
         els.lsaVideo.currentTime = 0;
 
-        els.lsaVideo.play().catch(() => {});
+        els.lsaVideo.play()
+            .catch(function () {});
 
     }
-
 
     function renderOptions() {
 
         els.options.innerHTML = "";
 
         els.feedback.textContent = "";
-
-        els.feedback.className =
-            "feedback";
+        els.feedback.className = "feedback";
 
         state.answered = false;
 
-
         const item = currentWord();
+
+        if (!item) {
+            return;
+        }
 
         const distractores =
             shuffle(
                 PALABRAS.filter(
-                    w => w.word !== item.word
+                    function (word) {
+
+                        return (
+                            word.id_word !==
+                            item.id_word
+                        );
+
+                    }
                 )
             ).slice(0, 2);
-
 
         const opciones =
             shuffle([
@@ -244,19 +323,16 @@
                 ...distractores
             ]);
 
-
-        opciones.forEach(opcion => {
+        opciones.forEach(function (opcion) {
 
             const btn =
                 document.createElement("button");
 
             btn.type = "button";
 
-
             if (state.mode === "A") {
 
-                btn.className =
-                    "option";
+                btn.className = "option";
 
                 btn.textContent =
                     opcion.word.toUpperCase();
@@ -268,7 +344,7 @@
 
                 btn.innerHTML = `
                     <img
-                        src="${IMG_BASE}${opcion.image_file}"
+                        src="${opcion.image_url}"
                         alt="${opcion.word}"
                         class="option-img"
                     >
@@ -276,19 +352,19 @@
 
             }
 
-
             btn.addEventListener(
                 "click",
-                () => {
+                function () {
 
                     handleAnswer(
                         btn,
-                        opcion.word === item.word, item.id_word
+                        opcion.id_word ===
+                            item.id_word,
+                        item.id_word
                     );
 
                 }
             );
-
 
             els.options.appendChild(btn);
 
@@ -296,8 +372,11 @@
 
     }
 
-
-    function handleAnswer(btn, correcto, idWord) {
+    function handleAnswer(
+        btn,
+        correcto,
+        idWord
+    ) {
 
         if (state.answered) {
             return;
@@ -305,13 +384,20 @@
 
         state.answered = true;
 
-        registrarResultado(idWord, correcto);
-
-
-        [...els.options.children].forEach(
-            b => b.classList.add("is-disabled")
+        registrarResultado(
+            idWord,
+            correcto
         );
 
+        [
+            ...els.options.children
+        ].forEach(function (button) {
+
+            button.classList.add(
+                "is-disabled"
+            );
+
+        });
 
         if (correcto) {
 
@@ -330,9 +416,10 @@
                 "is-success"
             );
 
-
             setTimeout(
-                nextWord,
+                function () {
+                    nextWord();
+                },
                 1100
             );
 
@@ -353,38 +440,100 @@
                 "is-retry"
             );
 
+            setTimeout(
+                function () {
 
-            setTimeout(() => {
+                    [
+                        ...els.options.children
+                    ].forEach(function (button) {
 
-                [...els.options.children].forEach(
-                    b => {
-
-                        b.classList.remove(
+                        button.classList.remove(
                             "is-disabled",
                             "is-wrong"
                         );
 
-                    }
-                );
+                    });
 
-                els.feedback.textContent = "";
+                    els.feedback.textContent =
+                        "";
 
-                els.feedback.className =
-                    "feedback";
+                    els.feedback.className =
+                        "feedback";
 
-                state.answered = false;
+                    state.answered = false;
 
-            }, 900);
+                },
+                900
+            );
 
         }
 
     }
 
+    function completarJuego1() {
+
+        fetch(
+            "/juego/completar",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    numero_juego: 1
+                })
+            }
+        )
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error(
+                    "No se pudo completar el Juego 1"
+                );
+            }
+
+            return response.json();
+
+        })
+        .then(function (data) {
+
+            if (!data.ok) {
+                throw new Error(
+                    "El servidor no pudo completar el Juego 1"
+                );
+            }
+
+            if (data.ronda_completada) {
+
+                window.location.assign(
+                    "/aprender/"
+                );
+
+                return;
+            }
+
+            window.location.assign(
+                "/juego/unir"
+            );
+
+        })
+        .catch(function (error) {
+
+            console.error(
+                "Error al completar el Juego 1:",
+                error
+            );
+
+        });
+
+    }
 
     function nextWord() {
 
         state.index++;
-
 
         if (
             state.index >=
@@ -398,7 +547,9 @@
                 state.order =
                     shuffle(
                         PALABRAS.map(
-                            (_, i) => i
+                            function (_, i) {
+                                return i;
+                            }
                         )
                     );
 
@@ -411,29 +562,18 @@
                 showTutorial("B");
 
                 return;
-
-            } else {
-
-                state.order =
-                    shuffle(
-                        PALABRAS.map(
-                            (_, i) => i
-                        )
-                    );
-
-                state.index = 0;
-
             }
 
-        }
+            completarJuego1();
 
+            return;
+        }
 
         updateTrail();
         renderPrompt();
         renderOptions();
 
     }
-
 
     function clearTutorialTimer() {
 
@@ -449,25 +589,27 @@
 
     }
 
-
     function clearTutorialAnimation() {
 
         clearTutorialTimer();
 
-        [...els.tutorialOptions.children].forEach(
-            option => {
+        if (!els.tutorialOptions) {
+            return;
+        }
 
-                option.classList.remove(
-                    "tutorial-option--highlight",
-                    "tutorial-option--success",
-                    "tutorial__fake-word--pop"
-                );
+        [
+            ...els.tutorialOptions.children
+        ].forEach(function (option) {
 
-            }
-        );
+            option.classList.remove(
+                "tutorial-option--highlight",
+                "tutorial-option--success",
+                "tutorial__fake-word--pop"
+            );
+
+        });
 
     }
-
 
     function createTutorialOptions(item) {
 
@@ -476,10 +618,16 @@
         const distractores =
             shuffle(
                 PALABRAS.filter(
-                    w => w.word !== item.word
+                    function (word) {
+
+                        return (
+                            word.id_word !==
+                            item.id_word
+                        );
+
+                    }
                 )
             ).slice(0, 2);
-
 
         const opciones =
             shuffle([
@@ -487,18 +635,18 @@
                 ...distractores
             ]);
 
-
-        opciones.forEach(opcion => {
+        opciones.forEach(function (opcion) {
 
             const option =
                 document.createElement("div");
 
-
             option.className =
                 "tutorial__fake-word";
 
-
-            if (tutorialState.mode === "A") {
+            if (
+                tutorialState.mode ===
+                "A"
+            ) {
 
                 option.textContent =
                     opcion.word.toUpperCase();
@@ -507,19 +655,18 @@
 
                 option.innerHTML = `
                     <img
-                        src="${IMG_BASE}${opcion.image_file}"
+                        src="${opcion.image_url}"
                         alt=""
                     >
                 `;
 
             }
 
-
             option.dataset.correct =
-                opcion.word === item.word
+                opcion.id_word ===
+                item.id_word
                     ? "true"
                     : "false";
-
 
             els.tutorialOptions.appendChild(
                 option
@@ -528,7 +675,6 @@
         });
 
     }
-
 
     function createTutorialVideo(item) {
 
@@ -541,18 +687,12 @@
             existingVideo.remove();
         }
 
-
         const videoFile =
-            item.video_file ||
-            item.lsa_video ||
-            item.video ||
-            "";
-
+            item.lsa_video_url;
 
         if (!videoFile) {
             return;
         }
-
 
         const video =
             document.createElement("video");
@@ -569,103 +709,112 @@
         );
 
         video.muted = true;
-
         video.autoplay = true;
-
         video.loop = true;
 
         video.src =
-            `${VIDEO_BASE}${videoFile}`;
-
+            videoFile;
 
         els.tutorialContent.insertBefore(
             video,
             els.tutorialImage
         );
 
-
-        video.play().catch(() => {});
+        video.play()
+            .catch(function () {});
 
     }
-
 
     function showCorrectAnimation() {
 
         clearTutorialTimer();
 
-        const opciones =
-            [...els.tutorialOptions.children];
+        const opciones = [
+            ...els.tutorialOptions.children
+        ];
 
         const correcta =
             opciones.find(
-                option =>
-                    option.dataset.correct === "true"
+                function (option) {
+
+                    return (
+                        option.dataset.correct ===
+                        "true"
+                    );
+
+                }
             );
 
         if (!correcta) {
             return;
         }
 
-        tutorialState.timer = setTimeout(() => {
+        tutorialState.timer =
+            setTimeout(
+                function () {
 
-            correcta.classList.add(
-                "tutorial-option--highlight"
+                    correcta.classList.add(
+                        "tutorial-option--highlight"
+                    );
+
+                    tutorialState.timer =
+                        setTimeout(
+                            function () {
+
+                                correcta.classList.remove(
+                                    "tutorial-option--highlight"
+                                );
+
+                                correcta.classList.add(
+                                    "tutorial-option--success"
+                                );
+
+                                correcta.classList.add(
+                                    "tutorial__fake-word--pop"
+                                );
+
+                            },
+                            2500
+                        );
+
+                },
+                900
             );
 
-            tutorialState.timer = setTimeout(() => {
-
-                correcta.classList.remove(
-                    "tutorial-option--highlight"
-                );
-
-                correcta.classList.add(
-                    "tutorial-option--success"
-                );
-
-                correcta.classList.add(
-                    "tutorial__fake-word--pop"
-                );
-
-            }, 2500);
-
-        }, 900);
-
     }
-
 
     function renderTutorial() {
 
         clearTutorialAnimation();
 
-
         const item =
             PALABRAS[0];
-
 
         if (!item) {
             return;
         }
 
-
         els.tutorialImage.src =
-            `${IMG_BASE}${item.image_file}`;
+            item.image_url;
 
+        els.tutorialImage.alt =
+            item.word;
 
         createTutorialOptions(item);
-
 
         const existingVideo =
             document.getElementById(
                 "tutorialLsaVideo"
             );
 
-
         if (existingVideo) {
             existingVideo.remove();
         }
 
-
-        if (tutorialState.mode === "B") {
+        if (
+            tutorialState.mode ===
+            "B"
+        ) {
 
             els.tutorialImage.style.display =
                 "none";
@@ -679,58 +828,65 @@
 
         }
 
-
         showCorrectAnimation();
 
     }
-
 
     function showTutorial(mode) {
 
         clearTutorialTimer();
 
-        tutorialState.mode = mode;
+        tutorialState.mode =
+            mode;
 
-        tutorialState.active = true;
+        tutorialState.active =
+            true;
 
+        if (!els.tutorial) {
+            return;
+        }
 
         els.tutorial.hidden = false;
 
+        requestAnimationFrame(
+            function () {
 
-        requestAnimationFrame(() => {
+                els.tutorial.classList.add(
+                    "tutorial--visible"
+                );
 
-            els.tutorial.classList.add(
-                "tutorial--visible"
-            );
-
-        });
-
+            }
+        );
 
         renderTutorial();
 
     }
 
-
     function closeTutorial() {
 
         clearTutorialTimer();
 
-        tutorialState.active = false;
+        tutorialState.active =
+            false;
 
+        if (!els.tutorial) {
+            return;
+        }
 
         els.tutorial.classList.remove(
             "tutorial--visible"
         );
 
+        setTimeout(
+            function () {
 
-        setTimeout(() => {
+                els.tutorial.hidden = true;
 
-            els.tutorial.hidden = true;
-
-        }, 450);
+            },
+            450
+        );
 
     }
-
 
     function repeatTutorial() {
 
@@ -740,7 +896,6 @@
 
     }
 
-
     function initTutorial() {
 
         if (!els.tutorial) {
@@ -748,75 +903,94 @@
         }
 
         if (els.tutorialRepeat) {
+
             els.tutorialRepeat.addEventListener(
                 "click",
-                function (e) {
-                    e.preventDefault();
+                function (event) {
+
+                    event.preventDefault();
+
                     repeatTutorial();
+
                 }
             );
+
         }
 
         if (els.tutorialNext) {
+
             els.tutorialNext.addEventListener(
                 "click",
-                function (e) {
-                    e.preventDefault();
+                function (event) {
+
+                    event.preventDefault();
+
                     closeTutorial();
+
                 }
             );
+
         }
 
         if (els.tutorialClose) {
+
             els.tutorialClose.addEventListener(
                 "click",
-                function (e) {
-                    e.preventDefault();
+                function (event) {
+
+                    event.preventDefault();
+
                     closeTutorial();
+
                 }
             );
+
         }
 
-        setTimeout(() => {
-            showTutorial("A");
-        }, 700);
+        setTimeout(
+            function () {
+
+                showTutorial("A");
+
+            },
+            700
+        );
+
     }
 
     function init() {
 
         if (
-            !PALABRAS ||
+            !Array.isArray(PALABRAS) ||
             PALABRAS.length < 3
         ) {
 
-            els.instruction.textContent =
-                "ESTA CATEGORÍA TODAVÍA NO TIENE SUFICIENTES PALABRAS.";
+            if (els.instruction) {
+
+                els.instruction.textContent =
+                    "NO HAY SUFICIENTES PALABRAS PARA ESTE JUEGO.";
+
+            }
 
             return;
-
         }
-
 
         state.order =
             shuffle(
                 PALABRAS.map(
-                    (_, i) => i
+                    function (_, i) {
+                        return i;
+                    }
                 )
             );
 
-
         buildTrail();
-
         updateTrail();
-
         renderPrompt();
-
         renderOptions();
-
         initTutorial();
 
     }
-
 
     init();
 

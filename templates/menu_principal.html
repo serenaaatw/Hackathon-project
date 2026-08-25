@@ -59,9 +59,10 @@
             </a>
 
 
-            <a href="/progreso"
-            class="menu-card menu-card--progress">
-
+            <a
+                href="{{ url_for('progress.progreso') }}"
+                class="menu-card menu-card--progress"
+            >
                 <div class="menu-card__image">
                     <img
                         src="{{ url_for('static', filename='img/iconos/progreso.png') }}"

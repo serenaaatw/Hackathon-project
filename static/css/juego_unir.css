@@ -1,21 +1,15 @@
 :root {
     --bg: #FCF7EC;
-
     --turquoise: #3DBFB8;
     --turquoise-dark: #237F7A;
     --turquoise-pale: #E3F6F4;
-
     --yellow: #FFC64B;
     --coral: #FF7A59;
-
     --ink: #4A3B78;
-
     --success: #3FA772;
     --success-bg: #E7F6EE;
-
     --retry: #FF8A5B;
     --retry-bg: #FFF0E6;
-
     --white: #FFFFFF;
 
     --radius-lg: 28px;
@@ -40,7 +34,6 @@
 body {
     margin: 0;
     min-height: 100vh;
-
     background:
         radial-gradient(
             circle at 12% 8%,
@@ -53,47 +46,37 @@ body {
             transparent 45%
         ),
         var(--bg);
-
     font-family: var(--font-body);
     color: var(--ink);
-
     -webkit-font-smoothing: antialiased;
 }
 
 .stage {
     width: 100%;
     min-height: calc(100vh - 100px);
-
     display: flex;
     flex-direction: column;
     align-items: center;
-
     margin-top: 18px;
-    padding-bottom: 40px;
+    padding: 0 20px 40px;
 }
 
 .trail {
     display: flex;
     justify-content: center;
     align-items: center;
-
     gap: 10px;
     margin: 22px 0 6px;
-
     min-height: 20px;
 }
 
 .trail__step {
     width: 15px;
     height: 15px;
-
     border-radius: 50%;
-
     background: var(--white);
     border: 2.5px solid var(--turquoise);
-
     opacity: .5;
-
     transition:
         transform .2s ease,
         background .2s ease,
@@ -103,111 +86,97 @@ body {
 .trail__step.is-done {
     background: var(--turquoise);
     opacity: 1;
+    transform: scale(1.05);
+}
+
+.trail__step.is-current {
+    opacity: 1;
+    transform: scale(1.2);
+    border-color: var(--yellow);
+    background: var(--yellow);
 }
 
 .stage__eyebrow {
     font-family: var(--font-body);
     font-weight: 800;
-
     font-size: .78rem;
     letter-spacing: .06em;
-
     text-transform: uppercase;
-
     color: var(--turquoise-dark);
     background: var(--turquoise-pale);
-
     padding: 7px 16px;
     border-radius: 999px;
+    margin: 0 0 12px;
+}
 
-    margin: 0 0 18px;
+.stage__round {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: .85rem;
+    color: var(--coral);
+    margin: 0 0 4px;
+    text-align: center;
+    text-transform: uppercase;
 }
 
 .stage__instruction {
     font-family: var(--font-display);
     font-weight: 600;
-
-    font-size: 1.15rem;
-
+    font-size: 1.1rem;
     color: var(--ink);
-
     margin: 4px 0 22px;
-
     text-align: center;
-
     text-transform: uppercase;
 }
-
-.stage__round {
-    font-family: var(--font-body);
-    font-weight: 700;
-
-    font-size: .85rem;
-
-    color: var(--coral);
-
-    margin: 0 0 4px;
-
-    text-align: center;
-
-    text-transform: uppercase;
-}
-
-/* ---------- Tablero de Unir ---------- */
 
 .unir-board {
     width: 100%;
-    max-width: 460px;
-
+    max-width: 520px;
     display: flex;
-    justify-content: space-between;
-
+    justify-content: center;
     gap: 24px;
 }
 
 .unir-col {
     flex: 1;
-
     display: flex;
     flex-direction: column;
-
     gap: 14px;
+    max-width: 220px;
 }
 
 .unir-item {
+    width: 100%;
     font-family: var(--font-display);
     font-weight: 600;
-
     font-size: 1rem;
-
     color: var(--ink);
     background: var(--white);
-
     border: 3px solid var(--turquoise);
     border-radius: var(--radius-md);
-
     box-shadow: var(--shadow-btn);
-
     padding: 14px 10px;
-
     cursor: pointer;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     min-height: 84px;
-
     transition:
-        transform .1s ease,
-        box-shadow .1s ease,
-        background .15s ease;
-
+        transform .15s ease,
+        box-shadow .15s ease,
+        background .15s ease,
+        border-color .15s ease;
     text-transform: uppercase;
 }
 
 .unir-item:hover {
     background: var(--turquoise-pale);
+    transform: translateY(-2px);
+}
+
+.unir-item:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 rgba(74, 59, 120, .18);
 }
 
 .unir-item:focus-visible {
@@ -216,28 +185,26 @@ body {
 }
 
 .unir-item__img {
-    width: 56px;
-    height: 56px;
-
+    width: 60px;
+    height: 60px;
     object-fit: contain;
 }
 
 .unir-item.is-selected {
     border-color: var(--yellow);
     background: #FFF8E8;
-
     transform: scale(1.04);
+    box-shadow:
+        0 6px 0 rgba(255, 198, 75, .25);
 }
 
 .unir-item.is-matched {
     background: var(--success-bg);
     border-color: var(--success);
     color: var(--success);
-
     opacity: .55;
     cursor: default;
     pointer-events: none;
-
     animation: pop .35s ease;
 }
 
@@ -245,7 +212,6 @@ body {
     background: var(--retry-bg);
     border-color: var(--retry);
     color: var(--retry);
-
     animation: shake .35s ease;
 }
 
@@ -280,16 +246,11 @@ body {
 
 .feedback {
     min-height: 30px;
-
     margin-top: 18px;
-
     font-family: var(--font-display);
     font-weight: 600;
-
     font-size: 1.05rem;
-
     text-align: center;
-
     text-transform: uppercase;
 }
 
@@ -301,44 +262,16 @@ body {
     color: var(--retry);
 }
 
-@media (max-width: 380px) {
-    .unir-board {
-        gap: 12px;
-    }
-
-    .unir-item {
-        font-size: .85rem;
-        padding: 10px 6px;
-        min-height: 68px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.001ms !important;
-        transition-duration: 0.001ms !important;
-    }
-}
-
-/* ---------- Tutorial (misma ventana modal que los demás juegos) ---------- */
-
 .tutorial {
     position: fixed;
-
     inset: 0;
-
     z-index: 9999;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     padding: 20px;
-
     opacity: 0;
     visibility: hidden;
-
     transition:
         opacity .4s ease,
         visibility .4s ease;
@@ -355,39 +288,26 @@ body {
 
 .tutorial__background {
     position: absolute;
-
     inset: 0;
-
     background: rgba(74, 59, 120, .35);
-
     backdrop-filter: blur(6px);
 }
 
 .tutorial__card {
     position: relative;
-
     z-index: 2;
-
     width: 100%;
     max-width: 430px;
-
-    min-height: 380px;
-
-    padding: 28px;
-
+    min-height: 390px;
+    padding: 28px 24px 22px;
     background: var(--white);
-
     border-radius: 30px;
-
     box-shadow:
         0 25px 60px rgba(74, 59, 120, .25);
-
     text-align: center;
-
     transform:
         translateY(25px)
         scale(.92);
-
     transition:
         transform .45s ease;
 }
@@ -400,30 +320,19 @@ body {
 
 .tutorial__close {
     position: absolute;
-
     top: 12px;
     right: 15px;
-
     width: 42px;
     height: 42px;
-
     border: none;
-
     border-radius: 50%;
-
     background: var(--turquoise-pale);
-
     color: var(--turquoise-dark);
-
     font-family: Arial, sans-serif;
-
     font-size: 30px;
     font-weight: 400;
-
     line-height: 1;
-
     cursor: pointer;
-
     transition:
         transform .15s ease,
         background .15s ease;
@@ -431,7 +340,6 @@ body {
 
 .tutorial__close:hover {
     background: #D2EFEC;
-
     transform: scale(1.08);
 }
 
@@ -441,119 +349,103 @@ body {
 
 .tutorial__content {
     position: relative;
-
-    min-height: 260px;
-
+    min-height: 285px;
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
-    gap: 24px;
+    gap: 20px;
 }
 
 .tutorial__label {
     font-family: var(--font-display);
     font-weight: 600;
-
     font-size: 1rem;
-
     color: var(--ink);
-
     text-align: center;
     text-transform: uppercase;
-
     margin: 0;
+    max-width: 310px;
 }
 
 .tutorial__unir-demo {
     width: 100%;
-
     display: flex;
-
     justify-content: center;
-
-    gap: 20px;
+    align-items: center;
+    gap: 18px;
 }
 
 .tutorial__unir-col {
     display: flex;
     flex-direction: column;
-
     gap: 12px;
-
-    width: 110px;
+    width: 125px;
 }
 
 .tutorial__unir-col .unir-item {
-    min-height: 64px;
-    font-size: .8rem;
+    min-height: 70px;
+    font-size: .75rem;
+    padding: 8px;
     cursor: default;
+    pointer-events: none;
+}
+
+.tutorial__unir-col .unir-item:hover {
+    transform: none;
+    background: var(--white);
 }
 
 .tutorial__unir-col .unir-item__img {
-    width: 42px;
-    height: 42px;
+    width: 46px;
+    height: 46px;
+}
+
+.tutorial__unir-col .unir-item.is-selected {
+    transform: scale(1.06);
+}
+
+.tutorial__unir-col .unir-item.is-matched {
+    opacity: 1;
 }
 
 .tutorial__actions {
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     gap: 18px;
-
     margin-top: 12px;
 }
 
 .tutorial__repeat,
 .tutorial__next {
-    width: 52px;
-    height: 52px;
-
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
-
-    border: none;
-
     font-family: Arial, sans-serif;
-
     transition:
         transform .15s ease,
-        background .15s ease;
+        background .15s ease,
+        box-shadow .15s ease;
 }
 
 .tutorial__repeat {
     background: var(--white);
-
     border: 3px solid var(--turquoise);
-
     color: var(--turquoise-dark);
-
     font-size: 28px;
-
     box-shadow: var(--shadow-btn);
 }
 
 .tutorial__next {
     background: var(--turquoise);
-
     border: 3px solid var(--turquoise);
-
     color: var(--white);
-
     font-size: 27px;
-
     box-shadow: var(--shadow-btn);
 }
 
@@ -565,7 +457,93 @@ body {
 .tutorial__repeat:active,
 .tutorial__next:active {
     transform: translateY(3px) scale(.98);
-
     box-shadow:
         0 2px 0 rgba(74, 59, 120, .18);
+}
+
+@media (max-width: 500px) {
+
+    .stage {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .unir-board {
+        gap: 14px;
+    }
+
+    .unir-col {
+        max-width: 170px;
+    }
+
+    .unir-item {
+        min-height: 76px;
+    }
+
+    .unir-item__img {
+        width: 54px;
+        height: 54px;
+    }
+
+    .tutorial__card {
+        max-width: 360px;
+        padding: 26px 18px 20px;
+    }
+
+    .tutorial__unir-demo {
+        gap: 10px;
+    }
+
+    .tutorial__unir-col {
+        width: 110px;
+    }
+
+}
+
+@media (max-width: 380px) {
+
+    .unir-board {
+        gap: 10px;
+    }
+
+    .unir-col {
+        max-width: 150px;
+    }
+
+    .unir-item {
+        font-size: .85rem;
+        padding: 10px 6px;
+        min-height: 68px;
+    }
+
+    .unir-item__img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .tutorial__card {
+        min-height: 360px;
+    }
+
+    .tutorial__content {
+        min-height: 250px;
+    }
+
+    .tutorial__unir-col {
+        width: 95px;
+    }
+
+    .tutorial__unir-col .unir-item {
+        min-height: 62px;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+
 }

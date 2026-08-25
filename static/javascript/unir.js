@@ -1,20 +1,19 @@
-// static/javascript/unir.js
-// Juego Unir: el niño toca una imagen y después la palabra que le
-// corresponde (o al revés). Si coinciden, quedan emparejadas.
-// Depende de las variables globales PALABRAS e IMG_BASE
-// que se definen inline en templates/games/juego_unir.html
-
 (function () {
 
+    "use strict";
+
     const MAX_RONDAS = 3;
+    const PALABRAS_POR_RONDA = 3;
+    const NUMERO_JUEGO = 2;
 
     const state = {
         ronda: 1,
         matched: 0,
-        selectedImage: null, // { el, item }
-        selectedWord: null,  // { el, item }
-        locked: false,       // true mientras se muestra la animación de acierto/error
-        terminado: false,
+        palabrasRonda: [],
+        selectedImage: null,
+        selectedWord: null,
+        locked: false,
+        terminado: false
     };
 
     const els = {
@@ -22,201 +21,405 @@
         roundLabel: document.getElementById("roundLabel"),
         colImagenes: document.getElementById("colImagenes"),
         colPalabras: document.getElementById("colPalabras"),
-        feedback: document.getElementById("feedback"),
+        feedback: document.getElementById("feedback")
     };
 
+    function shuffle(array) {
 
-    function shuffle(arr) {
+        const copia = [...array];
 
-        const a = [...arr];
+        for (
+            let i = copia.length - 1;
+            i > 0;
+            i--
+        ) {
 
-        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(
+                Math.random() * (i + 1)
+            );
 
-            const j = Math.floor(Math.random() * (i + 1));
-
-            [a[i], a[j]] = [a[j], a[i]];
-
+            [
+                copia[i],
+                copia[j]
+            ] = [
+                copia[j],
+                copia[i]
+            ];
         }
 
-        return a;
+        return copia;
     }
 
+    function obtenerIdWord(item) {
 
-    function registrarResultado(idWord, correcto) {
-
-        fetch("/juego/registrar-resultado", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id_word: idWord, correcto: correcto }),
-        }).catch(() => {});
-
+        return (
+            item.id_word ??
+            item.idWord ??
+            item.id
+        );
     }
 
+    function registrarResultado(
+        idWord,
+        correcto
+    ) {
+
+        if (!idWord) {
+            return;
+        }
+
+        fetch(
+            "/juego/registrar-resultado",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    id_word: idWord,
+                    correcto: correcto
+                })
+            }
+        )
+        .catch(error => {
+
+            console.warn(
+                "Error guardando progreso:",
+                error
+            );
+
+        });
+    }
+
+    function completarJuego() {
+
+        fetch(
+            "/juego/completar",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+                    numero_juego: NUMERO_JUEGO
+                })
+            }
+        )
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "No se pudo completar el juego."
+                );
+
+            }
+
+            return response.json();
+
+        })
+        .then(data => {
+
+            if (!data.ok) {
+                return;
+            }
+
+            window.location.href =
+                "/juego/3";
+
+        })
+        .catch(error => {
+
+            console.warn(
+                "Error completando juego:",
+                error
+            );
+
+        });
+    }
 
     function buildTrail() {
 
+        if (!els.trail) {
+            return;
+        }
+
         els.trail.innerHTML = "";
 
-        PALABRAS.forEach(() => {
+        for (
+            let i = 0;
+            i < PALABRAS_POR_RONDA;
+            i++
+        ) {
 
-            const dot = document.createElement("div");
-            dot.className = "trail__step";
+            const dot =
+                document.createElement(
+                    "div"
+                );
 
-            els.trail.appendChild(dot);
+            dot.className =
+                "trail__step";
 
-        });
-
+            els.trail.appendChild(
+                dot
+            );
+        }
     }
-
 
     function updateTrail() {
 
-        [...els.trail.children].forEach((dot, i) => {
+        if (!els.trail) {
+            return;
+        }
 
-            dot.classList.toggle("is-done", i < state.matched);
+        [
+            ...els.trail.children
+        ].forEach(
+            (dot, index) => {
 
-        });
+                dot.classList.toggle(
+                    "is-done",
+                    index < state.matched
+                );
 
+            }
+        );
     }
-
 
     function clearSelection() {
 
         if (state.selectedImage) {
-            state.selectedImage.el.classList.remove("is-selected");
+
+            state.selectedImage.el
+                .classList.remove(
+                    "is-selected"
+                );
         }
 
         if (state.selectedWord) {
-            state.selectedWord.el.classList.remove("is-selected");
+
+            state.selectedWord.el
+                .classList.remove(
+                    "is-selected"
+                );
         }
 
         state.selectedImage = null;
         state.selectedWord = null;
-
     }
-
 
     function evaluarPar() {
 
-        if (!state.selectedImage || !state.selectedWord) {
+        if (
+            !state.selectedImage ||
+            !state.selectedWord
+        ) {
+
             return;
         }
 
         state.locked = true;
 
-        const imagen = state.selectedImage;
-        const palabra = state.selectedWord;
+        const imagen =
+            state.selectedImage;
 
-        const correcto = imagen.item.id_word === palabra.item.id_word;
+        const palabra =
+            state.selectedWord;
 
-        registrarResultado(imagen.item.id_word, correcto);
+        const correcto =
+            obtenerIdWord(
+                imagen.item
+            ) ===
+            obtenerIdWord(
+                palabra.item
+            );
+
+        registrarResultado(
+            obtenerIdWord(
+                imagen.item
+            ),
+            correcto
+        );
 
         if (correcto) {
 
-            imagen.el.classList.remove("is-selected");
-            palabra.el.classList.remove("is-selected");
+            imagen.el.classList.remove(
+                "is-selected"
+            );
 
-            imagen.el.classList.add("is-matched");
-            palabra.el.classList.add("is-matched");
+            palabra.el.classList.remove(
+                "is-selected"
+            );
+
+            imagen.el.classList.add(
+                "is-matched"
+            );
+
+            palabra.el.classList.add(
+                "is-matched"
+            );
 
             state.matched += 1;
+
             updateTrail();
 
             state.selectedImage = null;
             state.selectedWord = null;
             state.locked = false;
 
-            if (state.matched >= PALABRAS.length) {
+            if (
+                state.matched >=
+                state.palabrasRonda.length
+            ) {
 
-                if (state.ronda >= MAX_RONDAS) {
-
-                    state.terminado = true;
-
-                    els.feedback.textContent = "¡COMPLETASTE EL JUEGO! 🎉";
-                    els.feedback.className = "feedback is-success";
-
-                } else {
-
-                    els.feedback.textContent = "¡MUY BIEN! 🎉";
-                    els.feedback.className = "feedback is-success";
-
-                    state.ronda += 1;
-
-                    setTimeout(iniciarRonda, 1300);
-
-                }
+                finalizarRonda();
 
             }
 
-        } else {
-
-            imagen.el.classList.add("is-wrong");
-            palabra.el.classList.add("is-wrong");
-
-            els.feedback.textContent = "PROBEMOS DE NUEVO";
-            els.feedback.className = "feedback is-retry";
-
-            setTimeout(() => {
-
-                imagen.el.classList.remove("is-wrong");
-                palabra.el.classList.remove("is-wrong");
-
-                els.feedback.textContent = "";
-                els.feedback.className = "feedback";
-
-                clearSelection();
-                state.locked = false;
-
-            }, 900);
-
-        }
-
-    }
-
-
-    function onSelect(tipo, el, item) {
-
-        if (state.locked || el.classList.contains("is-matched")) {
             return;
         }
 
-        const actual = tipo === "imagen" ? state.selectedImage : state.selectedWord;
+        imagen.el.classList.add(
+            "is-wrong"
+        );
 
-        // Tocar de nuevo lo mismo lo deselecciona.
-        if (actual && actual.el === el) {
-            el.classList.remove("is-selected");
+        palabra.el.classList.add(
+            "is-wrong"
+        );
 
-            if (tipo === "imagen") {
-                state.selectedImage = null;
+        if (els.feedback) {
+
+            els.feedback.textContent =
+                "PROBÁ DE NUEVO";
+
+            els.feedback.className =
+                "feedback is-retry";
+        }
+
+        setTimeout(
+            () => {
+
+                imagen.el.classList.remove(
+                    "is-wrong"
+                );
+
+                palabra.el.classList.remove(
+                    "is-wrong"
+                );
+
+                if (els.feedback) {
+
+                    els.feedback.textContent =
+                        "";
+
+                    els.feedback.className =
+                        "feedback";
+                }
+
+                clearSelection();
+
+                state.locked = false;
+
+            },
+            900
+        );
+    }
+
+    function onSelect(
+        tipo,
+        el,
+        item
+    ) {
+
+        if (
+            state.locked ||
+            el.classList.contains(
+                "is-matched"
+            )
+        ) {
+
+            return;
+        }
+
+        const actual =
+            tipo === "imagen"
+                ? state.selectedImage
+                : state.selectedWord;
+
+        if (
+            actual &&
+            actual.el === el
+        ) {
+
+            el.classList.remove(
+                "is-selected"
+            );
+
+            if (
+                tipo === "imagen"
+            ) {
+
+                state.selectedImage =
+                    null;
+
             } else {
-                state.selectedWord = null;
+
+                state.selectedWord =
+                    null;
+
             }
 
             return;
         }
 
         if (actual) {
-            actual.el.classList.remove("is-selected");
+
+            actual.el.classList.remove(
+                "is-selected"
+            );
         }
 
-        el.classList.add("is-selected");
+        el.classList.add(
+            "is-selected"
+        );
 
-        if (tipo === "imagen") {
-            state.selectedImage = { el, item };
+        if (
+            tipo === "imagen"
+        ) {
+
+            state.selectedImage = {
+                el: el,
+                item: item
+            };
+
         } else {
-            state.selectedWord = { el, item };
+
+            state.selectedWord = {
+                el: el,
+                item: item
+            };
         }
 
         evaluarPar();
-
     }
-
 
     function crearItemImagen(item) {
 
-        const btn = document.createElement("button");
+        const btn =
+            document.createElement(
+                "button"
+            );
+
         btn.type = "button";
-        btn.className = "unir-item unir-item--image";
+
+        btn.className =
+            "unir-item unir-item--image";
 
         btn.innerHTML = `
             <img
@@ -226,25 +429,52 @@
             >
         `;
 
-        btn.addEventListener("click", () => onSelect("imagen", btn, item));
+        btn.addEventListener(
+            "click",
+            () => {
+
+                onSelect(
+                    "imagen",
+                    btn,
+                    item
+                );
+
+            }
+        );
 
         return btn;
     }
-
 
     function crearItemPalabra(item) {
 
-        const btn = document.createElement("button");
+        const btn =
+            document.createElement(
+                "button"
+            );
+
         btn.type = "button";
-        btn.className = "unir-item unir-item--word";
 
-        btn.textContent = item.word;
+        btn.className =
+            "unir-item unir-item--word";
 
-        btn.addEventListener("click", () => onSelect("palabra", btn, item));
+        btn.textContent =
+            item.word;
+
+        btn.addEventListener(
+            "click",
+            () => {
+
+                onSelect(
+                    "palabra",
+                    btn,
+                    item
+                );
+
+            }
+        );
 
         return btn;
     }
-
 
     function iniciarRonda() {
 
@@ -253,185 +483,483 @@
         state.selectedWord = null;
         state.locked = false;
 
-        els.roundLabel.textContent = `RONDA ${state.ronda} DE ${MAX_RONDAS}`;
+        state.palabrasRonda =
+            PALABRAS.slice(
+                0,
+                PALABRAS_POR_RONDA
+            );
 
-        els.feedback.textContent = "";
-        els.feedback.className = "feedback";
+        if (els.roundLabel) {
+
+            els.roundLabel.textContent =
+                `RONDA ${state.ronda} DE ${MAX_RONDAS}`;
+
+        }
+
+        if (els.feedback) {
+
+            els.feedback.textContent = "";
+
+            els.feedback.className =
+                "feedback";
+        }
 
         els.colImagenes.innerHTML = "";
         els.colPalabras.innerHTML = "";
 
-        const imagenes = shuffle(PALABRAS);
-        const palabras = shuffle(PALABRAS);
+        const imagenes =
+            shuffle(
+                state.palabrasRonda
+            );
 
-        imagenes.forEach((item) => {
-            els.colImagenes.appendChild(crearItemImagen(item));
-        });
+        const palabras =
+            shuffle(
+                state.palabrasRonda
+            );
 
-        palabras.forEach((item) => {
-            els.colPalabras.appendChild(crearItemPalabra(item));
-        });
+        imagenes.forEach(
+            item => {
+
+                els.colImagenes.appendChild(
+                    crearItemImagen(item)
+                );
+
+            }
+        );
+
+        palabras.forEach(
+            item => {
+
+                els.colPalabras.appendChild(
+                    crearItemPalabra(item)
+                );
+
+            }
+        );
 
         updateTrail();
-
     }
 
+    function finalizarRonda() {
 
-    function init() {
+        state.locked = true;
 
-        if (!PALABRAS || PALABRAS.length < 2) {
-            els.feedback.textContent = "ESTA CATEGORÍA TODAVÍA NO TIENE SUFICIENTES PALABRAS.";
+        if (
+            state.ronda >=
+            MAX_RONDAS
+        ) {
+
+            if (els.feedback) {
+
+                els.feedback.textContent =
+                    "¡MUY BIEN!";
+
+                els.feedback.className =
+                    "feedback is-success";
+
+            }
+
+            setTimeout(
+                completarJuego,
+                1000
+            );
+
             return;
         }
 
-        buildTrail();
-        iniciarRonda();
-        initTutorial();
+        if (els.feedback) {
 
+            els.feedback.textContent =
+                "¡MUY BIEN!";
+
+            els.feedback.className =
+                "feedback is-success";
+        }
+
+        setTimeout(
+            () => {
+
+                state.ronda += 1;
+
+                iniciarRonda();
+
+            },
+            1200
+        );
     }
 
+    function finalizarJuego() {
 
-    // ---------- Tutorial (demo animada de cómo se juega) ----------
+        state.terminado = true;
 
-    const tutorialState = { timer: null };
+        if (els.feedback) {
 
-    const tutEls = {
-        tutorial: document.getElementById("tutorial"),
-        tutorialImgs: document.getElementById("tutorialImgs"),
-        tutorialWords: document.getElementById("tutorialWords"),
-        tutorialRepeat: document.getElementById("tutorialRepeat"),
-        tutorialNext: document.getElementById("tutorialNext"),
-        tutorialClose: document.getElementById("tutorialClose"),
+            els.feedback.textContent =
+                "¡TERMINASTE!";
+
+            els.feedback.className =
+                "feedback is-success";
+        }
+
+        if (els.roundLabel) {
+
+            els.roundLabel.textContent =
+                "¡MUY BIEN!";
+
+        }
+    }
+
+    const tutorialState = {
+        timer: null
     };
 
+    const tutEls = {
+
+        tutorial:
+            document.getElementById(
+                "tutorial"
+            ),
+
+        tutorialImgs:
+            document.getElementById(
+                "tutorialImgs"
+            ),
+
+        tutorialWords:
+            document.getElementById(
+                "tutorialWords"
+            ),
+
+        tutorialRepeat:
+            document.getElementById(
+                "tutorialRepeat"
+            ),
+
+        tutorialNext:
+            document.getElementById(
+                "tutorialNext"
+            ),
+
+        tutorialClose:
+            document.getElementById(
+                "tutorialClose"
+            )
+    };
 
     function clearTutorialTimer() {
 
-        if (tutorialState.timer) {
-            clearTimeout(tutorialState.timer);
+        if (
+            tutorialState.timer
+        ) {
+
+            clearTimeout(
+                tutorialState.timer
+            );
+
             tutorialState.timer = null;
         }
-
     }
-
 
     function renderTutorialDemo() {
 
         clearTutorialTimer();
 
-        tutEls.tutorialImgs.innerHTML = "";
-        tutEls.tutorialWords.innerHTML = "";
+        if (
+            !tutEls.tutorialImgs ||
+            !tutEls.tutorialWords
+        ) {
 
-        const demoItems = PALABRAS.slice(0, 2);
-
-        if (demoItems.length < 2) {
             return;
         }
 
-        const imgBtn = document.createElement("div");
-        imgBtn.className = "unir-item unir-item--image";
-        imgBtn.innerHTML = `<img src="${IMG_BASE}${demoItems[0].image_file}" alt="" class="unir-item__img">`;
+        tutEls.tutorialImgs.innerHTML = "";
+        tutEls.tutorialWords.innerHTML = "";
 
-        const imgBtnExtra = document.createElement("div");
-        imgBtnExtra.className = "unir-item unir-item--image";
-        imgBtnExtra.innerHTML = `<img src="${IMG_BASE}${demoItems[1].image_file}" alt="" class="unir-item__img">`;
+        const demoItems =
+            PALABRAS.slice(
+                0,
+                2
+            );
 
-        tutEls.tutorialImgs.appendChild(imgBtn);
-        tutEls.tutorialImgs.appendChild(imgBtnExtra);
+        if (
+            demoItems.length < 2
+        ) {
 
-        const wordBtnCorrecta = document.createElement("div");
-        wordBtnCorrecta.className = "unir-item unir-item--word";
-        wordBtnCorrecta.textContent = demoItems[0].word;
+            return;
+        }
 
-        const wordBtnExtra = document.createElement("div");
-        wordBtnExtra.className = "unir-item unir-item--word";
-        wordBtnExtra.textContent = demoItems[1].word;
+        const imgCorrecta =
+            document.createElement(
+                "div"
+            );
 
-        tutEls.tutorialWords.appendChild(wordBtnExtra);
-        tutEls.tutorialWords.appendChild(wordBtnCorrecta);
+        imgCorrecta.className =
+            "unir-item unir-item--image";
 
-        // Animación: "toca" la imagen, después la palabra correcta, y quedan emparejadas.
-        tutorialState.timer = setTimeout(() => {
+        imgCorrecta.innerHTML = `
+            <img
+                src="${IMG_BASE}${demoItems[0].image_file}"
+                alt=""
+                class="unir-item__img"
+            >
+        `;
 
-            imgBtn.classList.add("is-selected");
+        const imgExtra =
+            document.createElement(
+                "div"
+            );
 
-            tutorialState.timer = setTimeout(() => {
+        imgExtra.className =
+            "unir-item unir-item--image";
 
-                wordBtnCorrecta.classList.add("is-selected");
+        imgExtra.innerHTML = `
+            <img
+                src="${IMG_BASE}${demoItems[1].image_file}"
+                alt=""
+                class="unir-item__img"
+            >
+        `;
 
-                tutorialState.timer = setTimeout(() => {
+        tutEls.tutorialImgs.appendChild(
+            imgCorrecta
+        );
 
-                    imgBtn.classList.remove("is-selected");
-                    wordBtnCorrecta.classList.remove("is-selected");
+        tutEls.tutorialImgs.appendChild(
+            imgExtra
+        );
 
-                    imgBtn.classList.add("is-matched");
-                    wordBtnCorrecta.classList.add("is-matched");
+        const palabraExtra =
+            document.createElement(
+                "div"
+            );
 
-                }, 700);
+        palabraExtra.className =
+            "unir-item unir-item--word";
 
-            }, 900);
+        palabraExtra.textContent =
+            demoItems[1].word;
 
-        }, 700);
+        const palabraCorrecta =
+            document.createElement(
+                "div"
+            );
 
+        palabraCorrecta.className =
+            "unir-item unir-item--word";
+
+        palabraCorrecta.textContent =
+            demoItems[0].word;
+
+        tutEls.tutorialWords.appendChild(
+            palabraExtra
+        );
+
+        tutEls.tutorialWords.appendChild(
+            palabraCorrecta
+        );
+
+        tutorialState.timer =
+            setTimeout(
+                () => {
+
+                    imgCorrecta.classList.add(
+                        "is-selected"
+                    );
+
+                    tutorialState.timer =
+                        setTimeout(
+                            () => {
+
+                                palabraCorrecta
+                                    .classList.add(
+                                        "is-selected"
+                                    );
+
+                                tutorialState.timer =
+                                    setTimeout(
+                                        () => {
+
+                                            imgCorrecta
+                                                .classList
+                                                .remove(
+                                                    "is-selected"
+                                                );
+
+                                            palabraCorrecta
+                                                .classList
+                                                .remove(
+                                                    "is-selected"
+                                                );
+
+                                            imgCorrecta
+                                                .classList
+                                                .add(
+                                                    "is-matched"
+                                                );
+
+                                            palabraCorrecta
+                                                .classList
+                                                .add(
+                                                    "is-matched"
+                                                );
+
+                                        },
+                                        700
+                                    );
+
+                            },
+                            900
+                        );
+
+                },
+                700
+            );
     }
-
 
     function showTutorial() {
 
+        if (
+            !tutEls.tutorial
+        ) {
+
+            return;
+        }
+
         tutEls.tutorial.hidden = false;
 
-        requestAnimationFrame(() => {
-            tutEls.tutorial.classList.add("tutorial--visible");
-        });
+        requestAnimationFrame(
+            () => {
+
+                tutEls.tutorial.classList.add(
+                    "tutorial--visible"
+                );
+
+            }
+        );
 
         renderTutorialDemo();
-
     }
-
 
     function closeTutorial() {
 
         clearTutorialTimer();
 
-        tutEls.tutorial.classList.remove("tutorial--visible");
+        if (
+            !tutEls.tutorial
+        ) {
 
-        setTimeout(() => {
-            tutEls.tutorial.hidden = true;
-        }, 450);
-
-    }
-
-
-    function repeatTutorial() {
-        renderTutorialDemo();
-    }
-
-
-    function initTutorial() {
-
-        if (!tutEls.tutorial) {
             return;
         }
 
-        tutEls.tutorialRepeat.addEventListener("click", (e) => {
-            e.preventDefault();
-            repeatTutorial();
-        });
+        tutEls.tutorial.classList.remove(
+            "tutorial--visible"
+        );
 
-        tutEls.tutorialNext.addEventListener("click", (e) => {
-            e.preventDefault();
-            closeTutorial();
-        });
+        setTimeout(
+            () => {
 
-        tutEls.tutorialClose.addEventListener("click", (e) => {
-            e.preventDefault();
-            closeTutorial();
-        });
+                tutEls.tutorial.hidden = true;
 
-        setTimeout(showTutorial, 700);
-
+            },
+            450
+        );
     }
 
+    function repeatTutorial() {
+
+        renderTutorialDemo();
+    }
+
+    function initTutorial() {
+
+        if (
+            !tutEls.tutorial
+        ) {
+
+            return;
+        }
+
+        if (
+            tutEls.tutorialRepeat
+        ) {
+
+            tutEls.tutorialRepeat
+                .addEventListener(
+                    "click",
+                    event => {
+
+                        event.preventDefault();
+
+                        repeatTutorial();
+
+                    }
+                );
+        }
+
+        if (
+            tutEls.tutorialNext
+        ) {
+
+            tutEls.tutorialNext
+                .addEventListener(
+                    "click",
+                    event => {
+
+                        event.preventDefault();
+
+                        closeTutorial();
+
+                    }
+                );
+        }
+
+        if (
+            tutEls.tutorialClose
+        ) {
+
+            tutEls.tutorialClose
+                .addEventListener(
+                    "click",
+                    event => {
+
+                        event.preventDefault();
+
+                        closeTutorial();
+
+                    }
+                );
+        }
+
+        setTimeout(
+            showTutorial,
+            700
+        );
+    }
+
+    function init() {
+
+        if (
+            !Array.isArray(PALABRAS) ||
+            PALABRAS.length <
+            PALABRAS_POR_RONDA
+        ) {
+
+            if (els.feedback) {
+
+                els.feedback.textContent =
+                    "NO HAY SUFICIENTES PALABRAS";
+
+            }
+
+            return;
+        }
+
+        buildTrail();
+
+        iniciarRonda();
+
+        initTutorial();
+    }
 
     init();
 
