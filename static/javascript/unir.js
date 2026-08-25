@@ -4,7 +4,7 @@
 
     const MAX_RONDAS = 3;
     const PALABRAS_POR_RONDA = 3;
-    const NUMERO_JUEGO = 5;
+    const NUMERO_JUEGO = 2;
 
     const state = {
         ronda: 1,
@@ -130,7 +130,8 @@
                 return;
             }
 
-            manejarSiguientePaso(data);
+            window.location.href =
+                "/juego/3";
 
         })
         .catch(error => {
@@ -141,55 +142,6 @@
             );
 
         });
-    }
-
-    function manejarSiguientePaso(data) {
-
-        if (
-            data.decision ===
-            "repetir"
-        ) {
-
-            window.location.href =
-                "/juego/1";
-
-            return;
-        }
-
-        if (
-            data.decision ===
-            "aprender"
-        ) {
-
-            window.location.href =
-                "/aprendizaje";
-
-            return;
-        }
-
-        if (
-            data.decision ===
-            "oracion"
-        ) {
-
-            window.location.href =
-                "/oraciones";
-
-            return;
-        }
-
-        if (
-            data.juego_actual !== null &&
-            data.juego_actual !== undefined
-        ) {
-
-            window.location.href =
-                `/juego/${data.juego_actual}`;
-
-            return;
-        }
-
-        finalizarJuego();
     }
 
     function buildTrail() {

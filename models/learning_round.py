@@ -69,10 +69,16 @@ class LearningRound(db.Model):
 
     def avanzar_juego(self):
 
-        if self.juego_actual < 5:
+        if self.juego_actual < 4:
             self.juego_actual += 1
 
         self.fase = "ejercicios"
+
+    def iniciar_ejercicios(self):
+
+        self.fase = "ejercicios"
+        self.juego_actual = 1
+        self.completada = False
 
     def reiniciar_juegos(self):
 
@@ -82,7 +88,7 @@ class LearningRound(db.Model):
 
     def completar(self):
 
-        self.juego_actual = 5
+        self.juego_actual = 4
         self.fase = "completada"
         self.completada = True
 

@@ -193,7 +193,7 @@ def completar_juego():
             "error": "Juego inválido"
         }), 400
 
-    if numero_juego < 1 or numero_juego > 5:
+    if numero_juego < 1 or numero_juego > 4:
 
         return jsonify({
             "ok": False,
@@ -214,7 +214,7 @@ def completar_juego():
             "error": "No hay una ronda activa"
         }), 404
 
-    if numero_juego != 5:
+    if numero_juego < 4:
 
         estado = (
             ExerciseService.obtener_estado_ronda(
@@ -246,22 +246,24 @@ def completar_juego():
             "error": "No se pudo resolver la decisión"
         }), 404
 
-    ronda_resultado = resultado["ronda"]
-
-    juego_actual = None
-
-    if ronda_resultado is not None:
-
-        juego_actual = (
-            ronda_resultado.juego_actual
-        )
+    ronda_resultado = resultado.get(
+        "ronda"
+    )
 
     return jsonify({
         "ok": True,
-        "decision": resultado["decision"],
-        "juego_actual": juego_actual,
+        "decision": resultado.get(
+            "decision"
+        ),
+        "juego_actual": resultado.get(
+            "juego_actual"
+        ),
         "ronda_completada": (
-            resultado["decision"] == "oracion"
+            resultado.get("decision") ==
+            "oracion"
+        ),
+        "hay_ronda": (
+            ronda_resultado is not None
         )
     })
 
@@ -294,15 +296,17 @@ def decidir_siguiente_paso():
             "error": "No hay una ronda activa"
         }), 404
 
-    ronda = resultado["ronda"]
+    ronda = resultado.get(
+        "ronda"
+    )
 
     return jsonify({
         "ok": True,
-        "decision": resultado["decision"],
-        "juego_actual": (
-            ronda.juego_actual
-            if ronda is not None
-            else None
+        "decision": resultado.get(
+            "decision"
+        ),
+        "juego_actual": resultado.get(
+            "juego_actual"
         ),
         "hay_ronda": ronda is not None
     })

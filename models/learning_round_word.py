@@ -2,6 +2,7 @@ from models.db import db
 
 
 class LearningRoundWord(db.Model):
+
     __tablename__ = "learning_round_words"
 
     id_round_word = db.Column(
@@ -37,4 +38,5 @@ class LearningRoundWord(db.Model):
     )
 
     def serialize(self):
+
         return self.word.serialize()

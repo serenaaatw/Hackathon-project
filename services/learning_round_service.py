@@ -9,7 +9,7 @@ from models.progress import Progress
 class LearningRoundService:
 
     CANTIDAD_PALABRAS = 3
-    CANTIDAD_JUEGOS = 5
+    CANTIDAD_JUEGOS = 4
 
     @staticmethod
     def obtener_ronda_activa(id_user):
@@ -103,8 +103,7 @@ class LearningRoundService:
         if ronda is None:
             return None
 
-        ronda.fase = "ejercicios"
-        ronda.juego_actual = 1
+        ronda.iniciar_ejercicios()
 
         db.session.commit()
 
@@ -173,18 +172,18 @@ class LearningRoundService:
         if numero_juego != ronda.juego_actual:
             return ronda
 
-        if numero_juego >= LearningRoundService.CANTIDAD_JUEGOS:
-
-            ronda.completar()
+        if numero_juego < LearningRoundService.CANTIDAD_JUEGOS:
+            ronda.avanzar_juego()
 
         else:
-
-            ronda.avanzar_juego()
+            ronda.juego_actual = LearningRoundService.CANTIDAD_JUEGOS
+            ronda.fase = "ejercicios"
 
         db.session.commit()
 
         return ronda
 
+    
     @staticmethod
     def reiniciar_ronda(id_user):
 
@@ -197,7 +196,29 @@ class LearningRoundService:
         if ronda is None:
             return None
 
-        ronda.reiniciar_juegos()
+        palabras = (
+            LearningRoundService.obtener_palabras_ronda(
+                ronda
+            )
+        )
+
+        for palabra in palabras:
+
+            progreso = (
+                Progress.query
+                .filter_by(
+                    id_user=id_user,
+                    id_word=palabra.id_word
+                )
+                .first()
+            )
+
+            if progreso is not None:
+                db.session.delete(progreso)
+
+        ronda.juego_actual = 0
+        ronda.fase = "aprendizaje"
+        ronda.completada = False
 
         db.session.commit()
 
@@ -217,42 +238,35 @@ class LearningRoundService:
             .first()
         )
 
-        categoria_actual = None
+        if ronda_actual is None:
+            return None
 
-        if ronda_actual is not None:
-
-            categoria_actual = Category.query.get(
-                ronda_actual.id_category
-            )
+        categoria_actual = Category.query.get(
+            ronda_actual.id_category
+        )
 
         if categoria_actual is None:
+            return None
 
-            categorias = (
-                Category.query
-                .order_by(
-                    Category.id_category
-                )
-                .all()
+        categorias = (
+            Category.query
+            .order_by(
+                Category.id_category
             )
+            .all()
+        )
 
-            if not categorias:
-                return None
+        categoria_siguiente = None
 
-            categoria_siguiente = categorias[0]
+        for categoria in categorias:
 
-        else:
+            if (
+                categoria.id_category >
+                categoria_actual.id_category
+            ):
 
-            categoria_siguiente = (
-                Category.query
-                .filter(
-                    Category.id_category >
-                    categoria_actual.id_category
-                )
-                .order_by(
-                    Category.id_category
-                )
-                .first()
-            )
+                categoria_siguiente = categoria
+                break
 
         if categoria_siguiente is None:
             return None
@@ -260,8 +274,7 @@ class LearningRoundService:
         palabras = (
             Word.query
             .filter_by(
-                id_category=
-                categoria_siguiente.id_category
+                id_category=categoria_siguiente.id_category
             )
             .order_by(
                 Word.id_word
@@ -288,11 +301,23 @@ class LearningRoundService:
             elif progreso.intentos == 0:
                 resultado.append(palabra)
 
-            if len(resultado) >= LearningRoundService.CANTIDAD_PALABRAS:
+            if (
+                len(resultado) >=
+                LearningRoundService.CANTIDAD_PALABRAS
+            ):
                 break
 
-        if len(resultado) < LearningRoundService.CANTIDAD_PALABRAS:
+        if (
+            len(resultado) <
+            LearningRoundService.CANTIDAD_PALABRAS
+        ):
             return None
+
+        if not ronda_actual.completada:
+
+            ronda_actual.completar()
+
+            db.session.commit()
 
         return LearningRoundService.crear_ronda(
             id_user,

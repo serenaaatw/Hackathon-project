@@ -516,7 +516,7 @@
             }
 
             window.location.assign(
-                "/juego/3"
+                "/juego/unir"
             );
 
         })

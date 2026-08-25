@@ -1,12 +1,12 @@
 from services.learning_service import LearningService
 from services.learning_round_service import LearningRoundService
-from services.progress_service import ProgressService
 from models.progress import Progress
-from models.word import Word
 from models.sentence import Sentence
 
 
 class ExerciseService:
+
+    UMBRAL_REPETICION = 50
 
     @staticmethod
     def obtener_estado_aprendizaje(id_user):
@@ -97,6 +97,94 @@ class ExerciseService:
         )
 
     @staticmethod
+    def obtener_progreso_ronda(
+        id_user,
+        palabras
+    ):
+
+        total_intentos = 0
+        total_aciertos = 0
+
+        for palabra in palabras:
+
+            progreso = (
+                Progress.query
+                .filter_by(
+                    id_user=id_user,
+                    id_word=palabra.id_word
+                )
+                .first()
+            )
+
+            if progreso is None:
+                continue
+
+            total_intentos += progreso.intentos
+            total_aciertos += progreso.aciertos
+
+        if total_intentos == 0:
+            return 0
+
+        return round(
+            (
+                total_aciertos /
+                total_intentos
+            ) * 100
+        )
+
+    @staticmethod
+    def puede_formar_oracion(
+        id_user,
+        palabras=None
+    ):
+
+        progresos = (
+            Progress.query
+            .filter(
+                Progress.id_user == id_user,
+                Progress.intentos > 0,
+                Progress.dominio >=
+                ExerciseService.UMBRAL_REPETICION
+            )
+            .all()
+        )
+
+        ids_dominados = {
+            progreso.id_word
+            for progreso in progresos
+        }
+
+        if palabras:
+
+            ids_ronda = {
+                palabra.id_word
+                for palabra in palabras
+            }
+
+            ids_dominados = (
+                ids_dominados |
+                ids_ronda
+            )
+
+        if not ids_dominados:
+            return False
+
+        oracion = (
+            Sentence.query
+            .filter(
+                Sentence.id_subject.in_(
+                    ids_dominados
+                ),
+                Sentence.id_action.in_(
+                    ids_dominados
+                )
+            )
+            .first()
+        )
+
+        return oracion is not None
+
+    @staticmethod
     def resolver_decision(id_user):
 
         ronda = (
@@ -117,57 +205,39 @@ class ExerciseService:
         if not palabras:
             return {
                 "decision": "aprender",
-                "ronda": ronda
+                "ronda": ronda,
+                "juego_actual": None
             }
 
-        necesita_repetir = False
-
-        for palabra in palabras:
-
-            progreso = (
-                Progress.query
-                .filter_by(
-                    id_user=id_user,
-                    id_word=palabra.id_word
-                )
-                .order_by(
-                    Progress.updated_at.desc()
-                )
-                .first()
+        progreso_ronda = (
+            ExerciseService.obtener_progreso_ronda(
+                id_user,
+                palabras
             )
+        )
 
-            if progreso is None:
-                necesita_repetir = True
-                break
+        if progreso_ronda < ExerciseService.UMBRAL_REPETICION:
 
-            if not ProgressService.esta_dominada(
-                progreso
-            ):
-                necesita_repetir = True
-                break
-
-        if necesita_repetir:
-
-            LearningRoundService.reiniciar_ronda(
-                id_user
+            ronda = (
+                LearningRoundService.reiniciar_ronda(
+                    id_user
+                )
             )
 
             return {
                 "decision": "repetir",
-                "ronda": (
-                    LearningRoundService
-                    .obtener_ronda_activa(id_user)
-                )
+                "ronda": ronda,
+                "juego_actual": 1
             }
 
-        puede_formar_oracion = (
+        puede_formar = (
             ExerciseService.puede_formar_oracion(
                 id_user,
                 palabras
             )
         )
 
-        if puede_formar_oracion:
+        if puede_formar:
 
             LearningRoundService.completar_ronda(
                 id_user
@@ -175,7 +245,8 @@ class ExerciseService:
 
             return {
                 "decision": "oracion",
-                "ronda": None
+                "ronda": None,
+                "juego_actual": None
             }
 
         nueva_ronda = (
@@ -188,7 +259,8 @@ class ExerciseService:
 
             return {
                 "decision": "aprender",
-                "ronda": nueva_ronda
+                "ronda": nueva_ronda,
+                "juego_actual": 0
             }
 
         LearningRoundService.completar_ronda(
@@ -197,42 +269,6 @@ class ExerciseService:
 
         return {
             "decision": "oracion",
-            "ronda": None
+            "ronda": None,
+            "juego_actual": None
         }
-
-    @staticmethod
-    def puede_formar_oracion(
-        id_user,
-        palabras
-    ):
-
-        if not palabras:
-            return False
-
-        for palabra in palabras:
-
-            sujeto = (
-                Sentence.query
-                .filter_by(
-                    id_subject=palabra.id_word
-                )
-                .first()
-            )
-
-            if sujeto is not None:
-                return True
-
-        for palabra in palabras:
-
-            accion = (
-                Sentence.query
-                .filter_by(
-                    id_action=palabra.id_word
-                )
-                .first()
-            )
-
-            if accion is not None:
-                return True
-
-        return False

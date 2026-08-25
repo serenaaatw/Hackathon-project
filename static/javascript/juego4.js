@@ -61,13 +61,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return copia;
     }
 
+
+
     function registrarResultado(idWord, correcto) {
 
         if (!idWord) {
-            return;
+            return Promise.resolve();
         }
 
-        fetch("/juego/registrar-resultado", {
+        return fetch("/juego/registrar-resultado", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -81,12 +83,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!response.ok) {
                 throw new Error(
-                    "No se pudo registrar el progreso"
+                    "No se pudo guardar el resultado"
                 );
             }
 
             return response.json();
-
         })
         .catch(error => {
 
@@ -95,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
+            throw error;
         });
     }
 
@@ -112,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => {
 
             if (!response.ok) {
+
                 throw new Error(
                     "No se pudo completar el Juego 4"
                 );
@@ -119,6 +122,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
             return response.json();
         });
+    }
+
+    function procesarDecision(data) {
+
+        if (!data || !data.ok) {
+
+            throw new Error(
+                "La decisión no fue confirmada por el servidor"
+            );
+        }
+
+        const decision =
+            data.decision;
+
+        if (decision === "repetir") {
+
+            window.location.href =
+                "/aprender";
+
+            return;
+        }
+
+        if (decision === "aprender") {
+
+            window.location.href =
+                "/aprender";
+
+            return;
+        }
+
+        if (decision === "oracion") {
+
+            window.location.href =
+                "/oraciones";
+
+            return;
+        }
+
+        if (
+            data.juego_actual !== null &&
+            data.juego_actual !== undefined
+        ) {
+
+            if (data.juego_actual === 1) {
+
+                window.location.href =
+                    "/juego/1";
+
+                return;
+            }
+
+            if (data.juego_actual === 2) {
+
+                window.location.href =
+                    "/juego/unir";
+
+                return;
+            }
+
+            window.location.href =
+                `/juego/${data.juego_actual}`;
+
+            return;
+        }
+
+        finalizarPantalla();
     }
 
     function cantidadLetrasOcultas(texto) {
@@ -336,7 +405,10 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    function seleccionarLetra(letra, boton) {
+    function seleccionarLetra(
+        letra,
+        boton
+    ) {
 
         if (state.bloqueado) {
             return;
@@ -447,16 +519,27 @@ document.addEventListener("DOMContentLoaded", () => {
         registrarResultado(
             state.palabraActual.id_word,
             esCorrecta
-        );
+        ).then(() => {
 
-        if (esCorrecta) {
+            if (esCorrecta) {
 
-            mostrarCorrecto();
+                mostrarCorrecto();
 
-        } else {
+            } else {
 
-            mostrarIncorrecto();
-        }
+                mostrarIncorrecto();
+            }
+
+        }).catch(() => {
+
+            feedback.textContent =
+                "OCURRIÓ UN ERROR";
+
+            feedback.className =
+                "juego4__feedback incorrecto";
+
+            state.bloqueado = false;
+        });
     }
 
     function mostrarCorrecto() {
@@ -586,21 +669,13 @@ document.addEventListener("DOMContentLoaded", () => {
         completarJuego4()
             .then(data => {
 
-                if (!data || !data.ok) {
-
-                    throw new Error(
-                        "El servidor no confirmó el Juego 4"
-                    );
-                }
-
-                window.location.href =
-                    "/juego/unir";
+                procesarDecision(data);
 
             })
             .catch(error => {
 
                 console.error(
-                    "Error al completar Juego 4:",
+                    "Error al finalizar Juego 4:",
                     error
                 );
 
@@ -609,6 +684,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 state.bloqueado = false;
             });
+    }
+
+    function finalizarPantalla() {
+
+        feedback.textContent =
+            "¡TERMINASTE!";
+
+        feedback.className =
+            "juego4__feedback correcto";
+
+        opciones.innerHTML = "";
     }
 
     function limpiarAnimacionesTutorial() {

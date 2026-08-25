@@ -60,7 +60,7 @@ class Progress(db.Model):
         backref="progresos"
     )
 
-    INTENTOS_MINIMOS = 5
+    INTENTOS_MINIMOS = 1
     UMBRAL_DOMINIO = 70
 
     def __init__(
@@ -87,6 +87,12 @@ class Progress(db.Model):
             (self.aciertos / self.intentos) * 100
         )
 
+    def reiniciar(self):
+
+        self.aciertos = 0
+        self.intentos = 0
+        self.dominio = 0
+
     def esta_dominada(self):
 
         return (
@@ -109,6 +115,7 @@ class Progress(db.Model):
     def serialize(self):
 
         return {
+            "id_progress": self.id_progress,
             "id_word": self.id_word,
             "aciertos": self.aciertos,
             "intentos": self.intentos,

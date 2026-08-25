@@ -2,6 +2,7 @@ from models.category import Category
 from models.word import Word
 from models.progress import Progress
 from models.sentence import Sentence
+from models.db import db
 
 
 class LearningService:
@@ -26,18 +27,27 @@ class LearningService:
     @staticmethod
     def obtener_palabras_nuevas(id_user):
 
-        return (
+        palabras = (
             Word.query
             .outerjoin(
                 Progress,
-                (Progress.id_word == Word.id_word) &
-                (Progress.id_user == id_user)
+                (
+                    Progress.id_word == Word.id_word
+                ) &
+                (
+                    Progress.id_user == id_user
+                )
             )
             .filter(
-                Progress.id_progress.is_(None)
+                db.or_(
+                    Progress.id_progress.is_(None),
+                    Progress.intentos == 0
+                )
             )
             .all()
         )
+
+        return palabras
 
     @staticmethod
     def obtener_palabras_nuevas_categoria(
