@@ -8,7 +8,9 @@ profile = Blueprint("profile", __name__)
 
 @profile.route("/perfil")
 def perfil():
-    user_id = session.get("user_id")
+    # Aceptamos 'usuario_id' que es como lo guardas en AuthService.login()
+    user_id = session.get("usuario_id") or session.get("user_id") or session.get("id_user")
+    
     if not user_id:
         flash("Debes iniciar sesión para acceder.", "warning")
         return redirect(url_for("auth_routes.login_route"))
@@ -18,10 +20,13 @@ def perfil():
         return redirect(url_for("profile.perfil_tutor"))
     return render_template("child/profile.html", child=user)
 
-#RUTA PERFIL DEL TUTOR
+
+# RUTA PERFIL DEL TUTOR
 @profile.route("/perfil/tutor")
 def perfil_tutor():
-    user_id = session.get("user_id")
+    # Aceptamos 'usuario_id' aquí también
+    user_id = session.get("usuario_id") or session.get("user_id") or session.get("id_user")
+    
     if not user_id:
         flash("Debes iniciar sesión para acceder.", "warning")
         return redirect(url_for("auth_routes.login_route"))
@@ -42,10 +47,8 @@ def perfil_tutor():
     for child in children:
         cat_stats = []
         total_porcentajes = 0
-        words_mastered_count = 0
 
         for cat in categories:
-            # Porcentaje de la categoría usando tu ProgressService
             porcentaje = ProgressService.progreso_de_categoria(child.id_user, cat)
             total_porcentajes += porcentaje
 
@@ -54,10 +57,8 @@ def perfil_tutor():
                 "percentage": porcentaje
             })
 
-        # Calcular promedio general del niño
         promedio_general = round(total_porcentajes / len(categories)) if categories else 0
         
-        # Palabras dominadas por el niño
         progresos_nino = Progress.query.filter_by(id_user=child.id_user).all()
         words_mastered_count = sum(1 for p in progresos_nino if p.esta_dominada())
 
