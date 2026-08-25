@@ -8,6 +8,83 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <title>Register</title>
+    
+    <style>
+        /* Estilos específicos para la selección de rol en el registro */
+        .role-section {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .role-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .role-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .role-card {
+            flex: 1;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Ocultamos el radio button por defecto */
+        .role-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* Diseño de la tarjeta seleccionable */
+        .role-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            background-color: #F8FAFC;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+        }
+
+        .role-icon {
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+        }
+
+        .role-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        /* Efecto Hover */
+        .role-card:hover .role-content {
+            border-color: #CBD5E1;
+            background-color: #F1F5F9;
+        }
+
+        /* Estado cuando el radio button está SELECCIONADO */
+        .role-card input[type="radio"]:checked + .role-content {
+            border-color: #4F46E5; /* Cambia al color principal de tu paleta */
+            background-color: #EEF2FF;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+        }
+
+        .role-card input[type="radio"]:checked + .role-content .role-text {
+            color: #4F46E5;
+        }
+    </style>
 </head>
 <body>
     {% if error %}
@@ -47,13 +124,41 @@
                 name="email" 
                 placeholder="Email" required
             >
+            
             <input 
                 type="password" 
                 name="password" 
                 placeholder="Contraseña" required
             >
 
+            <!-- NUEVO: Selección de Rol (Alumno vs Tutor) -->
+            <div class="role-section">
+                <label class="role-title">¿Quién usará esta cuenta?</label>
+                <div class="role-options">
+                    
+                    <!-- Opción Niño / Alumno (Por defecto) -->
+                    <label class="role-card">
+                        <input type="radio" name="rol" value="child" checked>
+                        <div class="role-content">
+                            <span class="role-icon">👦</span>
+                            <span class="role-text">Alumno / Niño</span>
+                        </div>
+                    </label>
+
+                    <!-- Opción Tutor / Docente -->
+                    <label class="role-card">
+                        <input type="radio" name="rol" value="tutor">
+                        <div class="role-content">
+                            <span class="role-icon">👨‍🏫</span>
+                            <span class="role-text">Tutor / Docente</span>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+
             <button type="submit">Registrarse</button>
+            
             <div class="links">
                 ¿Ya tienes cuenta?
                 <a href="{{ url_for('auth_routes.login_route') }}">
