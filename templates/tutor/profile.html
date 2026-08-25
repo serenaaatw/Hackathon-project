@@ -11,7 +11,6 @@
 
     <!-- TARJETA DEL TUTOR -->
     <article class="profile-card">
-        
         <div class="avatar-wrapper">
             <img src="{{ url_for('static', filename=tutor.profile_picture) }}" alt="Foto de {{ tutor.name }}" class="profile-avatar">
             <span class="role-badge role-tutor">TUTOR / DOCENTE</span>
@@ -22,25 +21,59 @@
             <p class="child-username">@{{ tutor.username }}</p>
             <p class="tutor-email">📧 {{ tutor.email }}</p>
         </div>
-
     </article>
 
-    <!-- SECCIÓN DE NIÑOS A CARGO -->
+    <!-- SECCIÓN DE SELECCIÓN Y ESTADÍSTICAS -->
     <div class="children-section">
-        <h2>👦👧 Niños a Cargo</h2>
+        <h2>📊 Avance Académico de los Niños</h2>
 
-        {% if children %}
-            <div class="children-grid">
-                {% for child in children %}
-                    <div class="child-item-card">
-                        <img src="{{ url_for('static', filename=child.profile_picture) }}" alt="{{ child.name }}" class="child-mini-avatar">
-                        <div class="child-info">
-                            <h3>{{ child.name }} {{ child.last_name }}</h3>
-                            <p>@{{ child.username }} {% if child.edad %}- {{ child.edad }} años{% endif %}</p>
+        {% if children_stats %}
+            <!-- LISTA DESPLEGABLE DE NIÑOS -->
+            <div class="select-wrapper">
+                <label for="child-select" class="select-label">Selecciona un alumno para ver sus avances:</label>
+                <select id="child-select" class="custom-select" onchange="mostrarProgreso(this.value)">
+                    {% for item in children_stats %}
+                        <option value="child-{{ item.child.id_user }}">
+                            👦 {{ item.child.name }} {{ item.child.last_name }} (@{{ item.child.username }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- CONTENEDOR DE TARJETAS DE PROGRESO -->
+            <div class="stats-container">
+                {% for item in children_stats %}
+                    <div id="child-{{ item.child.id_user }}" class="child-progress-card {% if not loop.first %}hidden{% endif %}">
+                        <!-- RESUMEN GENERAL -->
+                        <div class="progress-summary">
+                            <div class="stat-box">
+                                <span class="stat-number">{{ item.promedio_general }}%</span>
+                                <span class="stat-label">Dominio General</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number">{{ item.words_mastered }}</span>
+                                <span class="stat-label">Palabras Dominadas</span>
+                            </div>
                         </div>
+                        <h3>Progreso por Categoría / Juego</h3>
+                        <!-- BARRAS DE PROGRESO POR CATEGORÍA -->
+                        <div class="categories-progress-list">
+                            {% for cat in item.categories %}
+                                <div class="progress-item">
+                                    <div class="progress-info">
+                                        <span class="cat-name">{{ cat.category_name }}</span>
+                                        <span class="cat-percentage">{{ cat.percentage }}%</span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: {{ cat.percentage }}%;"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
                     </div>
                 {% endfor %}
             </div>
+
         {% else %}
             <p class="no-children-msg">Aún no tienes niños o alumnos asignados.</p>
         {% endif %}
@@ -54,4 +87,19 @@
     </div>
 
 </section>
+
+<!-- SCRIPT JS PARA CAMBIAR ENTRE NIÑOS -->
+<script>
+    function mostrarProgreso(childId) {
+        // Ocultar todas las tarjetas de progreso
+        const cards = document.querySelectorAll('.child-progress-card');
+        cards.forEach(card => card.classList.add('hidden'));
+
+        // Mostrar la tarjeta del niño seleccionado
+        const selectedCard = document.getElementById(childId);
+        if (selectedCard) {
+            selectedCard.classList.remove('hidden');
+        }
+    }
+</script>
 {% endblock %}

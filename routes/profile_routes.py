@@ -1,5 +1,8 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash
 from models.user import User
+from models.category import Category
+from models.progress import Progress
+from services.progress_service import ProgressService
 
 profile = Blueprint("profile", __name__)
 
@@ -15,6 +18,7 @@ def perfil():
         return redirect(url_for("profile.perfil_tutor"))
     return render_template("child/profile.html", child=user)
 
+#RUTA PERFIL DEL TUTOR
 @profile.route("/perfil/tutor")
 def perfil_tutor():
     user_id = session.get("user_id")
@@ -24,12 +28,48 @@ def perfil_tutor():
 
     tutor = User.query.get_or_404(user_id)
 
-    # Control de acceso: Si un niño intenta acceder, lo enviamos a su perfil
     if not tutor.is_tutor():
         flash("Acceso no autorizado.", "danger")
         return redirect(url_for("profile.perfil"))
 
-    # Obtenemos la lista de niños asignados usando la relación del modelo
+    # 1. Obtener niños asignados y todas las categorías/juegos
     children = tutor.children.all()
+    categories = Category.query.all()
 
-    return render_template("tutor/profile.html", tutor=tutor, children=children)
+    # 2. Estructurar estadísticas por niño
+    children_stats = []
+    
+    for child in children:
+        cat_stats = []
+        total_porcentajes = 0
+        words_mastered_count = 0
+
+        for cat in categories:
+            # Porcentaje de la categoría usando tu ProgressService
+            porcentaje = ProgressService.progreso_de_categoria(child.id_user, cat)
+            total_porcentajes += porcentaje
+
+            cat_stats.append({
+                "category_name": cat.name,
+                "percentage": porcentaje
+            })
+
+        # Calcular promedio general del niño
+        promedio_general = round(total_porcentajes / len(categories)) if categories else 0
+        
+        # Palabras dominadas por el niño
+        progresos_nino = Progress.query.filter_by(id_user=child.id_user).all()
+        words_mastered_count = sum(1 for p in progresos_nino if p.esta_dominada())
+
+        children_stats.append({
+            "child": child,
+            "promedio_general": promedio_general,
+            "words_mastered": words_mastered_count,
+            "categories": cat_stats
+        })
+
+    return render_template(
+        "tutor/profile.html", 
+        tutor=tutor, 
+        children_stats=children_stats
+    )
