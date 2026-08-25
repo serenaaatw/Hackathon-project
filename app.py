@@ -1,5 +1,6 @@
 from flask import Flask
 from config.config import DATABASE_CONNECTION_URI
+from dotenv import load_dotenv
 from models.db import db
 from routes.auth_routes import auth_bp
 from routes.informative_routes import informative_bp
