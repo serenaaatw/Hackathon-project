@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (decision === "oracion") {
 
             window.location.href =
-                "/oraciones";
+                "/oraciones/reconocer";
 
             return;
         }

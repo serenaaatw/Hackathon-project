@@ -10,6 +10,7 @@ from routes.menuPrincipal_routes import menu_principal
 from routes.progress_routes import progress_routes
 from routes.profile_routes import profile
 from routes.contact_routes import contact
+from routes.sentence_routes import sentence_bp
 import os
 
 app= Flask(__name__)
@@ -27,6 +28,7 @@ app.register_blueprint(menu_principal)
 app.register_blueprint(progress_routes)
 app.register_blueprint(profile)
 app.register_blueprint(contact)
+app.register_blueprint(sentence_bp)
 
 db.init_app(app)
 

@@ -262,7 +262,7 @@ class ExerciseService:
         if puede_formar:
 
             LearningRoundService.completar_ronda(
-                id_user, palabras
+                id_user
             )
 
             return {

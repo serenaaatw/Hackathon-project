@@ -1,4 +1,3 @@
-
 from flask import (
     Blueprint,
     render_template,
@@ -11,6 +10,7 @@ from flask import (
 
 from services.learning_service import LearningService
 from services.learning_round_service import LearningRoundService
+from services.sentence_service import SentenceService
 
 
 learning_bp = Blueprint(
@@ -18,6 +18,7 @@ learning_bp = Blueprint(
     __name__,
     url_prefix="/aprender"
 )
+
 
 
 @learning_bp.route("/")
@@ -111,6 +112,7 @@ def aprender():
     )
 
 
+
 @learning_bp.route(
     "/iniciar-ejercicios",
     methods=["POST"]
@@ -120,6 +122,7 @@ def iniciar_ejercicios():
     id_user = session.get("usuario_id")
 
     if id_user is None:
+
         return jsonify({
             "ok": False,
             "error": "No hay sesión activa"
@@ -132,6 +135,7 @@ def iniciar_ejercicios():
     )
 
     if ronda is None:
+
         return jsonify({
             "ok": False,
             "error": "No hay una ronda activa"
@@ -141,3 +145,28 @@ def iniciar_ejercicios():
         "ok": True,
         "juego_actual": ronda.juego_actual
     })
+
+
+@learning_bp.route(
+    "/oracion/<int:id_sentence>"
+)
+def aprender_oracion(id_sentence):
+
+    id_user = session.get("usuario_id")
+
+    if id_user is None:
+        abort(401)
+
+    oracion = (
+        SentenceService.obtener_oracion(
+            id_sentence
+        )
+    )
+
+    if oracion is None:
+        abort(404)
+
+    return render_template(
+        "sentences/aprender_oracion.html",
+        oracion=oracion.serialize()
+    )
