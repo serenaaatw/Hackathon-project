@@ -343,7 +343,7 @@ def finalizar_juego_2():
         )
 
     id_user = session.get(
-        "id_user"
+        "usuario_id"
     )
 
     if not id_user:

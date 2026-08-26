@@ -251,13 +251,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 posicion => texto[posicion]
             );
 
+        // OJO: usamos un array, NO un Set. Un Set elimina letras
+        // repetidas, y si la palabra tiene una letra que se repite
+        // entre los huecos (ej. la R de DORMIR), hace falta un
+        // botón por cada hueco aunque la letra sea la misma, o el
+        // juego queda imposible de completar.
         const letras =
-            new Set(letrasCorrectas);
+            [...letrasCorrectas];
 
         const abecedario =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        while (letras.size < 8) {
+        while (letras.length < 8) {
 
             const letra =
                 abecedario[
@@ -267,11 +272,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     )
                 ];
 
-            letras.add(letra);
+            letras.push(letra);
         }
 
         state.letrasDisponibles =
-            shuffle([...letras]);
+            shuffle(letras);
     }
 
     function actualizarProgreso() {

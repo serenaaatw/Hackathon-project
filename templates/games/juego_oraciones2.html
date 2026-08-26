@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS — JUEGO 2 ORACIONES{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/juego_oraciones_2.css'
+    ) }}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<main class="sentence-game">
+
+    <div
+        id="tutorial"
+        class="tutorial"
+        hidden
+    >
+
+        <div
+            class="tutorial-background"
+            id="tutorialBackground"
+        ></div>
+
+        <div class="tutorial-card">
+
+            <button
+                id="btnTutorialClose"
+                class="tutorial-close"
+                type="button"
+                aria-label="Cerrar"
+            >
+                ×
+            </button>
+
+            <div class="tutorial-content">
+
+                <p
+                    id="tutorialSentence"
+                    class="tutorial-sentence"
+                ></p>
+
+                <div
+                    id="tutorialOptions"
+                    class="tutorial-image-options"
+                ></div>
+
+            </div>
+
+            <div class="tutorial-actions">
+
+                <button
+                    id="btnTutorialRepeat"
+                    class="tutorial-button tutorial-button--secondary"
+                    type="button"
+                    aria-label="Repetir"
+                >
+                    ↻
+                </button>
+
+                <button
+                    id="btnTutorialNext"
+                    class="tutorial-button tutorial-button--primary"
+                    type="button"
+                    aria-label="Continuar"
+                >
+                    →
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <header class="game-header">
+
+        <div class="game-header__title">
+
+            <span class="game-eyebrow">
+                JUEGO 2
+            </span>
+
+            <h1>
+                COMPRENDÉ LA ORACIÓN
+            </h1>
+
+        </div>
+
+        <div class="game-progress">
+
+            <span id="gameStep">
+                1
+            </span>
+
+            <span>
+                /
+            </span>
+
+            <span id="gameTotal">
+                3
+            </span>
+
+        </div>
+
+    </header>
+
+    <section class="game-card">
+
+        <div class="sentence-prompt">
+
+            <p id="sentenceText"></p>
+
+        </div>
+
+        <div class="question-title">
+
+            <span id="questionInstruction">
+                TOCÁ LA IMAGEN QUE CORRESPONDE
+            </span>
+
+        </div>
+
+        <div
+            id="imageOptions"
+            class="image-options"
+        ></div>
+
+        <div
+            id="feedback"
+            class="feedback"
+            aria-live="polite"
+        ></div>
+
+    </section>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    const ORACIONES =
+        {{ oraciones | tojson }};
+
+    const URL_REGISTRAR_PROGRESO =
+        "{{ url_for('sentence.registrar_resultado') }}";
+
+    const URL_COMPLETAR_JUEGO_2 =
+        "{{ url_for('sentence.finalizar_juego_2') }}";
+</script>
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/juego_oraciones_2.js'
+    ) }}"
+></script>
+
+{% endblock %}
