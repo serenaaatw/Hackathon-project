@@ -146,27 +146,3 @@ def iniciar_ejercicios():
         "juego_actual": ronda.juego_actual
     })
 
-
-@learning_bp.route(
-    "/oracion/<int:id_sentence>"
-)
-def aprender_oracion(id_sentence):
-
-    id_user = session.get("usuario_id")
-
-    if id_user is None:
-        abort(401)
-
-    oracion = (
-        SentenceService.obtener_oracion(
-            id_sentence
-        )
-    )
-
-    if oracion is None:
-        abort(404)
-
-    return render_template(
-        "sentences/aprender_oracion.html",
-        oracion=oracion.serialize()
-    )

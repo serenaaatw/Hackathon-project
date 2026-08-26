@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS — JUEGO 1 ORACIONES{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/juego_oraciones_1.css'
+    ) }}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<main class="sentence-game">
+
+    <div
+        id="tutorial"
+        class="tutorial"
+        hidden
+    >
+
+        <div
+            class="tutorial-background"
+            id="tutorialBackground"
+        ></div>
+
+        <div class="tutorial-card">
+
+            <button
+                id="btnTutorialClose"
+                class="tutorial-close"
+                type="button"
+                aria-label="Cerrar"
+            >
+                ×
+            </button>
+
+            <div class="tutorial-content">
+
+                <div
+                    id="tutorialImageContainer"
+                    class="tutorial-image-container"
+                >
+
+                    <img
+                        id="tutorialImage"
+                        class="tutorial-image"
+                        src=""
+                        alt=""
+                    >
+
+                </div>
+
+                <div
+                    id="tutorialVideoContainer"
+                    class="tutorial-video-container"
+                    hidden
+                >
+
+                    <video
+                        id="tutorialVideo"
+                        class="tutorial-video"
+                        playsinline
+                        preload="metadata"
+                    ></video>
+
+                    <button
+                        id="btnTutorialVideoPlay"
+                        class="tutorial-video-play"
+                        type="button"
+                        aria-label="Reproducir video"
+                    >
+                        ▶
+                    </button>
+
+                </div>
+
+                <div
+                    id="tutorialOptions"
+                    class="tutorial-options"
+                ></div>
+
+            </div>
+
+            <div class="tutorial-actions">
+
+                <button
+                    id="btnTutorialRepeat"
+                    class="tutorial-button tutorial-button--secondary"
+                    type="button"
+                    aria-label="Repetir"
+                >
+                    ↻
+                </button>
+
+                <button
+                    id="btnTutorialNext"
+                    class="tutorial-button tutorial-button--primary"
+                    type="button"
+                    aria-label="Continuar"
+                >
+                    →
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <header class="game-header">
+
+        <div class="game-header__title">
+
+            <span class="game-eyebrow">
+                JUEGO 1
+            </span>
+
+            <h1>
+                RECONOCÉ LA ORACIÓN
+            </h1>
+
+        </div>
+
+        <div class="game-progress">
+
+            <span id="gameStep">
+                1
+            </span>
+
+            <span>
+                /
+            </span>
+
+            <span id="gameTotal">
+                3
+            </span>
+
+        </div>
+
+    </header>
+
+    <div
+        id="partIndicator"
+        class="part-indicator"
+    >
+        PARTE A
+    </div>
+
+    <section class="game-card">
+
+        <div
+            id="questionMedia"
+            class="question-media"
+        >
+
+            <div
+                id="imageContainer"
+                class="image-container"
+            >
+
+                <img
+                    id="questionImage"
+                    class="question-image"
+                    src=""
+                    alt=""
+                >
+
+            </div>
+
+            <div
+                id="videoContainer"
+                class="video-container"
+                hidden
+            >
+
+                <video
+                    id="questionVideo"
+                    playsinline
+                    preload="metadata"
+                ></video>
+
+                <button
+                    id="btnVideoPlay"
+                    class="video-play"
+                    type="button"
+                    aria-label="Reproducir video"
+                >
+                    ▶
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="question-title">
+
+            <span id="questionInstruction">
+                ¿CUÁL ES?
+            </span>
+
+        </div>
+
+        <div
+            id="options"
+            class="sentence-options"
+        ></div>
+
+        <div
+            id="feedback"
+            class="feedback"
+            aria-live="polite"
+        ></div>
+
+    </section>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    const ORACIONES =
+        {{ oraciones | tojson }};
+
+    const URL_JUEGO_ORACIONES_2 =
+        "{{ url_for('sentence.juego_oraciones_2') }}";
+
+    const URL_REGISTRAR_PROGRESO =
+        "{{ url_for('sentence.registrar_resultado') }}";
+
+    const URL_COMPLETAR_JUEGO =
+        "{{ url_for('sentence.finalizar_juego_1') }}";
+</script>
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/juego_oraciones_1.js'
+    ) }}"
+></script>
+
+{% endblock %}
