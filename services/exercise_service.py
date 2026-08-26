@@ -230,17 +230,39 @@ class ExerciseService:
                 "juego_actual": 1
             }
 
-        puede_formar = (
-            ExerciseService.puede_formar_oracion(
-                id_user,
-                palabras
-            )
+        print("========== DEBUG ORACIONES ==========")
+
+        palabras_dominadas = LearningService.obtener_palabras_dominadas(
+            id_user
         )
+
+        print(
+            "PALABRAS DOMINADAS:",
+            [
+                (
+                    palabra.id_word,
+                    palabra.word,
+                    palabra.category.slug
+                )
+                for palabra in palabras_dominadas
+            ]
+        )
+
+        puede_formar = ExerciseService.puede_formar_oracion(
+            id_user
+        )
+
+        print(
+            "PUEDE FORMAR ORACIONES:",
+            puede_formar
+        )
+
+        print("=====================================")
 
         if puede_formar:
 
             LearningRoundService.completar_ronda(
-                id_user
+                id_user, palabras
             )
 
             return {
