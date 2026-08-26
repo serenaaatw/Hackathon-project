@@ -83,22 +83,10 @@ class SentenceService:
                 id_sentence=id_sentence
             )
 
+            from models.db import db
+            db.session.add(progreso)
+
         return progreso
-
-    @staticmethod
-    def obtener_progreso(
-        id_user,
-        id_sentence
-    ):
-
-        return (
-            SentenceProgress.query
-            .filter_by(
-                id_user=id_user,
-                id_sentence=id_sentence
-            )
-            .first()
-        )
 
     @staticmethod
     def bloque_dominado(

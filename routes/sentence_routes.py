@@ -220,7 +220,7 @@ def registrar_resultado():
         )
 
     id_user = session.get(
-        "id_user"
+        "usuario_id"
     )
 
     if not id_user:
@@ -262,8 +262,24 @@ def registrar_resultado():
         bool(correcto)
     )
 
+    print(
+        "GUARDANDO:",
+        id_user,
+        id_sentence,
+        correcto,
+        progreso.aciertos,
+        progreso.intentos,
+        progreso.dominio
+    )
+
+
     db.session.add(progreso)
     db.session.commit()
+
+    print(
+        "GUARDADO:",
+        progreso.id_sentence_progress
+    )
 
     return jsonify({
         "ok": True,
