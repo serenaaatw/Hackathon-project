@@ -12,6 +12,7 @@ from routes.profile_routes import profile
 from routes.contact_routes import contact_bp
 from routes.sentence_routes import sentence_bp
 from routes.inicio_routes import inicio_bp
+from routes.help_routes import help_bp
 import os
 
 
@@ -36,6 +37,7 @@ app.register_blueprint(profile)
 app.register_blueprint(contact_bp)
 app.register_blueprint(sentence_bp)
 app.register_blueprint(inicio_bp)
+app.register_blueprint(help_bp)
 
 
 db.init_app(app)
