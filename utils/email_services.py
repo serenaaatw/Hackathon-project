@@ -19,10 +19,6 @@ def send_verification_code(adressee):
 
     msg.set_content(f"""
 
-<<<<<<< HEAD
-Gracias por registrarte en EduSeñas.
-=======
->>>>>>> feature/Contacto
 
     Hola {adressee}!
 
@@ -32,7 +28,7 @@ Gracias por registrarte en EduSeñas.
 
     ====================
     {code}
-    ======
+    ====================
 
     Ingresá este código en la página de verificación.
 
@@ -45,13 +41,6 @@ Gracias por registrarte en EduSeñas.
     """)
 
 
-<<<<<<< HEAD
-Saludos, Team EduSeñas
-""")
-    
-    
-=======
->>>>>>> feature/Contacto
     try:
 
         with smtplib.SMTP_SSL(
