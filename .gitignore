@@ -1,0 +1,8 @@
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+az-handwritten-alphabets-in-csv-format.zip
+dataset_az/
