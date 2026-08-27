@@ -24,6 +24,7 @@ class AuthService:
             password = request.form["password"]
             username = request.form["username"]
             last_name = request.form["last_name"]
+            rol=request.form["rol"]
             
             try:
                 validate_email(email)
@@ -58,7 +59,8 @@ class AuthService:
                 "last_name": last_name,
                 "email": email,
                 "username": username,
-                "password": password
+                "password": password,
+                "rol":rol
             }
             return redirect(url_for("auth_routes.verify_email_route"))
 
@@ -75,7 +77,8 @@ class AuthService:
             email=data["email"],
             username=data["username"],
             password="",
-            profile_picture="img/user/user.png"
+            profile_picture="img/user/user.png",
+            rol=data["rol"]
         )
 
         new_user.set_password(data["password"])
