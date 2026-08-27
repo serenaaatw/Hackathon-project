@@ -11,11 +11,11 @@ class User(db.Model):
     password = db.Column(db.String(500), nullable=False)
     creation_date = db.Column(db.DateTime, default=db.func.current_timestamp())
     username = db.Column(db.String(100), unique=True, nullable=False)
-    profile_picture = db.Column(db.String(255), default='img/user/user.png')
+    profile_picture = db.Column(db.String(400), default='img/user/user.png')
     active = db.Column(db.Boolean, default=True)
     video_visto = db.Column(db.Boolean, default=False, nullable=False)
     #atributos para el perfil del niño
-    rol=db.Column(db.String(20), default='child',nullable=False) #child(niño) o tutor
+    rol=db.Column(db.String(20),nullable=False) #child(niño) o tutor
     edad=db.Column(db.Integer,nullable=True)
    #relacion entre niño y tutor, hacemos una clave foranea apuntando a la mima tabla user
     tutor_id=db.Column(db.Integer, db.ForeignKey('users.id_user'), nullable=True)
