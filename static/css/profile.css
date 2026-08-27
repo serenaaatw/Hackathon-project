@@ -312,3 +312,62 @@
     border-radius: 10px;
     transition: width 0.4s ease-in-out;
 }
+
+.logout-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 14px;
+    background: #FF7E67;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: .75rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform .15s ease, filter .15s ease;
+}
+
+.logout-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(.97);
+}
+
+.logout-button:active {
+    transform: translateY(2px);
+}
+
+.edit-profile-button {
+    display: inline-flex;
+    margin-top: 16px;
+    padding: 12px 20px;
+    border-radius: 15px;
+    background: #FFF3C9;
+    color: #493B5A;
+    font-family: 'Inter', sans-serif;
+    font-size: .7rem;
+    font-weight: 900;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    transition:
+        transform .15s ease,
+        filter .15s ease;
+}
+
+.edit-profile-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(.98);
+}
+
+.edit-profile-button:active {
+    transform: translateY(2px);
+}
+
+@media (max-width: 600px) {
+
+    .edit-profile-button {
+        width: 100%;
+    }
+}

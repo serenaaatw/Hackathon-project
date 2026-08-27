@@ -15,6 +15,13 @@
             <img src="{{ url_for('static', filename=tutor.profile_picture) }}" alt="Foto de {{ tutor.name }}" class="profile-avatar">
             <span class="role-badge role-tutor">TUTOR / DOCENTE</span>
         </div>
+        
+        <a
+            href="{{ url_for('auth_routes.editar_perfil_route') }}"
+            class="edit-profile-button"
+        >
+            EDITAR FOTO
+        </a>
 
         <div class="profile-header">
             <h1 class="child-name">{{ tutor.name }} {{ tutor.last_name }}</h1>
@@ -75,7 +82,7 @@
             </div>
 
         {% else %}
-            <p class="no-children-msg">Aún no tienes niños o alumnos asignados.</p>
+            <p class="no-children-msg">PROXIMAMENTE</p>
         {% endif %}
     </div>
 
@@ -85,6 +92,11 @@
             🏠 MENÚ PRINCIPAL
         </a>
     </div>
+
+    <a href="{{ url_for('auth_routes.logout_route') }}" class="logout-button">
+        CERRAR SESIÓN
+    </a>
+
 
 </section>
 

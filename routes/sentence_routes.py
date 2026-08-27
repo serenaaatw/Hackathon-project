@@ -10,6 +10,7 @@ from flask import (
 
 from services.sentence_service import SentenceService
 from services.learning_service import LearningService
+from flask_login import login_required
 
 from models.db import db
 
@@ -19,6 +20,7 @@ sentence_bp = Blueprint(
     __name__,
     url_prefix="/oraciones"
 )
+
 
 def serializar_oraciones(oraciones):
 
@@ -89,6 +91,7 @@ def serializar_oraciones(oraciones):
 
 
 @sentence_bp.route("/fin")
+@login_required
 def fin_oraciones():
 
     id_user = session.get(
@@ -115,6 +118,7 @@ def fin_oraciones():
 
 
 @sentence_bp.route("/reconocer")
+@login_required
 def reconocer_oraciones():
 
     id_user = session.get(
@@ -156,7 +160,9 @@ def reconocer_oraciones():
         )
     )
 
+
 @sentence_bp.route("/juego/1")
+@login_required
 def juego_oraciones_1():
 
     id_user = session.get(
@@ -255,6 +261,7 @@ def juego_oraciones_1():
 
 
 @sentence_bp.route("/juego/2")
+@login_required
 def juego_oraciones_2():
 
     ids_actuales = session.get(
@@ -296,6 +303,7 @@ def juego_oraciones_2():
     "/registrar-resultado",
     methods=["POST"]
 )
+@login_required
 def registrar_resultado():
 
     datos = request.get_json(
@@ -402,6 +410,7 @@ def registrar_resultado():
     "/finalizar-juego-1",
     methods=["POST"]
 )
+@login_required
 def finalizar_juego_1():
 
     ids_actuales = session.get(
@@ -431,6 +440,7 @@ def finalizar_juego_1():
     "/finalizar-juego-2",
     methods=["POST"]
 )
+@login_required
 
 def finalizar_juego_2():
 

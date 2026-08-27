@@ -5,6 +5,7 @@ jsonify,
 request,
 session
 )
+from flask_login import login_required
 
 from utils.email_services import send_contact_message
 
@@ -14,7 +15,9 @@ __name__,
 url_prefix="/contacto"
 )
 
+
 @contact_bp.route("/")
+@login_required
 def contacto():
 
 
@@ -27,6 +30,7 @@ def contacto():
 "/enviar",
 methods=["POST"]
 )
+@login_required
 def enviar_contacto():
 
 

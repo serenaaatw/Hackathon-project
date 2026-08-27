@@ -8,6 +8,7 @@ from flask import (
     url_for
 )
 
+from flask_login import login_required
 from services.exercise_service import ExerciseService
 from services.progress_service import ProgressService
 
@@ -85,6 +86,7 @@ def serializar_palabras(palabras):
 
 
 @game_bp.route("/1")
+@login_required
 def juego1():
 
     palabras = obtener_contexto_juego()
@@ -94,8 +96,8 @@ def juego1():
         palabras=serializar_palabras(palabras)
     )
 
-
 @game_bp.route("/unir")
+@login_required
 def juego_unir():
 
     palabras = obtener_contexto_juego()
@@ -109,6 +111,7 @@ def juego_unir():
 
 
 @game_bp.route("/3")
+@login_required
 def juego3():
 
     palabras = obtener_contexto_juego()
@@ -122,6 +125,7 @@ def juego3():
 
 
 @game_bp.route("/4")
+@login_required
 def juego4():
 
     id_user = session.get("usuario_id")
@@ -151,6 +155,7 @@ def juego4():
     "/completar",
     methods=["POST"]
 )
+@login_required
 def completar_juego():
 
     id_user = session.get("usuario_id")
@@ -273,6 +278,7 @@ def completar_juego():
     "/decidir",
     methods=["POST"]
 )
+@login_required
 def decidir_siguiente_paso():
 
     id_user = session.get("usuario_id")
@@ -317,6 +323,7 @@ def decidir_siguiente_paso():
     "/registrar-resultado",
     methods=["POST"]
 )
+@login_required
 def registrar_resultado():
 
     id_user = session.get("usuario_id")
