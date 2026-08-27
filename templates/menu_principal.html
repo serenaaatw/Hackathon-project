@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS — INICIO{% endblock %}
+
+{% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/menu.css') }}"
+>
+{% endblock %}
+
+{% block content %}
+
+<section class="menu">
+
+    <div class="menu__intro">
+        <h1>¡HOLA!</h1>
+        <p>¿QUÉ QUERÉS HACER?</p>
+    </div>
+
+
+    <div class="menu__layout">
+
+        <!-- PALABRA DEL DÍA -->
+        <aside class="info-card info-card--word">
+
+            <div class="info-card__icon">
+                <img
+                    src="{{ url_for('static', filename='img/iconos/recordar.png') }}"
+                    alt=""
+                >
+            </div>
+
+            <div class="info-card__content">
+                <span>PALABRA DEL DÍA</span>
+                <strong>PRÓXIMAMENTE</strong>
+            </div>
+
+        </aside>
+
+
+        <!-- OPCIONES PRINCIPALES -->
+        <section class="menu__options">
+
+            <a href="{{ url_for('learning.aprender') }}"
+            class="menu-card menu-card--learning">
+
+                <div class="menu-card__image">
+                    <img
+                        src="{{ url_for('static', filename='img/iconos/aprendizaje.png') }}"
+                        alt="APRENDIZAJE"
+                    >
+                </div>
+
+                <div class="menu-card__text">
+                    <h2>APRENDER</h2>
+                </div>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('progress.progreso') }}"
+                class="menu-card menu-card--progress"
+            >
+                <div class="menu-card__image">
+                    <img
+                        src="{{ url_for('static', filename='img/iconos/progreso.png') }}"
+                        alt="PROGRESO"
+                    >
+                </div>
+
+                <div class="menu-card__text">
+                    <h2>PROGRESO</h2>
+                </div>
+
+            </a>
+
+
+            <a href="/perfil"
+            class="menu-card menu-card--profile">
+
+                <div class="menu-card__image">
+                    <img
+                        src="{{ url_for('static', filename='img/iconos/perfil.png') }}"
+                        alt="PERFIL"
+                    >
+                </div>
+
+                <div class="menu-card__text">
+                    <h2>PERFIL</h2>
+                </div>
+
+            </a>
+
+
+            <a href="/contacto"
+            class="menu-card menu-card--contact">
+
+                <div class="menu-card__image">
+                    <img
+                        src="{{ url_for('static', filename='img/iconos/contacto.png') }}"
+                        alt="CONTACTO"
+                    >
+                </div>
+
+                <div class="menu-card__text">
+                    <h2>CONTACTO</h2>
+                </div>
+
+            </a>
+
+        </section>
+
+        <!-- PROGRESO --> 
+         <aside class="info-card info-card--progress"> 
+            <div class="info-card__icon"> 
+                <img src="{{ url_for('static', filename='img/iconos/progreso2.png') }}" alt="" > 
+            </div> 
+            <div class="info-card__content"> 
+                <span>MI PROGRESO</span> 
+                <strong>PRÓXIMAMENTE</strong> 
+            </div> 
+        </aside> 
+    </div> 
+</section>
+
+{% endblock %}

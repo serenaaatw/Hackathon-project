@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS — RECONOCER ORACIONES{% endblock %}
+
+{% block styles %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reconocer_oracion.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<main class="learning-stage">
+
+<div class="learning-progress" id="learningProgress"></div>
+
+<section class="learning-card">
+
+    <div class="learning-heading">
+
+        <div>
+            <span class="learning-eyebrow">
+                RECONOCÉ LA ORACIÓN
+            </span>
+
+            <h1>
+                RECONOCIMIENTO
+            </h1>
+        </div>
+
+        <div class="learning-step">
+            <span id="learningStep">1</span>
+            <span>/</span>
+            <span id="learningTotal">3</span>
+        </div>
+
+    </div>
+
+    <div class="sentence-box">
+
+        <span id="sentenceText"></span>
+
+        <button
+            id="btnSentenceSound"
+            class="sentence-sound"
+            type="button"
+            aria-label="Escuchar oración completa">
+
+            <span class="sentence-sound__icon">🔊</span>
+
+            <span>
+                ESCUCHAR ORACIÓN
+            </span>
+
+        </button>
+
+    </div>
+
+    <div class="learning-main">
+
+        <div class="learning-video-column">
+
+            <div class="learning-label">
+                ORACIÓN EN LSA
+            </div>
+
+            <div class="learning-video">
+
+                <video
+                    id="lsaVideo"
+                    playsinline
+                    preload="metadata">
+                </video>
+
+                <button
+                    id="btnVideoPlay"
+                    class="video-play"
+                    type="button"
+                    aria-label="Reproducir video">
+
+                    <span>▶</span>
+
+                </button>
+
+                <div
+                    id="videoPlaceholder"
+                    class="video-placeholder"
+                    hidden>
+
+                    <span>
+                        NO HAY VIDEO
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="learning-words-column">
+
+            <div class="learning-label">
+                PALABRAS
+            </div>
+
+            <div
+                id="sentenceWords"
+                class="sentence-words">
+            </div>
+
+        </div>
+
+    </div>
+
+    <audio id="wordAudio"></audio>
+
+    <audio id="sentenceAudio"></audio>
+
+</section>
+
+<div class="learning-navigation">
+
+    <button
+        id="btnPrev"
+        class="learning-nav"
+        type="button"
+        aria-label="Oración anterior">
+        ‹
+    </button>
+
+    <button
+        id="btnNext"
+        class="learning-nav learning-nav--primary"
+        type="button"
+        aria-label="Siguiente oración">
+        ›
+    </button>
+
+</div>
+
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    const ORACIONES = {{ oraciones | tojson }};
+    const URL_JUEGO_ORACIONES = "/oraciones/juego/1";
+</script>
+
+<script src="{{ url_for('static', filename='javascript/reconocer_oracion.js') }}"></script>
+
+{% endblock %}

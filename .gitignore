@@ -1,8 +1,21 @@
+# Entorno virtual
+venv/
 env/
+.venv/
+myenv
+
+# Variables de entorno (nunca subir esto)
+.env
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .pytest_cache/
+# Dataset de entrenamiento
 az-handwritten-alphabets-in-csv-format.zip
 dataset_az/
+
+*.egg-info/
+

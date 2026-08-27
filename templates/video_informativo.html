@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Información importante</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/informative.css') }}"
+    >
+</head>
+
+<body>
+
+    <main class="video-container">
+
+        <video id="videoInformativo" controls>
+            <source
+                src="{{ url_for('static', filename='videos/informativo/advertencia.mp4') }}"
+                type="video/mp4"
+            >
+
+            Tu navegador no soporta la reproducción de videos.
+        </video>
+
+        <form
+            id="formContinuar"
+            action="{{ url_for('informative_routes.completar_video') }}"
+            method="POST"
+        >
+            <button type="submit" id="btnContinuar" aria-label="Continuar">
+                →
+            </button>
+        </form>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='javascript/informative.js') }}"></script>
+
+</body>
+</html>

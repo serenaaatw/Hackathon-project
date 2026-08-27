@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    font-family: 'Nunito', sans-serif;
+    background:
+        radial-gradient(circle at top left, #E9DDF8 0%, transparent 32%),
+        radial-gradient(circle at bottom right, #DDF3EF 0%, transparent 35%),
+        radial-gradient(circle at top right, #FDF0D2 0%, transparent 28%),
+        #FFFDF9;
+}
+
+.container {
+    width: 100%;
+    max-width: 450px;
+    background: #FFFFFF;
+    padding: 40px 35px;
+    border-radius: 28px;
+    border: 2px solid #EFEAF6;
+    box-shadow:
+        0 20px 45px rgba(46, 42, 74, .12),
+        0 8px 20px rgba(47, 182, 163, .07);
+    text-align: center;
+}
+
+.container h1 {
+    color: #2E2A4A;
+    margin-bottom: 18px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+}
+
+.container h1::after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 6px;
+    margin: 12px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        #2FB6A3 0%,
+        #8E6BC7 35%,
+        #F2647C 65%,
+        #F5A428 100%
+    );
+}
+
+.container p {
+    color: #4B4570;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 15px 16px;
+    border: 2px solid #C9BFE0;
+    border-radius: 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    outline: none;
+    transition: .25s;
+    margin-bottom: 20px;
+    background: #F7F3FC;
+    color: #2E2A4A;
+}
+
+input[type="text"]::placeholder {
+    color: #706780;
+    opacity: 1;
+}
+
+input[type="text"]:focus {
+    border-color: #2FB6A3;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(47, 182, 163, .18);
+}
+
+button {
+    width: 100%;
+    display: inline-block;
+    height: 60px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(
+        100deg,
+        #2FB6A3 0%,
+        #8E6BC7 35%,
+        #F2647C 68%,
+        #F5A428 100%
+    );
+    background-size: 200% 200%;
+    color: #FFFFFF;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    cursor: pointer;
+    transition: .25s;
+    text-align: center;
+    box-shadow:
+        0 12px 25px rgba(142, 107, 199, .22),
+        0 8px 18px rgba(47, 182, 163, .15);
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 17px 32px rgba(142, 107, 199, .28),
+        0 10px 22px rgba(47, 182, 163, .20);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+body > p {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #FBE1E7;
+    color: #8F3045;
+    padding: 12px 20px;
+    border-radius: 16px;
+    border: 2px solid #F2647C;
+    max-width: 90%;
+    text-align: center;
+    font-weight: 700;
+    box-shadow: 0 8px 18px rgba(242, 100, 124, .08);
+}
+
+.container > .error {
+    background: #FBE1E7;
+    color: #8F3045;
+    border: 2px solid #F2647C;
+    padding: 12px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.link {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #4B4570;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.change-email-link {
+    display: inline-block;
+    color: #8E6BC7;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.25s ease;
+    text-align: center;
+}
+
+.change-email-link:hover {
+    color: #2FB6A3;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 30px 16px;
+    }
+
+    .container {
+        padding: 30px 25px;
+        border-radius: 24px;
+    }
+
+    .container h1 {
+        font-size: 1.9rem;
+    }
+
+    .container p {
+        font-size: 0.95rem;
+    }
+
+    input[type="text"],
+    button {
+        font-size: 0.95rem;
+        padding: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .container {
+        padding: 25px 20px;
+        border-radius: 22px;
+    }
+
+    .container h1 {
+        font-size: 1.6rem;
+    }
+
+    .container p {
+        font-size: 0.88rem;
+    }
+
+    input[type="text"] {
+        padding: 12px;
+    }
+
+    button {
+        padding: 12px;
+        height: 56px;
+    }
+}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil de {{ child.name }} - EDUSEÑAS{% endblock %}
+
+{% block styles %}
+<!-- CSS ESPECÍFICO DE PERFIL -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="profile-container">
+
+    <!-- TARJETA PRINCIPAL DEL NIÑO -->
+    <article class="profile-card">
+        
+        <div class="avatar-wrapper">
+            <img src="{{ url_for('static', filename=child.profile_picture) }}" alt="Foto de perfil de {{ child.name }}" class="profile-avatar">
+            <span class="role-badge">NIÑO</span>
+        </div>
+
+        <div class="profile-header">
+            <h1 class="child-name">{{ child.name }} {{ child.last_name }}</h1>
+            <p class="child-username">@{{ child.username }}</p>
+        </div>
+
+        <div class="profile-details">
+            {% if child.edad %}
+                <div class="detail-pill pill-yellow">
+                    <span class="pill-icon">🎈</span>
+                    <span class="pill-text">{{ child.edad }} AÑOS</span>
+                </div>
+            {% endif %}
+
+            <div class="detail-pill pill-turquoise">
+                <span class="pill-icon">🏫</span>
+                <span class="pill-text">
+                    {% if child.tutor %}
+                        TUTOR: {{ child.tutor.name }} {{ child.tutor.last_name }}
+                    {% else %}
+                        SIN TUTOR ASIGNADO
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+    </article>
+
+    <!-- BOTONES DE NAVEGACIÓN Y ACCIÓN -->
+    <div class="profile-actions">
+        <!-- Ruta oficial al menú principal -->
+        <a href="{{ url_for('menu_principal.mostrar_menu') }}" class="btn-profile btn-secondary">
+            🏠 MENÚ PRINCIPAL
+        </a>
+    </div>
+
+</section>
+{% endblock %}

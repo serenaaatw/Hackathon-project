@@ -1,0 +1,1081 @@
+:root {
+    --bg: #FCF7EC;
+    --turquoise: #3DBFB8;
+    --turquoise-dark: #237F7A;
+    --turquoise-pale: #E3F6F4;
+    --yellow: #FFC64B;
+    --coral: #FF7A59;
+    --ink: #4A3B78;
+    --success: #3FA772;
+    --success-bg: #E7F6EE;
+    --retry: #FF8A5B;
+    --retry-bg: #FFF0E6;
+    --white: #FFFFFF;
+
+    --radius-lg: 28px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+
+    --shadow-card:
+        0 10px 0 rgba(74, 59, 120, 0.10),
+        0 14px 24px rgba(74, 59, 120, 0.12);
+
+    --shadow-btn:
+        0 6px 0 rgba(74, 59, 120, 0.18);
+
+    --font-display: 'Fredoka', system-ui, sans-serif;
+    --font-body: 'Nunito', system-ui, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 12% 8%,
+            var(--turquoise-pale) 0%,
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            #FFF3DC 0%,
+            transparent 45%
+        ),
+        var(--bg);
+
+    font-family: var(--font-body);
+    color: var(--ink);
+
+    -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+    width: 100%;
+    min-height: calc(100vh - 100px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 18px;
+    padding-bottom: 40px;
+}
+
+.trail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+    margin: 22px 0 6px;
+
+    min-height: 20px;
+}
+
+.trail__step {
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: var(--white);
+    border: 2.5px solid var(--turquoise);
+
+    opacity: .5;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        opacity .2s ease;
+}
+
+.trail__step.is-done {
+    background: var(--turquoise);
+    opacity: 1;
+}
+
+.trail__step.is-current {
+    opacity: 1;
+    transform: scale(1.35);
+
+    background: var(--yellow);
+    border-color: var(--yellow);
+}
+
+.stage__eyebrow {
+    font-family: var(--font-body);
+    font-weight: 800;
+
+    font-size: .78rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+
+    color: var(--turquoise-dark);
+
+    background: var(--turquoise-pale);
+
+    padding: 7px 16px;
+
+    border-radius: 999px;
+
+    margin: 0 0 18px;
+}
+
+.mode-toggle {
+    font-family: var(--font-body);
+    font-weight: 800;
+
+    font-size: .8rem;
+
+    color: var(--turquoise-dark);
+    background: var(--white);
+
+    border: 2px solid var(--turquoise);
+
+    border-radius: 999px;
+
+    padding: 8px 16px;
+
+    cursor: pointer;
+
+    transition:
+        transform .12s ease,
+        background .12s ease;
+
+    margin-bottom: 22px;
+}
+
+.mode-toggle:hover {
+    background: var(--turquoise-pale);
+}
+
+.mode-toggle:active {
+    transform: scale(.96);
+}
+
+.mode-toggle:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 2px;
+}
+
+.prompt-card {
+    width: 100%;
+    max-width: 340px;
+    min-height: 260px;
+
+    background: var(--white);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+
+    padding: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+}
+
+.prompt-card[hidden] {
+    display: none;
+}
+
+.prompt-card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 14px;
+    top: 18px;
+    bottom: 18px;
+
+    width: 6px;
+
+    border-radius: 4px;
+
+    background: var(--yellow);
+}
+
+.prompt-card__sticker {
+    width: 220px;
+    height: 220px;
+
+    border-radius: 50%;
+
+    background: var(--turquoise-pale);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 18px;
+
+    overflow: hidden;
+}
+
+.prompt-card__sticker img,
+.prompt-img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+.prompt-card--video {
+    padding: 24px;
+}
+
+.prompt-card--video .video-frame {
+    width: 100%;
+
+    aspect-ratio: 4 / 3;
+
+    border-radius: var(--radius-md);
+
+    background: var(--ink);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.video-frame video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.video-frame__placeholder {
+    color: var(--white);
+
+    text-align: center;
+
+    padding: 14px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.video-frame__placeholder p {
+    font-size: .78rem;
+    line-height: 1.4;
+
+    margin: 0;
+
+    opacity: .85;
+
+    text-transform: uppercase;
+}
+
+.stage__instruction {
+    font-family: var(--font-display);
+    font-weight: 600;
+
+    font-size: 1.15rem;
+
+    color: var(--ink);
+
+    margin: 22px 0 18px;
+
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+.options {
+    width: 100%;
+    max-width: 420px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+}
+
+.option {
+    font-family: var(--font-display);
+    font-weight: 600;
+
+    font-size: 1rem;
+
+    color: var(--ink);
+
+    background: var(--white);
+
+    border: 3px solid var(--turquoise);
+
+    border-radius: var(--radius-md);
+
+    box-shadow: var(--shadow-btn);
+
+    padding: 18px 8px;
+
+    cursor: pointer;
+
+    transition:
+        transform .1s ease,
+        box-shadow .1s ease,
+        background .15s ease;
+
+    min-height: 64px;
+
+    text-transform: uppercase;
+}
+
+.option:hover {
+    background: var(--turquoise-pale);
+}
+
+.option:active {
+    transform: translateY(4px);
+
+    box-shadow:
+        0 2px 0 rgba(74, 59, 120, 0.18);
+}
+
+.option:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+}
+
+.option--image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-img {
+    width: 56px;
+    height: 56px;
+
+    object-fit: contain;
+}
+
+.option.is-correct {
+    background: var(--success-bg);
+
+    border-color: var(--success);
+
+    color: var(--success);
+
+    animation: pop .35s ease;
+}
+
+.option.is-wrong {
+    background: var(--retry-bg);
+
+    border-color: var(--retry);
+
+    color: var(--retry);
+
+    animation: shake .35s ease;
+}
+
+.option.is-disabled {
+    opacity: .45;
+    pointer-events: none;
+}
+
+@keyframes pop {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-6px);
+    }
+
+    75% {
+        transform: translateX(6px);
+    }
+}
+
+.feedback {
+    min-height: 30px;
+
+    margin-top: 18px;
+
+    font-family: var(--font-display);
+    font-weight: 600;
+
+    font-size: 1.05rem;
+
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+.feedback.is-success {
+    color: var(--success);
+}
+
+.feedback.is-retry {
+    color: var(--retry);
+}
+
+.tutorial {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity .4s ease,
+        visibility .4s ease;
+}
+
+.tutorial[hidden] {
+    display: flex;
+}
+
+.tutorial--visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tutorial__background {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        rgba(74, 59, 120, .35);
+
+    backdrop-filter:
+        blur(6px);
+}
+
+.tutorial__card {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    max-width: 430px;
+
+    min-height: 440px;
+
+    padding: 28px;
+
+    background: var(--white);
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 25px 60px
+        rgba(74, 59, 120, .25);
+
+    text-align: center;
+
+    transform:
+        translateY(25px)
+        scale(.92);
+
+    transition:
+        transform .45s ease;
+}
+
+.tutorial--visible .tutorial__card {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+.tutorial__close {
+    position: absolute;
+
+    top: 12px;
+    right: 15px;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        var(--turquoise-pale);
+
+    color:
+        var(--turquoise-dark);
+
+    font-family: Arial, sans-serif;
+
+    font-size: 30px;
+    font-weight: 400;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+.tutorial__close:hover {
+    background: #D2EFEC;
+
+    transform: scale(1.08);
+}
+
+.tutorial__close:active {
+    transform: scale(.92);
+}
+
+.tutorial__progress {
+    display: none;
+}
+
+.tutorial__content {
+    position: relative;
+
+    min-height: 320px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 24px;
+}
+
+.tutorial__image {
+    width: 170px;
+    height: 170px;
+
+    border-radius: 50%;
+
+    background:
+        var(--turquoise-pale);
+
+    padding: 16px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 8px 0
+        rgba(61, 191, 184, .15);
+
+    animation:
+        tutorialImageAppear .8s ease both;
+}
+
+.tutorial__image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+.tutorial__video {
+    width: 190px;
+    height: 190px;
+
+    border-radius: 24px;
+
+    object-fit: cover;
+
+    background: var(--ink);
+
+    display: block;
+
+    box-shadow:
+        0 8px 0
+        rgba(61, 191, 184, .15);
+
+    animation:
+        tutorialVideoAppear .8s ease both;
+}
+
+.tutorial__options {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+}
+
+.tutorial__fake-word {
+    min-height: 65px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px;
+
+    background:
+        var(--white);
+
+    border:
+        3px solid var(--turquoise);
+
+    border-radius:
+        var(--radius-md);
+
+    box-shadow:
+        var(--shadow-btn);
+
+    font-family:
+        var(--font-display);
+
+    font-weight: 700;
+
+    font-size: .85rem;
+
+    color: var(--ink);
+
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
+}
+
+.tutorial__fake-word img {
+    width: 55px;
+    height: 55px;
+
+    object-fit: contain;
+
+    pointer-events: none;
+}
+
+.tutorial-option--highlight {
+    animation:
+        tutorialOptionShake
+        .45s
+        ease-in-out
+        5;
+}
+
+.tutorial-option--success {
+    background:
+        var(--success-bg);
+
+    border-color:
+        var(--success);
+
+    color:
+        var(--success);
+
+    animation:
+        tutorialSuccess
+        .8s
+        ease
+        forwards;
+}
+
+.tutorial__actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-top: 12px;
+}
+
+.tutorial__repeat,
+.tutorial__next {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-family: Arial, sans-serif;
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+.tutorial__repeat {
+    background: var(--white);
+
+    border:
+        3px solid var(--turquoise);
+
+    color:
+        var(--turquoise-dark);
+
+    font-size: 28px;
+
+    box-shadow:
+        var(--shadow-btn);
+}
+
+.tutorial__next {
+    background:
+        var(--turquoise);
+
+    border:
+        3px solid var(--turquoise);
+
+    color:
+        var(--white);
+
+    font-size: 27px;
+
+    box-shadow:
+        var(--shadow-btn);
+}
+
+.tutorial__repeat:hover,
+.tutorial__next:hover {
+    transform: scale(1.08);
+}
+
+.tutorial__repeat:active,
+.tutorial__next:active {
+    transform:
+        translateY(3px)
+        scale(.98);
+
+    box-shadow:
+        0 2px 0
+        rgba(74, 59, 120, .18);
+}
+
+@keyframes tutorialImageAppear {
+
+    0% {
+        opacity: 0;
+        transform: scale(.75);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes tutorialVideoAppear {
+
+    0% {
+        opacity: 0;
+        transform: scale(.75);
+    }
+
+    60% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes tutorialOptionShake {
+
+    0% {
+        transform:
+            translateX(0)
+            scale(1);
+    }
+
+    20% {
+        transform:
+            translateX(-7px)
+            scale(1.03);
+    }
+
+    40% {
+        transform:
+            translateX(7px)
+            scale(1.03);
+    }
+
+    60% {
+        transform:
+            translateX(-6px)
+            scale(1.03);
+    }
+
+    80% {
+        transform:
+            translateX(6px)
+            scale(1.03);
+    }
+
+    100% {
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+
+@keyframes tutorialSuccess {
+
+    0% {
+        transform: scale(1);
+    }
+
+    35% {
+        transform:
+            scale(1.15)
+            rotate(-2deg);
+    }
+
+    60% {
+        transform:
+            scale(1.08)
+            rotate(2deg);
+    }
+
+    80% {
+        transform:
+            scale(1.1)
+            rotate(-1deg);
+    }
+
+    100% {
+        transform:
+            scale(1.08)
+            rotate(0);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .stage {
+        margin-top: 12px;
+
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .prompt-card {
+        max-width: 330px;
+        min-height: 250px;
+    }
+
+    .prompt-card__sticker {
+        width: 205px;
+        height: 205px;
+    }
+
+    .options {
+        max-width: 410px;
+    }
+}
+
+@media (max-width: 520px) {
+
+    .stage__eyebrow {
+        font-size: .7rem;
+
+        padding: 6px 13px;
+
+        margin-bottom: 15px;
+    }
+
+    .mode-toggle {
+        font-size: .72rem;
+
+        padding: 7px 13px;
+
+        margin-bottom: 18px;
+    }
+
+    .prompt-card {
+        max-width: 300px;
+        min-height: 230px;
+
+        padding: 24px;
+    }
+
+    .prompt-card__sticker {
+        width: 185px;
+        height: 185px;
+    }
+
+    .stage__instruction {
+        font-size: 1rem;
+
+        padding: 0 15px;
+
+        margin-top: 19px;
+    }
+
+    .options {
+        max-width: 360px;
+
+        gap: 10px;
+    }
+
+    .option {
+        min-height: 62px;
+
+        font-size: .85rem;
+
+        padding: 15px 6px;
+
+        border-width: 2.5px;
+    }
+
+    .option-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .tutorial {
+        padding: 14px;
+    }
+
+    .tutorial__card {
+        min-height: 390px;
+
+        padding: 25px 18px;
+
+        border-radius: 25px;
+    }
+
+    .tutorial__content {
+        min-height: 270px;
+    }
+
+    .tutorial__image {
+        width: 135px;
+        height: 135px;
+    }
+
+    .tutorial__video {
+        width: 150px;
+        height: 150px;
+
+        border-radius: 20px;
+    }
+
+    .tutorial__fake-word {
+        min-height: 58px;
+
+        font-size: .72rem;
+
+        border-width: 2.5px;
+    }
+
+    .tutorial__fake-word img {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .prompt-card {
+        max-width: 270px;
+        min-height: 210px;
+
+        padding: 20px;
+    }
+
+    .prompt-card__sticker {
+        width: 165px;
+        height: 165px;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+    }
+
+    .option {
+        min-height: 68px;
+    }
+
+    .option--image {
+        min-height: 84px;
+    }
+
+    .trail {
+        gap: 8px;
+    }
+
+    .trail__step {
+        width: 13px;
+        height: 13px;
+    }
+
+    .tutorial__video {
+        width: 135px;
+        height: 135px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+    }
+}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS – ¡BIEN HECHO!{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/fin.css') }}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<main class="fin-stage">
+
+    <section class="fin-card">
+
+        <div class="fin-icon" aria-hidden="true">🎉</div>
+
+        <h1 class="fin-title">¡FELICITACIONES!</h1>
+
+        <p class="fin-subtitle">
+            Aprendiste a leer y armar oraciones nuevas.
+        </p>
+
+        {% if palabras %}
+
+        <div class="fin-words">
+
+            <span class="fin-words__label">
+                PALABRAS QUE YA DOMINÁS
+            </span>
+
+            <div class="fin-words__row">
+
+                {% for palabra in palabras %}
+
+                <span class="fin-word-chip">
+                    {{ palabra }}
+                </span>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        <div class="fin-actions">
+
+            <a
+                href="{{ url_for('learning.aprender') }}"
+                class="fin-btn fin-btn--primary">
+
+                APRENDER MÁS
+
+            </a>
+
+            <a
+                href="{{ url_for('menu_principal.mostrar_menu') }}"
+                class="fin-btn fin-btn--secondary">
+
+                FINALIZAR
+
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}

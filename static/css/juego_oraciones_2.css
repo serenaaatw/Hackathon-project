@@ -1,0 +1,744 @@
+:root {
+
+    --bg: #FCF7EC;
+    --turquoise: #3DBFB8;
+    --turquoise-dark: #237F7A;
+    --turquoise-pale: #E3F6F4;
+    --yellow: #FFC64B;
+    --coral: #FF7A59;
+    --ink: #4A3B78;
+    --success: #3FA772;
+    --success-bg: #E7F6EE;
+    --retry: #FF8A5B;
+    --retry-bg: #FFF0E6;
+    --white: #FFFFFF;
+
+    --radius-lg: 28px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+
+    --shadow-card:
+        0 10px 0 rgba(74, 59, 120, 0.10),
+        0 14px 24px rgba(74, 59, 120, 0.12);
+
+    --shadow-btn:
+        0 6px 0 rgba(74, 59, 120, 0.18);
+
+    --font-display:
+        'Fredoka',
+        system-ui,
+        sans-serif;
+
+    --font-body:
+        'Nunito',
+        system-ui,
+        sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+body {
+
+    margin: 0;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at 12% 8%,
+            var(--turquoise-pale) 0%,
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            #FFF3DC 0%,
+            transparent 45%
+        ),
+        var(--bg);
+
+    font-family: var(--font-body);
+    color: var(--ink);
+
+    -webkit-font-smoothing: antialiased;
+}
+
+.sentence-game {
+
+    width: 100%;
+    min-height: calc(100vh - 100px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 22px 18px 35px;
+}
+
+.game-header {
+
+    width: 100%;
+    max-width: 760px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+}
+
+.game-header__title {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.game-eyebrow {
+
+    display: inline-flex;
+
+    padding: 7px 15px;
+
+    border-radius: 999px;
+
+    background: var(--turquoise-pale);
+    color: var(--turquoise-dark);
+
+    font-size: .75rem;
+    font-weight: 900;
+    letter-spacing: .06em;
+}
+
+.game-header h1 {
+
+    margin: 9px 0 0;
+
+    font-family: var(--font-display);
+
+    font-size: 1.45rem;
+    line-height: 1.1;
+
+    color: var(--ink);
+}
+
+.game-progress {
+
+    min-width: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+
+    padding: 9px 12px;
+
+    border-radius: 999px;
+
+    background: var(--white);
+
+    border: 2px solid var(--turquoise);
+
+    font-family: var(--font-display);
+    font-weight: 700;
+}
+
+#gameStep {
+    color: var(--turquoise-dark);
+}
+
+.game-card {
+
+    width: 100%;
+    max-width: 560px;
+
+    padding: 28px 25px 26px;
+
+    background: var(--white);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===== ORACIÓN A COMPRENDER ===== */
+
+.sentence-prompt {
+
+    width: 100%;
+
+    padding: 20px 22px;
+
+    margin-bottom: 18px;
+
+    border-radius: var(--radius-md);
+
+    background: var(--turquoise-pale);
+
+    text-align: center;
+}
+
+.sentence-prompt p {
+
+    margin: 0;
+
+    font-family: var(--font-display);
+
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+
+    font-weight: 700;
+
+    color: var(--ink);
+
+    letter-spacing: .02em;
+}
+
+.question-title {
+
+    margin-bottom: 17px;
+
+    text-align: center;
+
+    font-family: var(--font-display);
+
+    font-size: 1.05rem;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+/* ===== OPCIONES DE IMAGEN ===== */
+
+.image-options {
+
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 14px;
+}
+
+.image-option {
+
+    aspect-ratio: 1 / 1;
+
+    padding: 10px;
+
+    border: 3px solid var(--turquoise);
+
+    border-radius: var(--radius-md);
+
+    background: var(--white);
+
+    box-shadow: var(--shadow-btn);
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    transition:
+        transform .12s ease,
+        background .15s ease,
+        border-color .15s ease,
+        box-shadow .12s ease;
+}
+
+.image-option img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+.image-option:hover {
+
+    background: var(--turquoise-pale);
+}
+
+.image-option:active {
+
+    transform: translateY(4px);
+
+    box-shadow:
+        0 2px 0 rgba(74, 59, 120, .18);
+}
+
+.image-option:disabled {
+
+    cursor: default;
+}
+
+.image-option.is-correct {
+
+    background: var(--success-bg);
+
+    border-color: var(--success);
+
+    animation: correctPop .4s ease;
+}
+
+.image-option.is-wrong {
+
+    background: var(--retry-bg);
+
+    border-color: var(--retry);
+
+    animation: wrongShake .35s ease;
+}
+
+.feedback {
+
+    min-height: 28px;
+
+    margin-top: 17px;
+
+    font-family: var(--font-display);
+
+    font-size: .95rem;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    text-align: center;
+}
+
+.feedback.is-success {
+    color: var(--success);
+}
+
+.feedback.is-retry {
+    color: var(--retry);
+}
+
+/* ===== TUTORIAL ===== */
+
+.tutorial {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 18px;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity .3s ease,
+        visibility .3s ease;
+}
+
+.tutorial[hidden] {
+    display: flex;
+}
+
+.tutorial.is-visible {
+
+    opacity: 1;
+    visibility: visible;
+}
+
+.tutorial-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(74, 59, 120, .35);
+
+    backdrop-filter: blur(6px);
+}
+
+.tutorial-card {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+    max-width: 470px;
+
+    padding: 30px 25px 24px;
+
+    border-radius: 30px;
+
+    background: var(--white);
+
+    box-shadow:
+        0 25px 60px rgba(74, 59, 120, .25);
+
+    transform:
+        translateY(20px)
+        scale(.95);
+
+    transition:
+        transform .35s ease;
+}
+
+.tutorial.is-visible .tutorial-card {
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+.tutorial-close {
+
+    position: absolute;
+
+    top: 12px;
+    right: 13px;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: var(--turquoise-pale);
+
+    color: var(--turquoise-dark);
+
+    font-size: 30px;
+    font-weight: 400;
+
+    cursor: pointer;
+}
+
+.tutorial-content {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+.tutorial-sentence {
+
+    margin: 0;
+
+    padding: 14px 18px;
+
+    width: 100%;
+
+    text-align: center;
+
+    border-radius: var(--radius-md);
+
+    background: var(--turquoise-pale);
+
+    font-family: var(--font-display);
+
+    font-size: 1.05rem;
+    font-weight: 700;
+
+    color: var(--ink);
+}
+
+.tutorial-image-options {
+
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+}
+
+.tutorial-image-option {
+
+    aspect-ratio: 1 / 1;
+
+    padding: 8px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 3px solid var(--turquoise);
+
+    border-radius: var(--radius-md);
+
+    background: var(--white);
+
+    box-shadow: var(--shadow-btn);
+
+    overflow: hidden;
+
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        border-color .3s ease;
+}
+
+.tutorial-image-option img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+.tutorial-image-option.is-highlighted {
+
+    animation:
+        tutorialShake .45s ease-in-out 3;
+}
+
+.tutorial-image-option.is-success {
+
+    background: var(--success-bg);
+
+    border-color: var(--success);
+
+    animation:
+        tutorialPop .7s ease forwards;
+}
+
+.tutorial-actions {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-top: 22px;
+}
+
+.tutorial-button {
+
+    width: 54px;
+    height: 54px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 28px;
+
+    cursor: pointer;
+
+    box-shadow: var(--shadow-btn);
+
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+.tutorial-button:hover {
+
+    transform: scale(1.08);
+}
+
+.tutorial-button:active {
+
+    transform: translateY(3px);
+}
+
+.tutorial-button--secondary {
+
+    border: 3px solid var(--turquoise);
+
+    background: var(--white);
+
+    color: var(--turquoise-dark);
+}
+
+.tutorial-button--primary {
+
+    border: 3px solid var(--turquoise);
+
+    background: var(--turquoise);
+
+    color: var(--white);
+}
+
+@keyframes correctPop {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.04);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes wrongShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-6px);
+    }
+
+    75% {
+        transform: translateX(6px);
+    }
+}
+
+@keyframes tutorialShake {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-7px);
+    }
+
+    40% {
+        transform: translateX(7px);
+    }
+
+    60% {
+        transform: translateX(-6px);
+    }
+
+    80% {
+        transform: translateX(6px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes tutorialPop {
+
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.1);
+    }
+
+    70% {
+        transform: scale(1.06);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .sentence-game {
+
+        padding:
+            15px
+            12px
+            28px;
+    }
+
+    .game-header {
+        max-width: 470px;
+    }
+
+    .game-header h1 {
+        font-size: 1.15rem;
+    }
+
+    .game-eyebrow {
+        font-size: .68rem;
+    }
+
+    .game-card {
+
+        max-width: 470px;
+
+        padding:
+            23px
+            18px
+            22px;
+    }
+
+    .image-options {
+
+        gap: 10px;
+    }
+
+    .tutorial-card {
+
+        padding:
+            28px
+            17px
+            20px;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .game-header h1 {
+        font-size: 1rem;
+    }
+
+    .game-progress {
+
+        min-width: 55px;
+
+        font-size: .82rem;
+    }
+
+    .image-options {
+
+        gap: 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+
+        animation-duration: .001ms !important;
+
+        transition-duration: .001ms !important;
+    }
+}

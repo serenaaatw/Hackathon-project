@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS — RECONOCER{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/reconocer.css') }}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<main class="learning-stage">
+
+
+<div
+    class="learning-progress"
+    id="learningProgress"
+    aria-label="PROGRESO DEL APRENDIZAJE">
+</div>
+
+<div class="learning-category">
+    {{ categoria_nombre }}
+</div>
+
+{% if decision == "repetir" %}
+    <div class="learning-decision">
+        INTENTEMOS DE NUEVO
+    </div>
+{% endif %}
+
+<section class="learning-card">
+
+    <div class="learning-heading">
+
+        <div>
+
+            <span class="learning-eyebrow">
+                APRENDÉ LA PALABRA
+            </span>
+
+            <h1>
+                RECONOCIMIENTO
+            </h1>
+
+        </div>
+
+        <div
+            class="learning-step"
+            aria-label="Palabra actual">
+
+            <span id="learningStep">1</span>
+            <span>/</span>
+            <span id="learningTotal">1</span>
+
+        </div>
+
+    </div>
+
+    <div class="learning-main">
+
+        <div class="learning-video-column">
+
+            <div class="learning-video">
+
+                <video
+                    id="lsaVideo"
+                    playsinline
+                    controls
+                    preload="metadata">
+                </video>
+
+                <div
+                    id="videoPlaceholder"
+                    class="video-placeholder"
+                    hidden>
+
+                    <span class="video-placeholder__icon">
+                        ▶
+                    </span>
+
+                    <span>
+                        VIDEO LSA
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="learning-image-column">
+
+            <div class="learning-image">
+
+                <img
+                    id="wordImage"
+                    src=""
+                    alt="">
+
+            </div>
+
+        </div>
+
+        <div class="learning-word-column">
+
+            <div class="word-row">
+
+                <div class="learning-word">
+
+                    <span id="wordText">
+                    </span>
+
+                </div>
+
+                <button
+                    id="btnWordSound"
+                    class="icon-action sound-action"
+                    type="button"
+                    aria-label="Escuchar la palabra">
+
+                    <span
+                        class="icon-action__icon"
+                        aria-hidden="true">
+                        🔊
+                    </span>
+
+                    <span class="sound-button-label">
+                        ESCUCHAR
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        id="learningDetails"
+        class="learning-details">
+
+        <div class="details-header">
+
+            <h2>
+                APRENDER MÁS
+            </h2>
+
+        </div>
+
+        <div class="details-block">
+
+            <div class="details-title">
+
+                <span class="details-badge letters-badge">
+                    A
+                </span>
+
+                <strong>
+                    LETRAS
+                </strong>
+
+            </div>
+
+            <div
+                id="wordLetters"
+                class="learning-letters">
+            </div>
+
+        </div>
+
+        <div class="details-divider"></div>
+
+        <div class="details-block">
+
+            <div class="details-title">
+
+                <span class="details-badge syllables-badge">
+                    PE
+                </span>
+
+                <strong>
+                    SÍLABAS
+                </strong>
+
+            </div>
+
+            <div
+                id="wordSyllables"
+                class="learning-syllables">
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<audio
+    id="wordAudio"
+    hidden>
+</audio>
+
+<div class="learning-navigation">
+
+    <button
+        id="btnPrev"
+        class="learning-nav"
+        type="button"
+        aria-label="Palabra anterior">
+        ‹
+    </button>
+
+    <button
+        id="btnNext"
+        class="learning-nav learning-nav--primary"
+        type="button"
+        aria-label="Siguiente palabra">
+        ›
+    </button>
+
+</div>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+    const PALABRAS = {{ palabras | tojson }};
+
+    const IMG_BASE =
+        "{{ url_for(
+            'static',
+            filename='img/' + categoria_slug
+        ) }}/";
+
+    const VIDEO_BASE =
+        "{{ url_for(
+            'static',
+            filename='videos/lsa/' + categoria_slug
+        ) }}/";
+
+    const URL_INICIAR_EJERCICIOS =
+        "{{ url_for(
+            'learning.iniciar_ejercicios'
+        ) }}";
+
+</script>
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/reconocer.js'
+    ) }}">
+</script>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+<nav class="navbar">
+
+    <!-- LOGO -->
+    <a href="/menu" class="navbar__brand" aria-label="INICIO">
+
+        <img
+            src="{{ url_for('static', filename='img/logo/logo.png') }}"
+            alt=""
+            class="navbar__logo"
+        >
+
+    </a>
+
+
+    <!-- OPCIONES -->
+    <div class="navbar__options">
+
+        <a href="/menu" class="navbar__item">
+
+            <img
+                src="{{ url_for('static', filename='img/iconos/inicio.png') }}"
+                alt=""
+                class="navbar__icon"
+            >
+
+            <span>INICIO</span>
+
+        </a>
+
+
+        <a href="#" class="navbar__item">
+
+            <img
+                src="{{ url_for('static', filename='img/iconos/ayuda.png') }}"
+                alt=""
+                class="navbar__icon"
+            >
+
+            <span>AYUDA</span>
+
+        </a>
+
+
+        <a href="#" class="navbar__item">
+
+            <img
+                src="{{ url_for('static', filename='img/iconos/tutor.png') }}"
+                alt=""
+                class="navbar__icon"
+            >
+
+            <span>TUTOR</span>
+
+        </a>
+
+    </div>
+
+</nav>
