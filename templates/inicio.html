@@ -30,13 +30,7 @@
         <div class="decoracion decoracion--superior-derecha"></div>
         <div class="decoracion decoracion--inferior-derecha"></div>
 
-        <!-- Marca chica (logo original) -->
-        <div class="inicio__marca">
-            <img
-                src="{{ url_for('static', filename='img/logo/logo.png') }}"
-                alt="EduSeñas"
-            >
-        </div>
+
 
         <!-- Chispas y puntos decorativos -->
         <span class="chispa chispa--1" aria-hidden="true"></span>
@@ -79,7 +73,7 @@
             <div class="inicio__presentacion">
 
                 <h2>
-                    Aprendé, jugá y descubrí
+                    Ayuda a tu hija/a a aprender y descubrir 
                 </h2>
 
                 <p>
@@ -92,7 +86,7 @@
 
             <!-- Botón de ingreso -->
             <a
-                href="{{ url_for('menu_principal.mostrar_menu') }}"
+                href="{{ url_for('auth_routes.login_route') }}"
                 class="inicio__boton"
             >
                 INGRESAR
@@ -129,7 +123,8 @@
 
                     <p>
                         Aprender a<br>
-                        formar palabras.
+                        formar palabras y <br>
+                        comprender oraciones.
                     </p>
                 </article>
 
@@ -181,7 +176,11 @@
         </section>
 
     </main>
-
+    <footer class="footer">     
+        <div class="footer-container"> 
+            <p>© 2026 EDUSEÑAS. TODOS LOS DERECHOS RESERVADOS.</p> 
+        </div> 
+    </footer>
 </body>
 
 </html>

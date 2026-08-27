@@ -3,245 +3,231 @@
 {% block title %}EDUSEÑAS — RECONOCER{% endblock %}
 
 {% block styles %}
+
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/reconocer.css') }}"
 >
+
 {% endblock %}
 
 {% block content %}
 
 <main class="learning-stage">
 
-    <!-- PROGRESO -->
+
+<div
+    class="learning-progress"
+    id="learningProgress"
+    aria-label="PROGRESO DEL APRENDIZAJE">
+</div>
+
+<div class="learning-category">
+    {{ categoria_nombre }}
+</div>
+
+{% if decision == "repetir" %}
+    <div class="learning-decision">
+        INTENTEMOS DE NUEVO
+    </div>
+{% endif %}
+
+<section class="learning-card">
+
+    <div class="learning-heading">
+
+        <div>
+
+            <span class="learning-eyebrow">
+                APRENDÉ LA PALABRA
+            </span>
+
+            <h1>
+                RECONOCIMIENTO
+            </h1>
+
+        </div>
+
+        <div
+            class="learning-step"
+            aria-label="Palabra actual">
+
+            <span id="learningStep">1</span>
+            <span>/</span>
+            <span id="learningTotal">1</span>
+
+        </div>
+
+    </div>
+
+    <div class="learning-main">
+
+        <div class="learning-video-column">
+
+            <div class="learning-video">
+
+                <video
+                    id="lsaVideo"
+                    playsinline
+                    controls
+                    preload="metadata">
+                </video>
+
+                <div
+                    id="videoPlaceholder"
+                    class="video-placeholder"
+                    hidden>
+
+                    <span class="video-placeholder__icon">
+                        ▶
+                    </span>
+
+                    <span>
+                        VIDEO LSA
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="learning-image-column">
+
+            <div class="learning-image">
+
+                <img
+                    id="wordImage"
+                    src=""
+                    alt="">
+
+            </div>
+
+        </div>
+
+        <div class="learning-word-column">
+
+            <div class="word-row">
+
+                <div class="learning-word">
+
+                    <span id="wordText">
+                    </span>
+
+                </div>
+
+                <button
+                    id="btnWordSound"
+                    class="icon-action sound-action"
+                    type="button"
+                    aria-label="Escuchar la palabra">
+
+                    <span
+                        class="icon-action__icon"
+                        aria-hidden="true">
+                        🔊
+                    </span>
+
+                    <span class="sound-button-label">
+                        ESCUCHAR
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
     <div
-        class="learning-progress"
-        id="learningProgress"
-        aria-label="PROGRESO DEL APRENDIZAJE">
-    </div>
+        id="learningDetails"
+        class="learning-details">
 
-    <!-- CATEGORÍA -->
-    <div class="learning-category">
-        {{ categoria_nombre }}
-    </div>
+        <div class="details-header">
 
-    <!-- TARJETA PRINCIPAL -->
-    <section class="learning-card">
+            <h2>
+                APRENDER MÁS
+            </h2>
 
-        <!-- ENCABEZADO -->
-        <div class="learning-heading">
+        </div>
 
-            <div>
-                <span class="learning-eyebrow">
-                    APRENDÉ LA PALABRA
+        <div class="details-block">
+
+            <div class="details-title">
+
+                <span class="details-badge letters-badge">
+                    A
                 </span>
 
-                <h1>
-                    RECONOCIMIENTO
-                </h1>
+                <strong>
+                    LETRAS
+                </strong>
+
             </div>
 
             <div
-                class="learning-step"
-                aria-label="Palabra actual">
-
-                <span id="learningStep">1</span>
-                <span>/</span>
-                <span id="learningTotal">1</span>
-
+                id="wordLetters"
+                class="learning-letters">
             </div>
 
         </div>
 
+        <div class="details-divider"></div>
 
-        <!-- CONTENIDO PRINCIPAL: VIDEO | IMAGEN | PALABRA -->
-        <div class="learning-main">
+        <div class="details-block">
 
-            <!-- VIDEO LSA -->
-            <div class="learning-video-column">
+            <div class="details-title">
 
-                <div class="learning-video">
+                <span class="details-badge syllables-badge">
+                    PE
+                </span>
 
-                    <video
-                        id="lsaVideo"
-                        playsinline
-                        controls
-                        preload="metadata">
-                    </video>
-
-                    <div
-                        id="videoPlaceholder"
-                        class="video-placeholder"
-                        hidden>
-
-                        <span class="video-placeholder__icon">
-                            ▶
-                        </span>
-
-                        <span>
-                            VIDEO LSA
-                        </span>
-
-                    </div>
-
-                </div>
+                <strong>
+                    SÍLABAS
+                </strong>
 
             </div>
 
-
-            <!-- IMAGEN -->
-            <div class="learning-image-column">
-
-                <div class="learning-image">
-
-                    <img
-                        id="wordImage"
-                        src=""
-                        alt="">
-
-                </div>
-
-            </div>
-
-
-            <!-- PALABRA + AUDIO -->
-            <div class="learning-word-column">
-
-                <div class="word-row">
-
-                    <div class="learning-word">
-
-                        <span id="wordText">
-                        </span>
-
-                    </div>
-
-
-                    <button
-                        id="btnWordSound"
-                        class="icon-action sound-action"
-                        type="button"
-                        aria-label="Escuchar la palabra">
-
-                        <span
-                            class="icon-action__icon"
-                            aria-hidden="true">
-
-                            🔊
-
-                        </span>
-
-                        <span class="sound-button-label">
-                            ESCUCHAR
-                        </span>
-
-                    </button>
-
-                </div>
-
+            <div
+                id="wordSyllables"
+                class="learning-syllables">
             </div>
 
         </div>
-
-
-        <!-- APRENDER MÁS (siempre visible, ya no es un botón) -->
-        <div
-            id="learningDetails"
-            class="learning-details">
-
-            <div class="details-header">
-                <h2>APRENDER MÁS</h2>
-            </div>
-
-            <!-- LETRAS -->
-            <div class="details-block">
-
-                <div class="details-title">
-
-                    <span class="details-badge letters-badge">
-                        A
-                    </span>
-
-                    <strong>
-                        LETRAS
-                    </strong>
-
-                </div>
-
-                <div
-                    id="wordLetters"
-                    class="learning-letters">
-                </div>
-
-            </div>
-
-
-            <div class="details-divider"></div>
-
-
-            <!-- SÍLABAS -->
-            <div class="details-block">
-
-                <div class="details-title">
-
-                    <span class="details-badge syllables-badge">
-                        PE
-                    </span>
-
-                    <strong>
-                        SÍLABAS
-                    </strong>
-
-                </div>
-
-                <div
-                    id="wordSyllables"
-                    class="learning-syllables">
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- AUDIO -->
-    <audio
-        id="wordAudio"
-        hidden>
-    </audio>
-
-
-    <!-- NAVEGACIÓN -->
-    <div class="learning-navigation">
-
-        <button
-            id="btnPrev"
-            class="learning-nav"
-            type="button"
-            aria-label="Palabra anterior">
-
-            ‹
-
-        </button>
-
-        <button
-            id="btnNext"
-            class="learning-nav learning-nav--primary"
-            type="button"
-            aria-label="Siguiente palabra">
-
-            ›
-
-        </button>
 
     </div>
+
+</section>
+
+<audio
+    id="wordAudio"
+    hidden>
+</audio>
+
+<div class="learning-navigation">
+
+    <button
+        id="btnPrev"
+        class="learning-nav"
+        type="button"
+        aria-label="Palabra anterior">
+        ‹
+    </button>
+
+    <button
+        id="btnNext"
+        class="learning-nav learning-nav--primary"
+        type="button"
+        aria-label="Siguiente palabra">
+        ›
+    </button>
+
+</div>
 
 </main>
 
 {% endblock %}
-
 
 {% block scripts %}
 

@@ -60,13 +60,8 @@ class LearningRoundService:
             :LearningRoundService.CANTIDAD_PALABRAS
         ]
 
-        # Antes se exigía tener exactamente CANTIDAD_PALABRAS (3) para
-        # poder armar una ronda. Se saca esa exigencia a propósito:
-        # así, cuando a una categoría le quedan menos de 3 palabras
-        # nuevas (ej: solo pájaro y vaca), igual se arma una ronda
-        # "incompleta" con las que haya, en vez de perderlas.
-        # "if not palabras: return None" ya cubre el caso de lista
-        # vacía, más arriba en esta misma función.
+        if len(palabras) < LearningRoundService.CANTIDAD_PALABRAS:
+            return None
 
         if id_category is None:
             id_category = palabras[0].id_category
@@ -253,34 +248,6 @@ class LearningRoundService:
         if categoria_actual is None:
             return None
 
-        # 1) Antes de pasar a la categoría siguiente, nos fijamos si
-        #    a la categoría en la que ya estábamos le quedan palabras
-        #    nuevas sin aprender (ej: en "animales" ya se enseñó
-        #    perro/gato/pez, pero quedan pájaro y vaca). Si quedan,
-        #    se arma la ronda con esas, aunque sean menos de 3.
-        palabras_categoria_actual = (
-            LearningRoundService._palabras_nuevas_de_categoria(
-                id_user,
-                categoria_actual.id_category
-            )
-        )
-
-        if palabras_categoria_actual:
-
-            if not ronda_actual.completada:
-
-                ronda_actual.completar()
-
-                db.session.commit()
-
-            return LearningRoundService.crear_ronda(
-                id_user,
-                palabras_categoria_actual,
-                categoria_actual.id_category
-            )
-
-        # 2) Si ya no quedan palabras nuevas en la categoría actual,
-        #    recién ahí buscamos la categoría siguiente.
         categorias = (
             Category.query
             .order_by(
@@ -304,38 +271,10 @@ class LearningRoundService:
         if categoria_siguiente is None:
             return None
 
-        resultado = (
-            LearningRoundService._palabras_nuevas_de_categoria(
-                id_user,
-                categoria_siguiente.id_category
-            )
-        )
-
-        if not resultado:
-            return None
-
-        if not ronda_actual.completada:
-
-            ronda_actual.completar()
-
-            db.session.commit()
-
-        return LearningRoundService.crear_ronda(
-            id_user,
-            resultado,
-            categoria_siguiente.id_category
-        )
-
-    @staticmethod
-    def _palabras_nuevas_de_categoria(id_user, id_category):
-
-        # Helper compartido: junta hasta CANTIDAD_PALABRAS palabras
-        # de una categoría que el usuario todavía no intentó
-        # (sin fila en "progress", o con intentos = 0).
         palabras = (
             Word.query
             .filter_by(
-                id_category=id_category
+                id_category=categoria_siguiente.id_category
             )
             .order_by(
                 Word.id_word
@@ -368,7 +307,23 @@ class LearningRoundService:
             ):
                 break
 
-        return resultado
+        if (
+            len(resultado) <
+            LearningRoundService.CANTIDAD_PALABRAS
+        ):
+            return None
+
+        if not ronda_actual.completada:
+
+            ronda_actual.completar()
+
+            db.session.commit()
+
+        return LearningRoundService.crear_ronda(
+            id_user,
+            resultado,
+            categoria_siguiente.id_category
+        )
 
     @staticmethod
     def completar_ronda(id_user):

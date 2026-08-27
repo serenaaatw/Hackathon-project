@@ -1,25 +1,23 @@
 from flask import (
-    Blueprint,
-    render_template,
-    jsonify,
-    session,
-    abort,
-    redirect,
-    url_for
+Blueprint,
+render_template,
+jsonify,
+session,
+abort,
+redirect,
+url_for,
+request
 )
 
 from services.learning_service import LearningService
 from services.learning_round_service import LearningRoundService
 from services.sentence_service import SentenceService
 
-
 learning_bp = Blueprint(
-    "learning",
-    __name__,
-    url_prefix="/aprender"
+"learning",
+__name__,
+url_prefix="/aprender"
 )
-
-
 
 @learning_bp.route("/")
 def aprender():
@@ -28,6 +26,11 @@ def aprender():
 
     if id_user is None:
         abort(401)
+
+    decision = session.pop(
+        "decision_aprendizaje",
+        None
+    )
 
     ronda = (
         LearningRoundService.obtener_ronda_activa(
@@ -77,7 +80,8 @@ def aprender():
             palabras=[
                 palabra.serialize()
                 for palabra in palabras
-            ]
+            ],
+            decision=decision
         )
 
     palabras_nuevas = (
@@ -108,16 +112,16 @@ def aprender():
         palabras=[
             palabra.serialize()
             for palabra in palabras_nuevas
-        ]
+        ],
+        decision=decision
     )
 
-
-
 @learning_bp.route(
-    "/iniciar-ejercicios",
-    methods=["POST"]
+"/iniciar-ejercicios",
+methods=["POST"]
 )
 def iniciar_ejercicios():
+
 
     id_user = session.get("usuario_id")
 
@@ -145,4 +149,3 @@ def iniciar_ejercicios():
         "ok": True,
         "juego_actual": ronda.juego_actual
     })
-

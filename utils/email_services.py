@@ -16,7 +16,7 @@ def send_verification_code(adressee):
     msg.set_content(f"""
 Hola {adressee}! 
 
-Gracias por registrarte en ---.
+Gracias por registrarte en EduSeñas.
 
 Tu código de verificación es:
 
@@ -30,8 +30,7 @@ Ingresá este código en la página de verificación.
 
 Si no solicitaste este código, ignorá este correo.
 
-Saludos,
---- Team
+Saludos, Team EduSeñas
 """)
     
     

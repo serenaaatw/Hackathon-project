@@ -11,122 +11,65 @@
     };
 
     const els = {
-
-        imagen:
-            document.getElementById("imagenPalabra"),
-
-        palabraArmada:
-            document.getElementById("palabraArmada"),
-
-        letras:
-            document.getElementById("letras"),
-
-        feedback:
-            document.getElementById("feedback"),
-
-        progreso:
-            document.getElementById("progreso")
-
+        imagen: document.getElementById("imagenPalabra"),
+        palabraArmada: document.getElementById("palabraArmada"),
+        letras: document.getElementById("letras"),
+        feedback: document.getElementById("feedback"),
+        progreso: document.getElementById("progreso")
     };
 
-    if (
-        !Array.isArray(PALABRAS) ||
-        PALABRAS.length === 0
-    ) {
-
-        console.error(
-            "Juego 3: no se recibieron palabras."
-        );
-
+    if (!Array.isArray(PALABRAS) || PALABRAS.length === 0) {
+        console.error("Juego 3: no se recibieron palabras.");
         return;
     }
 
     function shuffle(array) {
-
         const copia = [...array];
 
-        for (
-            let i = copia.length - 1;
-            i > 0;
-            i--
-        ) {
+        for (let i = copia.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
 
-            const j =
-                Math.floor(
-                    Math.random() * (i + 1)
-                );
-
-            [
-                copia[i],
-                copia[j]
-            ] = [
-                copia[j],
-                copia[i]
-            ];
+            [copia[i], copia[j]] = [copia[j], copia[i]];
         }
 
         return copia;
     }
 
-    function registrarResultado(
-        idWord,
-        correcto
-    ) {
-
-        return fetch(
-            "/juego/registrar-resultado",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
-                body: JSON.stringify({
-                    id_word: idWord,
-                    correcto: correcto
-                })
-            }
-        )
+    function registrarResultado(idWord, correcto) {
+        return fetch("/juego/registrar-resultado", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id_word: idWord,
+                correcto: correcto
+            })
+        })
         .then(response => {
-
             if (!response.ok) {
-
-                throw new Error(
-                    "No se pudo registrar el resultado"
-                );
-
+                throw new Error("No se pudo registrar el resultado");
             }
 
             return response.json();
-
         });
-
     }
 
     function obtenerPalabraActual() {
-
-        const posicion =
-            state.orden[state.index];
-
+        const posicion = state.orden[state.index];
         return PALABRAS[posicion];
     }
 
     function iniciar() {
-
-        state.orden =
-            shuffle(
-                PALABRAS.map(
-                    (_, index) => index
-                )
-            );
+        state.orden = shuffle(
+            PALABRAS.map((_, index) => index)
+        );
 
         crearProgreso();
-
         mostrarPalabra();
     }
 
     function crearProgreso() {
-
         if (!els.progreso) {
             return;
         }
@@ -134,52 +77,36 @@
         els.progreso.innerHTML = "";
 
         PALABRAS.forEach(() => {
+            const punto = document.createElement("div");
 
-            const punto =
-                document.createElement("div");
+            punto.className = "juego3__progreso-punto";
 
-            punto.className =
-                "juego3__progreso-punto";
-
-            els.progreso.appendChild(
-                punto
-            );
-
+            els.progreso.appendChild(punto);
         });
 
         actualizarProgreso();
     }
 
     function actualizarProgreso() {
-
         if (!els.progreso) {
             return;
         }
 
-        [
-            ...els.progreso.children
-        ].forEach(
-            (punto, index) => {
+        [...els.progreso.children].forEach((punto, index) => {
+            punto.classList.toggle(
+                "completado",
+                index < state.index
+            );
 
-                punto.classList.toggle(
-                    "completado",
-                    index < state.index
-                );
-
-                punto.classList.toggle(
-                    "actual",
-                    index === state.index
-                );
-
-            }
-        );
-
+            punto.classList.toggle(
+                "actual",
+                index === state.index
+            );
+        });
     }
 
     function mostrarPalabra() {
-
-        const item =
-            obtenerPalabraActual();
+        const item = obtenerPalabraActual();
 
         if (!item) {
             finalizarJuego();
@@ -189,130 +116,96 @@
         state.palabraArmada = [];
 
         if (els.feedback) {
-
             els.feedback.textContent = "";
-
-            els.feedback.className =
-                "juego3__feedback";
-
+            els.feedback.className = "juego3__feedback";
         }
 
         if (els.imagen) {
-
-            els.imagen.src =
-                item.image_url;
-
-            els.imagen.alt =
-                item.word;
-
-            els.imagen.style.display =
-                "block";
-
+            els.imagen.src = item.image_url;
+            els.imagen.alt = item.word;
+            els.imagen.style.display = "block";
         }
 
         mostrarPalabraArmada();
-
         crearLetras(item);
-
         actualizarProgreso();
-
     }
 
     function crearLetras(item) {
-
         if (!els.letras) {
             return;
         }
 
         els.letras.innerHTML = "";
 
-        const palabra =
-            item.word
-                .toUpperCase()
-                .split("");
+        const palabra = item.word
+            .toUpperCase()
+            .split("");
 
-        const letrasDesordenadas =
-            shuffle(palabra);
+        const letrasDesordenadas = shuffle(palabra);
 
-        letrasDesordenadas.forEach(
-            (letra, index) => {
+        letrasDesordenadas.forEach((letra, index) => {
+            const boton = document.createElement("button");
 
-                const boton =
-                    document.createElement(
-                        "button"
-                    );
+            boton.type = "button";
+            boton.className = "juego3__letra";
+            boton.textContent = letra;
+            boton.dataset.index = index;
+            boton.dataset.letra = letra;
 
-                boton.type = "button";
+            boton.addEventListener("click", function () {
+                seleccionarLetra(boton, letra);
+            });
 
-                boton.className =
-                    "juego3__letra";
-
-                boton.textContent =
-                    letra;
-
-                boton.dataset.index =
-                    index;
-
-                boton.addEventListener(
-                    "click",
-                    function () {
-
-                        seleccionarLetra(
-                            boton,
-                            letra
-                        );
-
-                    }
-                );
-
-                els.letras.appendChild(
-                    boton
-                );
-
-            }
-        );
-
+            els.letras.appendChild(boton);
+        });
     }
 
-    function seleccionarLetra(
-        boton,
-        letra
-    ) {
-
-        if (
-            boton.classList.contains(
-                "usada"
-            )
-        ) {
+    function seleccionarLetra(boton, letra) {
+        if (boton.classList.contains("usada")) {
             return;
         }
 
-        boton.classList.add(
-            "usada"
-        );
+        boton.classList.add("usada");
 
-        state.palabraArmada.push(
-            letra
-        );
+        state.palabraArmada.push({
+            letra: letra,
+            boton: boton
+        });
 
         mostrarPalabraArmada();
 
-        const item =
-            obtenerPalabraActual();
+        const item = obtenerPalabraActual();
 
         if (
             state.palabraArmada.length ===
             item.word.length
         ) {
-
             comprobarPalabra();
+        }
+    }
 
+    function eliminarLetra(index) {
+        if (
+            index < 0 ||
+            index >= state.palabraArmada.length
+        ) {
+            return;
         }
 
+        const elemento =
+            state.palabraArmada[index];
+
+        if (elemento.boton) {
+            elemento.boton.classList.remove("usada");
+        }
+
+        state.palabraArmada.splice(index, 1);
+
+        mostrarPalabraArmada();
     }
 
     function mostrarPalabraArmada() {
-
         if (!els.palabraArmada) {
             return;
         }
@@ -320,35 +213,40 @@
         els.palabraArmada.innerHTML = "";
 
         state.palabraArmada.forEach(
-            letra => {
+            (elemento, index) => {
 
-                const elemento =
-                    document.createElement(
-                        "div"
-                    );
+                const letra =
+                    document.createElement("button");
 
-                elemento.className =
+                letra.type = "button";
+
+                letra.className =
                     "juego3__letra-armada";
 
-                elemento.textContent =
-                    letra;
+                letra.textContent =
+                    elemento.letra;
 
-                els.palabraArmada.appendChild(
-                    elemento
+                letra.addEventListener(
+                    "click",
+                    function () {
+                        eliminarLetra(index);
+                    }
                 );
 
+                els.palabraArmada.appendChild(
+                    letra
+                );
             }
         );
-
     }
 
     function comprobarPalabra() {
-
-        const item =
-            obtenerPalabraActual();
+        const item = obtenerPalabraActual();
 
         const respuesta =
-            state.palabraArmada.join("");
+            state.palabraArmada
+                .map(elemento => elemento.letra)
+                .join("");
 
         const correcta =
             item.word.toUpperCase();
@@ -361,31 +259,21 @@
             esCorrecta
         )
         .then(() => {
-
             if (esCorrecta) {
-
                 mostrarCorrecto();
-
             } else {
-
                 mostrarIncorrecto();
-
             }
-
         })
         .catch(error => {
-
             console.error(
                 "Error al registrar progreso:",
                 error
             );
-
         });
-
     }
 
     function mostrarCorrecto() {
-
         if (!els.feedback) {
             return;
         }
@@ -400,11 +288,9 @@
             siguientePalabra,
             1000
         );
-
     }
 
     function mostrarIncorrecto() {
-
         if (!els.feedback) {
             return;
         }
@@ -415,110 +301,75 @@
         els.feedback.className =
             "juego3__feedback incorrecto";
 
-        setTimeout(
-            () => {
+        setTimeout(() => {
+            state.palabraArmada = [];
 
-                state.palabraArmada = [];
+            mostrarPalabraArmada();
 
-                mostrarPalabraArmada();
+            if (els.letras) {
+                [...els.letras.children].forEach(
+                    boton => {
+                        boton.classList.remove("usada");
+                    }
+                );
+            }
 
-                if (els.letras) {
-
-                    [
-                        ...els.letras.children
-                    ].forEach(
-                        boton => {
-
-                            boton.classList.remove(
-                                "usada"
-                            );
-
-                        }
-                    );
-
-                }
-
-                els.feedback.textContent =
-                    "";
-
-                els.feedback.className =
-                    "juego3__feedback";
-
-            },
-            800
-        );
-
+            els.feedback.textContent = "";
+            els.feedback.className =
+                "juego3__feedback";
+        }, 800);
     }
 
     function siguientePalabra() {
-
         state.index++;
 
         if (
             state.index >=
             state.orden.length
         ) {
-
             finalizarJuego();
-
             return;
         }
 
         mostrarPalabra();
-
     }
 
     function finalizarJuego() {
-
         if (els.feedback) {
-
             els.feedback.textContent =
                 "¡MUY BIEN!";
 
             els.feedback.className =
                 "juego3__feedback correcto";
-
         }
 
-        fetch(
-            "/juego/completar",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
-                body: JSON.stringify({
-                    numero_juego: 3
-                })
-            }
-        )
+        fetch("/juego/completar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                numero_juego: 3
+            })
+        })
         .then(response => {
-
             if (!response.ok) {
-
                 throw new Error(
                     "No se pudo completar el juego"
                 );
-
             }
 
             return response.json();
-
         })
         .then(data => {
-
             if (!data.ok) {
-
                 throw new Error(
                     data.error ||
                     "No se pudo continuar"
                 );
-
             }
 
             if (data.ronda_completada) {
-
                 window.location.href =
                     "/aprender";
 
@@ -528,33 +379,24 @@
             window.location.assign(
                 "/juego/4"
             );
-
         })
         .catch(error => {
-
             console.error(
                 "Error al completar juego 3:",
                 error
             );
-
         });
-
     }
 
     function limpiarTimersTutorial() {
-
-        state.tutorialTimers.forEach(
-            timer => {
-                clearTimeout(timer);
-            }
-        );
+        state.tutorialTimers.forEach(timer => {
+            clearTimeout(timer);
+        });
 
         state.tutorialTimers = [];
-
     }
 
     function crearTutorial() {
-
         const tutorial =
             document.createElement("div");
 
@@ -565,7 +407,6 @@
             "juego3__tutorial";
 
         tutorial.innerHTML = `
-
             <div class="juego3__tutorial-contenido">
 
                 <button
@@ -578,26 +419,22 @@
                 </button>
 
                 <div class="juego3__tutorial-imagen">
-
                     <img
                         id="tutorialImagenJuego3"
                         src=""
                         alt=""
                     >
-
                 </div>
 
                 <div
                     class="juego3__tutorial-palabra"
                     id="tutorialPalabraJuego3"
-                >
-                </div>
+                ></div>
 
                 <div
                     class="juego3__tutorial-letras"
                     id="tutorialLetrasJuego3"
-                >
-                </div>
+                ></div>
 
                 <div class="juego3__tutorial-controles">
 
@@ -626,32 +463,26 @@
             </div>
         `;
 
-        document.body.appendChild(
-            tutorial
-        );
+        document.body.appendChild(tutorial);
 
         const item =
             obtenerPalabraActual();
 
         if (item) {
-
             const imagen =
                 document.getElementById(
                     "tutorialImagenJuego3"
                 );
 
             if (imagen) {
-
                 imagen.src =
                     item.image_url;
 
                 imagen.alt =
                     item.word;
-
             }
 
             crearLetrasTutorial(item);
-
         }
 
         const cerrar =
@@ -660,12 +491,10 @@
             );
 
         if (cerrar) {
-
             cerrar.addEventListener(
                 "click",
                 cerrarTutorial
             );
-
         }
 
         const continuar =
@@ -674,12 +503,10 @@
             );
 
         if (continuar) {
-
             continuar.addEventListener(
                 "click",
                 cerrarTutorial
             );
-
         }
 
         const reiniciar =
@@ -688,31 +515,21 @@
             );
 
         if (reiniciar) {
-
             reiniciar.addEventListener(
                 "click",
                 () => {
-
                     const item =
                         obtenerPalabraActual();
 
                     if (item) {
-
-                        crearLetrasTutorial(
-                            item
-                        );
-
+                        crearLetrasTutorial(item);
                     }
-
                 }
             );
-
         }
-
     }
 
     function crearLetrasTutorial(item) {
-
         limpiarTimersTutorial();
 
         const contenedor =
@@ -725,15 +542,11 @@
                 "tutorialPalabraJuego3"
             );
 
-        if (
-            !contenedor ||
-            !palabra
-        ) {
+        if (!contenedor || !palabra) {
             return;
         }
 
         contenedor.innerHTML = "";
-
         palabra.innerHTML = "";
 
         const letras =
@@ -745,12 +558,10 @@
             shuffle(letras);
 
         letrasDesordenadas.forEach(
-            letra => {
+            (letra, index) => {
 
                 const elemento =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
                 elemento.className =
                     "juego3__tutorial-letra";
@@ -758,79 +569,93 @@
                 elemento.textContent =
                     letra;
 
+                elemento.dataset.letra =
+                    letra;
+
+                elemento.dataset.index =
+                    index;
+
                 contenedor.appendChild(
                     elemento
                 );
-
             }
         );
 
+        const letrasUsadas =
+            new Set();
+
         const timerInicial =
-            setTimeout(
-                () => {
+            setTimeout(() => {
 
-                    letras.forEach(
-                        (letra, index) => {
+                letras.forEach(
+                    (letra, index) => {
 
-                            const timer =
-                                setTimeout(
-                                    () => {
+                        const timer =
+                            setTimeout(() => {
 
-                                        const elemento =
-                                            document.createElement(
-                                                "div"
+                                const letrasTutorial =
+                                    [
+                                        ...contenedor.querySelectorAll(
+                                            ".juego3__tutorial-letra"
+                                        )
+                                    ];
+
+                                const elemento =
+                                    letrasTutorial.find(
+                                        elemento => {
+                                            return (
+                                                elemento.dataset.letra ===
+                                                    letra &&
+                                                !letrasUsadas.has(
+                                                    elemento
+                                                )
                                             );
-
-                                        elemento.className =
-                                            "juego3__tutorial-letra-armada";
-
-                                        elemento.textContent =
-                                            letra;
-
-                                        palabra.appendChild(
-                                            elemento
-                                        );
-
-                                        const letrasTutorial =
-                                            document.querySelectorAll(
-                                                "#tutorialLetrasJuego3 .juego3__tutorial-letra"
-                                            );
-
-                                        if (
-                                            letrasTutorial[index]
-                                        ) {
-
-                                            letrasTutorial[
-                                                index
-                                            ].classList.add(
-                                                "usada"
-                                            );
-
                                         }
+                                    );
 
-                                    },
-                                    index * 450
+                                if (!elemento) {
+                                    return;
+                                }
+
+                                letrasUsadas.add(
+                                    elemento
                                 );
 
-                            state.tutorialTimers.push(
-                                timer
-                            );
+                                elemento.classList.add(
+                                    "usada"
+                                );
 
-                        }
-                    );
+                                const letraArmada =
+                                    document.createElement(
+                                        "div"
+                                    );
 
-                },
-                1000
-            );
+                                letraArmada.className =
+                                    "juego3__tutorial-letra-armada";
+
+                                letraArmada.textContent =
+                                    letra;
+
+                                palabra.appendChild(
+                                    letraArmada
+                                );
+
+                            }, index * 450);
+
+                        state.tutorialTimers.push(
+                            timer
+                        );
+                    }
+                );
+
+            }, 1000);
 
         state.tutorialTimers.push(
             timerInicial
         );
-
     }
 
     function cerrarTutorial() {
-
         limpiarTimersTutorial();
 
         const tutorial =
@@ -842,31 +667,20 @@
             return;
         }
 
-        tutorial.classList.add(
-            "oculto"
-        );
+        tutorial.classList.add("oculto");
 
-        setTimeout(
-            () => {
-
-                if (tutorial) {
-                    tutorial.remove();
-                }
-
-            },
-            400
-        );
+        setTimeout(() => {
+            if (tutorial) {
+                tutorial.remove();
+            }
+        }, 400);
 
         state.tutorialActivo =
             false;
-
     }
 
     function mostrarTutorial() {
-
-        if (
-            state.tutorialActivo
-        ) {
+        if (state.tutorialActivo) {
             return;
         }
 
@@ -874,7 +688,6 @@
             true;
 
         crearTutorial();
-
     }
 
     iniciar();

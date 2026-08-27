@@ -17,62 +17,28 @@
 
     const els = {
         trail: document.getElementById("trail"),
-
-        promptImageCard:
-            document.getElementById("promptImageCard"),
-
-        promptVideoCard:
-            document.getElementById("promptVideoCard"),
-
-        promptSticker:
-            document.getElementById("promptSticker"),
-
-        instruction:
-            document.getElementById("instruction"),
-
-        options:
-            document.getElementById("options"),
-
-        feedback:
-            document.getElementById("feedback"),
-
-        lsaVideo:
-            document.getElementById("lsaVideo"),
-
-        videoPlaceholder:
-            document.getElementById("videoPlaceholder"),
-
-        tutorial:
-            document.getElementById("tutorial"),
-
-        tutorialContent:
-            document.getElementById("tutorialContent"),
-
-        tutorialImage:
-            document.getElementById("tutorialImage"),
-
-        tutorialOptions:
-            document.getElementById("tutorialOptions"),
-
-        tutorialRepeat:
-            document.getElementById("tutorialRepeat"),
-
-        tutorialNext:
-            document.getElementById("tutorialNext"),
-
-        tutorialClose:
-            document.getElementById("tutorialClose")
+        promptImageCard: document.getElementById("promptImageCard"),
+        promptVideoCard: document.getElementById("promptVideoCard"),
+        promptSticker: document.getElementById("promptSticker"),
+        instruction: document.getElementById("instruction"),
+        options: document.getElementById("options"),
+        feedback: document.getElementById("feedback"),
+        lsaVideo: document.getElementById("lsaVideo"),
+        videoPlaceholder: document.getElementById("videoPlaceholder"),
+        tutorial: document.getElementById("tutorial"),
+        tutorialContent: document.getElementById("tutorialContent"),
+        tutorialImage: document.getElementById("tutorialImage"),
+        tutorialOptions: document.getElementById("tutorialOptions"),
+        tutorialRepeat: document.getElementById("tutorialRepeat"),
+        tutorialNext: document.getElementById("tutorialNext"),
+        tutorialClose: document.getElementById("tutorialClose")
     };
 
     function shuffle(arr) {
 
         const a = [...arr];
 
-        for (
-            let i = a.length - 1;
-            i > 0;
-            i--
-        ) {
+        for (let i = a.length - 1; i > 0; i--) {
 
             const j =
                 Math.floor(
@@ -86,17 +52,12 @@
                 a[j],
                 a[i]
             ];
-
         }
 
         return a;
-
     }
 
-    function registrarResultado(
-        idWord,
-        correcto
-    ) {
+    function registrarResultado(idWord, correcto) {
 
         if (!idWord) {
             return;
@@ -108,8 +69,7 @@
                 method: "POST",
 
                 headers: {
-                    "Content-Type":
-                        "application/json"
+                    "Content-Type": "application/json"
                 },
 
                 body: JSON.stringify({
@@ -141,12 +101,10 @@
                     new CustomEvent(
                         "progresoActualizado",
                         {
-                            detail:
-                                data.progreso
+                            detail: data.progreso
                         }
                     )
                 );
-
             }
 
         })
@@ -158,7 +116,6 @@
             );
 
         });
-
     }
 
     function currentWord() {
@@ -168,7 +125,6 @@
                 state.index
             ]
         ];
-
     }
 
     function buildTrail() {
@@ -184,9 +140,7 @@
                 "trail__step";
 
             els.trail.appendChild(dot);
-
         });
-
     }
 
     function updateTrail() {
@@ -204,9 +158,7 @@
                 "is-current",
                 i === state.index
             );
-
         });
-
     }
 
     function renderPrompt() {
@@ -239,12 +191,10 @@
             els.promptVideoCard.hidden = false;
 
             els.instruction.textContent =
-                "MIRÁ LA SEÑA Y TOCÁ LA IMAGEN QUE CORRESPONDE";
+                "MIRÁ LA SEÑA Y TOCÁ LA PALABRA QUE CORRESPONDE";
 
             renderLSAVideo(item);
-
         }
-
     }
 
     function renderLSAVideo(item) {
@@ -263,9 +213,7 @@
 
             els.lsaVideo.pause();
 
-            els.lsaVideo.removeAttribute(
-                "src"
-            );
+            els.lsaVideo.removeAttribute("src");
 
             els.lsaVideo.load();
 
@@ -285,7 +233,6 @@
 
         els.lsaVideo.play()
             .catch(function () {});
-
     }
 
     function renderOptions() {
@@ -312,7 +259,6 @@
                             word.id_word !==
                             item.id_word
                         );
-
                     }
                 )
             ).slice(0, 2);
@@ -330,27 +276,10 @@
 
             btn.type = "button";
 
-            if (state.mode === "A") {
+            btn.className = "option";
 
-                btn.className = "option";
-
-                btn.textContent =
-                    opcion.word.toUpperCase();
-
-            } else {
-
-                btn.className =
-                    "option option--image";
-
-                btn.innerHTML = `
-                    <img
-                        src="${opcion.image_url}"
-                        alt="${opcion.word}"
-                        class="option-img"
-                    >
-                `;
-
-            }
+            btn.textContent =
+                opcion.word.toUpperCase();
 
             btn.addEventListener(
                 "click",
@@ -362,21 +291,14 @@
                             item.id_word,
                         item.id_word
                     );
-
                 }
             );
 
             els.options.appendChild(btn);
-
         });
-
     }
 
-    function handleAnswer(
-        btn,
-        correcto,
-        idWord
-    ) {
+    function handleAnswer(btn, correcto, idWord) {
 
         if (state.answered) {
             return;
@@ -396,7 +318,6 @@
             button.classList.add(
                 "is-disabled"
             );
-
         });
 
         if (correcto) {
@@ -451,11 +372,9 @@
                             "is-disabled",
                             "is-wrong"
                         );
-
                     });
 
-                    els.feedback.textContent =
-                        "";
+                    els.feedback.textContent = "";
 
                     els.feedback.className =
                         "feedback";
@@ -465,9 +384,7 @@
                 },
                 900
             );
-
         }
-
     }
 
     function completarJuego1() {
@@ -478,8 +395,7 @@
                 method: "POST",
 
                 headers: {
-                    "Content-Type":
-                        "application/json"
+                    "Content-Type": "application/json"
                 },
 
                 body: JSON.stringify({
@@ -526,9 +442,7 @@
                 "Error al completar el Juego 1:",
                 error
             );
-
         });
-
     }
 
     function nextWord() {
@@ -572,7 +486,6 @@
         updateTrail();
         renderPrompt();
         renderOptions();
-
     }
 
     function clearTutorialTimer() {
@@ -584,9 +497,7 @@
             );
 
             tutorialState.timer = null;
-
         }
-
     }
 
     function clearTutorialAnimation() {
@@ -606,9 +517,7 @@
                 "tutorial-option--success",
                 "tutorial__fake-word--pop"
             );
-
         });
-
     }
 
     function createTutorialOptions(item) {
@@ -624,7 +533,6 @@
                             word.id_word !==
                             item.id_word
                         );
-
                     }
                 )
             ).slice(0, 2);
@@ -643,24 +551,8 @@
             option.className =
                 "tutorial__fake-word";
 
-            if (
-                tutorialState.mode ===
-                "A"
-            ) {
-
-                option.textContent =
-                    opcion.word.toUpperCase();
-
-            } else {
-
-                option.innerHTML = `
-                    <img
-                        src="${opcion.image_url}"
-                        alt=""
-                    >
-                `;
-
-            }
+            option.textContent =
+                opcion.word.toUpperCase();
 
             option.dataset.correct =
                 opcion.id_word ===
@@ -671,9 +563,7 @@
             els.tutorialOptions.appendChild(
                 option
             );
-
         });
-
     }
 
     function createTutorialVideo(item) {
@@ -708,6 +598,21 @@
             ""
         );
 
+        video.setAttribute(
+            "muted",
+            ""
+        );
+
+        video.setAttribute(
+            "autoplay",
+            ""
+        );
+
+        video.setAttribute(
+            "loop",
+            ""
+        );
+
         video.muted = true;
         video.autoplay = true;
         video.loop = true;
@@ -717,12 +622,13 @@
 
         els.tutorialContent.insertBefore(
             video,
-            els.tutorialImage
+            els.tutorialOptions
         );
+
+        video.load();
 
         video.play()
             .catch(function () {});
-
     }
 
     function showCorrectAnimation() {
@@ -741,7 +647,6 @@
                         option.dataset.correct ===
                         "true"
                     );
-
                 }
             );
 
@@ -780,7 +685,6 @@
                 },
                 900
             );
-
     }
 
     function renderTutorial() {
@@ -793,12 +697,6 @@
         if (!item) {
             return;
         }
-
-        els.tutorialImage.src =
-            item.image_url;
-
-        els.tutorialImage.alt =
-            item.word;
 
         createTutorialOptions(item);
 
@@ -819,17 +717,30 @@
             els.tutorialImage.style.display =
                 "none";
 
+            els.tutorialImage.src = "";
+            els.tutorialImage.alt = "";
+
+            els.tutorialImage.parentElement.style.display =
+                "none";
+
             createTutorialVideo(item);
 
         } else {
 
-            els.tutorialImage.style.display =
+            els.tutorialImage.parentElement.style.display =
                 "flex";
 
+            els.tutorialImage.style.display =
+                "block";
+
+            els.tutorialImage.src =
+                item.image_url;
+
+            els.tutorialImage.alt =
+                item.word;
         }
 
         showCorrectAnimation();
-
     }
 
     function showTutorial(mode) {
@@ -854,17 +765,35 @@
                 els.tutorial.classList.add(
                     "tutorial--visible"
                 );
-
             }
         );
 
         renderTutorial();
-
     }
 
     function closeTutorial() {
 
         clearTutorialTimer();
+
+        const video =
+            document.getElementById(
+                "tutorialLsaVideo"
+            );
+
+        if (video) {
+
+            video.pause();
+            video.remove();
+        }
+
+        if (els.tutorialImage) {
+
+            els.tutorialImage.parentElement.style.display =
+                "flex";
+
+            els.tutorialImage.style.display =
+                "block";
+        }
 
         tutorialState.active =
             false;
@@ -885,7 +814,6 @@
             },
             450
         );
-
     }
 
     function repeatTutorial() {
@@ -893,7 +821,6 @@
         clearTutorialAnimation();
 
         renderTutorial();
-
     }
 
     function initTutorial() {
@@ -911,10 +838,8 @@
                     event.preventDefault();
 
                     repeatTutorial();
-
                 }
             );
-
         }
 
         if (els.tutorialNext) {
@@ -926,10 +851,8 @@
                     event.preventDefault();
 
                     closeTutorial();
-
                 }
             );
-
         }
 
         if (els.tutorialClose) {
@@ -941,10 +864,8 @@
                     event.preventDefault();
 
                     closeTutorial();
-
                 }
             );
-
         }
 
         setTimeout(
@@ -955,7 +876,6 @@
             },
             700
         );
-
     }
 
     function init() {
@@ -969,7 +889,6 @@
 
                 els.instruction.textContent =
                     "NO HAY SUFICIENTES PALABRAS PARA ESTE JUEGO.";
-
             }
 
             return;
@@ -989,7 +908,6 @@
         renderPrompt();
         renderOptions();
         initTutorial();
-
     }
 
     init();

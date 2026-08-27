@@ -1,21 +1,15 @@
 :root {
     --bg: #FCF7EC;
-
     --turquoise: #3DBFB8;
     --turquoise-dark: #237F7A;
     --turquoise-pale: #E3F6F4;
-
     --yellow: #FFC64B;
     --coral: #FF7A59;
-
     --ink: #4A3B78;
-
     --success: #3FA772;
     --success-bg: #E7F6EE;
-
     --retry: #FF8A5B;
     --retry-bg: #FFF0E6;
-
     --white: #FFFFFF;
 
     --radius-lg: 28px;
@@ -119,13 +113,14 @@ body {
 
     font-size: .78rem;
     letter-spacing: .06em;
-
     text-transform: uppercase;
 
     color: var(--turquoise-dark);
+
     background: var(--turquoise-pale);
 
     padding: 7px 16px;
+
     border-radius: 999px;
 
     margin: 0 0 18px;
@@ -141,6 +136,7 @@ body {
     background: var(--white);
 
     border: 2px solid var(--turquoise);
+
     border-radius: 999px;
 
     padding: 8px 16px;
@@ -284,10 +280,6 @@ body {
     text-transform: uppercase;
 }
 
-.video-frame__placeholder strong {
-    color: var(--yellow);
-}
-
 .stage__instruction {
     font-family: var(--font-display);
     font-weight: 600;
@@ -309,7 +301,8 @@ body {
 
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 12px;
 }
@@ -321,6 +314,7 @@ body {
     font-size: 1rem;
 
     color: var(--ink);
+
     background: var(--white);
 
     border: 3px solid var(--turquoise);
@@ -374,7 +368,9 @@ body {
 
 .option.is-correct {
     background: var(--success-bg);
+
     border-color: var(--success);
+
     color: var(--success);
 
     animation: pop .35s ease;
@@ -382,7 +378,9 @@ body {
 
 .option.is-wrong {
     background: var(--retry-bg);
+
     border-color: var(--retry);
+
     color: var(--retry);
 
     animation: shake .35s ease;
@@ -394,6 +392,7 @@ body {
 }
 
 @keyframes pop {
+
     0% {
         transform: scale(1);
     }
@@ -408,6 +407,7 @@ body {
 }
 
 @keyframes shake {
+
     0%,
     100% {
         transform: translateX(0);
@@ -481,9 +481,11 @@ body {
 
     inset: 0;
 
-    background: rgba(74, 59, 120, .35);
+    background:
+        rgba(74, 59, 120, .35);
 
-    backdrop-filter: blur(6px);
+    backdrop-filter:
+        blur(6px);
 }
 
 .tutorial__card {
@@ -492,6 +494,7 @@ body {
     z-index: 2;
 
     width: 100%;
+
     max-width: 430px;
 
     min-height: 440px;
@@ -503,7 +506,8 @@ body {
     border-radius: 30px;
 
     box-shadow:
-        0 25px 60px rgba(74, 59, 120, .25);
+        0 25px 60px
+        rgba(74, 59, 120, .25);
 
     text-align: center;
 
@@ -534,9 +538,11 @@ body {
 
     border-radius: 50%;
 
-    background: var(--turquoise-pale);
+    background:
+        var(--turquoise-pale);
 
-    color: var(--turquoise-dark);
+    color:
+        var(--turquoise-dark);
 
     font-family: Arial, sans-serif;
 
@@ -576,7 +582,6 @@ body {
     flex-direction: column;
 
     align-items: center;
-
     justify-content: center;
 
     gap: 24px;
@@ -588,7 +593,8 @@ body {
 
     border-radius: 50%;
 
-    background: var(--turquoise-pale);
+    background:
+        var(--turquoise-pale);
 
     padding: 16px;
 
@@ -598,7 +604,8 @@ body {
     justify-content: center;
 
     box-shadow:
-        0 8px 0 rgba(61, 191, 184, .15);
+        0 8px 0
+        rgba(61, 191, 184, .15);
 
     animation:
         tutorialImageAppear .8s ease both;
@@ -611,12 +618,33 @@ body {
     object-fit: contain;
 }
 
+.tutorial__video {
+    width: 190px;
+    height: 190px;
+
+    border-radius: 24px;
+
+    object-fit: cover;
+
+    background: var(--ink);
+
+    display: block;
+
+    box-shadow:
+        0 8px 0
+        rgba(61, 191, 184, .15);
+
+    animation:
+        tutorialVideoAppear .8s ease both;
+}
+
 .tutorial__options {
     width: 100%;
 
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 10px;
 }
@@ -631,15 +659,20 @@ body {
 
     padding: 8px;
 
-    background: var(--white);
+    background:
+        var(--white);
 
-    border: 3px solid var(--turquoise);
+    border:
+        3px solid var(--turquoise);
 
-    border-radius: var(--radius-md);
+    border-radius:
+        var(--radius-md);
 
-    box-shadow: var(--shadow-btn);
+    box-shadow:
+        var(--shadow-btn);
 
-    font-family: var(--font-display);
+    font-family:
+        var(--font-display);
 
     font-weight: 700;
 
@@ -654,28 +687,38 @@ body {
         box-shadow .3s ease;
 }
 
-.tutorial__fake-word--correct {
-    border-color: var(--yellow);
+.tutorial__fake-word img {
+    width: 55px;
+    height: 55px;
 
-    background: #FFF9E8;
+    object-fit: contain;
+
+    pointer-events: none;
 }
 
-.tutorial__fake-word--success {
-    background: var(--success-bg);
-
-    border-color: var(--success);
-
-    color: var(--success);
-}
-
-.tutorial__fake-word--shake {
+.tutorial-option--highlight {
     animation:
-        tutorialCorrectShake 2.4s ease-in-out;
+        tutorialOptionShake
+        .45s
+        ease-in-out
+        5;
 }
 
-.tutorial__fake-word--pop {
+.tutorial-option--success {
+    background:
+        var(--success-bg);
+
+    border-color:
+        var(--success);
+
+    color:
+        var(--success);
+
     animation:
-        tutorialCorrectSuccess .8s ease forwards;
+        tutorialSuccess
+        .8s
+        ease
+        forwards;
 }
 
 .tutorial__actions {
@@ -713,25 +756,32 @@ body {
 .tutorial__repeat {
     background: var(--white);
 
-    border: 3px solid var(--turquoise);
+    border:
+        3px solid var(--turquoise);
 
-    color: var(--turquoise-dark);
+    color:
+        var(--turquoise-dark);
 
     font-size: 28px;
 
-    box-shadow: var(--shadow-btn);
+    box-shadow:
+        var(--shadow-btn);
 }
 
 .tutorial__next {
-    background: var(--turquoise);
+    background:
+        var(--turquoise);
 
-    border: 3px solid var(--turquoise);
+    border:
+        3px solid var(--turquoise);
 
-    color: var(--white);
+    color:
+        var(--white);
 
     font-size: 27px;
 
-    box-shadow: var(--shadow-btn);
+    box-shadow:
+        var(--shadow-btn);
 }
 
 .tutorial__repeat:hover,
@@ -741,17 +791,17 @@ body {
 
 .tutorial__repeat:active,
 .tutorial__next:active {
-    transform: translateY(3px) scale(.98);
+    transform:
+        translateY(3px)
+        scale(.98);
 
     box-shadow:
-        0 2px 0 rgba(74, 59, 120, .18);
-}
-
-.tutorial__hand {
-    display: none;
+        0 2px 0
+        rgba(74, 59, 120, .18);
 }
 
 @keyframes tutorialImageAppear {
+
     0% {
         opacity: 0;
         transform: scale(.75);
@@ -768,68 +818,96 @@ body {
     }
 }
 
-@keyframes tutorialCorrectShake {
+@keyframes tutorialVideoAppear {
+
     0% {
-        transform: translateX(0) scale(1);
-    }
-
-    12% {
-        transform: translateX(-7px) scale(1.03);
-    }
-
-    24% {
-        transform: translateX(7px) scale(1.03);
-    }
-
-    36% {
-        transform: translateX(-6px) scale(1.03);
-    }
-
-    48% {
-        transform: translateX(6px) scale(1.03);
+        opacity: 0;
+        transform: scale(.75);
     }
 
     60% {
-        transform: translateX(-4px) scale(1.02);
-    }
-
-    72% {
-        transform: translateX(4px) scale(1.02);
-    }
-
-    84% {
-        transform: translateX(0) scale(1.05);
+        opacity: 1;
+        transform: scale(1.05);
     }
 
     100% {
-        transform: translateX(0) scale(1);
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
-@keyframes tutorialCorrectSuccess {
+@keyframes tutorialOptionShake {
+
     0% {
-        transform: scale(1);
-        background: #FFF9E8;
-        border-color: var(--yellow);
+        transform:
+            translateX(0)
+            scale(1);
     }
 
-    45% {
-        transform: scale(1.12) rotate(-2deg);
+    20% {
+        transform:
+            translateX(-7px)
+            scale(1.03);
     }
 
-    70% {
-        transform: scale(1.08) rotate(2deg);
+    40% {
+        transform:
+            translateX(7px)
+            scale(1.03);
+    }
+
+    60% {
+        transform:
+            translateX(-6px)
+            scale(1.03);
+    }
+
+    80% {
+        transform:
+            translateX(6px)
+            scale(1.03);
     }
 
     100% {
-        transform: scale(1.08) rotate(0);
-        background: var(--success-bg);
-        border-color: var(--success);
-        color: var(--success);
+        transform:
+            translateX(0)
+            scale(1);
+    }
+}
+
+@keyframes tutorialSuccess {
+
+    0% {
+        transform: scale(1);
+    }
+
+    35% {
+        transform:
+            scale(1.15)
+            rotate(-2deg);
+    }
+
+    60% {
+        transform:
+            scale(1.08)
+            rotate(2deg);
+    }
+
+    80% {
+        transform:
+            scale(1.1)
+            rotate(-1deg);
+    }
+
+    100% {
+        transform:
+            scale(1.08)
+            rotate(0);
     }
 }
 
 @media (max-width: 768px) {
+
     .stage {
         margin-top: 12px;
 
@@ -853,6 +931,7 @@ body {
 }
 
 @media (max-width: 520px) {
+
     .stage__eyebrow {
         font-size: .7rem;
 
@@ -871,7 +950,6 @@ body {
 
     .prompt-card {
         max-width: 300px;
-
         min-height: 230px;
 
         padding: 24px;
@@ -932,6 +1010,13 @@ body {
         height: 135px;
     }
 
+    .tutorial__video {
+        width: 150px;
+        height: 150px;
+
+        border-radius: 20px;
+    }
+
     .tutorial__fake-word {
         min-height: 58px;
 
@@ -939,12 +1024,17 @@ body {
 
         border-width: 2.5px;
     }
+
+    .tutorial__fake-word img {
+        width: 48px;
+        height: 48px;
+    }
 }
 
 @media (max-width: 380px) {
+
     .prompt-card {
         max-width: 270px;
-
         min-height: 210px;
 
         padding: 20px;
@@ -975,82 +1065,17 @@ body {
         width: 13px;
         height: 13px;
     }
+
+    .tutorial__video {
+        width: 135px;
+        height: 135px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     * {
         animation-duration: .001ms !important;
         transition-duration: .001ms !important;
     }
-}
-
-.tutorial-option--highlight {
-    animation: tutorialOptionShake 0.45s ease-in-out 5;
-}
-
-@keyframes tutorialOptionShake {
-
-    0% {
-        transform: translateX(0) scale(1);
-    }
-
-    20% {
-        transform: translateX(-7px) scale(1.03);
-    }
-
-    40% {
-        transform: translateX(7px) scale(1.03);
-    }
-
-    60% {
-        transform: translateX(-6px) scale(1.03);
-    }
-
-    80% {
-        transform: translateX(6px) scale(1.03);
-    }
-
-    100% {
-        transform: translateX(0) scale(1);
-    }
-}
-
-
-.tutorial-option--success {
-    background: var(--success-bg);
-
-    border-color: var(--success);
-
-    color: var(--success);
-
-    animation: tutorialSuccess 0.8s ease forwards;
-}
-
-
-@keyframes tutorialSuccess {
-
-    0% {
-        transform: scale(1);
-    }
-
-    35% {
-        transform: scale(1.15) rotate(-2deg);
-    }
-
-    60% {
-        transform: scale(1.08) rotate(2deg);
-    }
-
-    80% {
-        transform: scale(1.1) rotate(-1deg);
-    }
-
-    100% {
-        transform: scale(1.08) rotate(0);
-    }
-}
-
-
-.tutorial__fake-word--pop {
-    animation: tutorialSuccess 0.8s ease forwards;
 }

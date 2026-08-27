@@ -250,17 +250,18 @@ def completar_juego():
         "ronda"
     )
 
+    decision = resultado.get("decision")
+
+    session["decision_aprendizaje"] = decision
+
     return jsonify({
         "ok": True,
-        "decision": resultado.get(
-            "decision"
-        ),
+        "decision": decision,
         "juego_actual": resultado.get(
             "juego_actual"
         ),
         "ronda_completada": (
-            resultado.get("decision") ==
-            "oracion"
+            decision == "oracion"
         ),
         "hay_ronda": (
             ronda_resultado is not None

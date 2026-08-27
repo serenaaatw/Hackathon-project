@@ -1,203 +1,235 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    padding:50px 20px;
-    font-family:'Inter',sans-serif;
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    font-family: 'Nunito', sans-serif;
     background:
-        radial-gradient(circle at top left,#FFE7A8 0%,transparent 30%),
-        radial-gradient(circle at bottom right,#C8F5E4 0%,transparent 35%),
-        #FFF9F1;
+        radial-gradient(circle at top left, #E9DDF8 0%, transparent 32%),
+        radial-gradient(circle at bottom right, #DDF3EF 0%, transparent 35%),
+        radial-gradient(circle at top right, #FDF0D2 0%, transparent 28%),
+        #FFFDF9;
 }
 
-.logo{
-    width:350px;
-    max-width:92vw;
-    transform:scale(1.22) translateY(-18px);
-    margin-bottom:-20px;
-    filter:drop-shadow(0 18px 35px rgba(255,126,103,.18));
-    user-select:none;
+.logo {
+    width: 350px;
+    max-width: 92vw;
+    transform: scale(1.22) translateY(-18px);
+    margin-bottom: -20px;
+    filter: drop-shadow(0 18px 35px rgba(46, 42, 74, .16));
+    user-select: none;
+    padding-bottom: 50px;
+    padding-top: 25px;
 }
 
-h1{
-    font-family:'Sora',sans-serif;
-    font-size:3.6rem;
-    font-weight:800;
-    color:#493B5A;
-    letter-spacing:-3px;
-    text-align:center;
-    margin-bottom:12px;
+h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: #2E2A4A;
+    letter-spacing: -1px;
+    text-align: center;
+    margin-bottom: 12px;
 }
 
-h1::after{
-    content:"";
-    display:block;
-    width:90px;
-    height:5px;
-    margin:14px auto 0;
-    border-radius:999px;
-    background:linear-gradient(90deg,#FF7E67,#55D6BE);
+h1::after {
+    content: "";
+    display: block;
+    width: 110px;
+    height: 7px;
+    margin: 14px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        #2FB6A3 0%,
+        #8E6BC7 35%,
+        #F2647C 65%,
+        #F5A428 100%
+    );
 }
 
-.form_container{
-    width:100%;
-    max-width:500px;
-    margin-top:35px;
-    background:#fff;
-    border-radius:24px;
-    padding:42px;
+.form_container {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 35px;
+    background: #FFFFFF;
+    border: 2px solid #d3d3d3;
+    border-radius: 30px;
+    padding: 42px;
     box-shadow:
-        0 25px 60px rgba(73,59,90,.08),
-        0 8px 20px rgba(255,126,103,.07);
+        0 10px 25px rgba(46, 42, 74, .12),
+        0 6px 15px rgba(47, 182, 163, .08);
 }
 
-form{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
-input{
-    height:58px;
-    padding:0 18px;
-    border:1px solid #E7DCCF;
-    border-radius:14px;
-    background:#FFFCF8;
-    font-size:15px;
-    transition:.25s;
-    color:#493B5A;
+input {
+    height: 60px;
+    padding: 0 18px;
+    border: 2px solid #C9BFE0;
+    border-radius: 16px;
+    background: #F7F3FC;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2E2A4A;
+    transition: .25s;
 }
 
-input::placeholder{
-    color:#A99DAA;
+input::placeholder {
+    color: #706780;
+    opacity: 1;
 }
 
-input:focus{
-    outline:none;
-    border-color:#55D6BE;
-    background:#fff;
-    box-shadow:0 0 0 4px rgba(85,214,190,.16);
+input:focus {
+    outline: none;
+    border-color: #2FB6A3;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(47, 182, 163, .18);
 }
 
-button{
-    height:58px;
-    border:none;
-    border-radius:14px;
-    background:linear-gradient(135deg,#FF7E67,#FFB86B);
-    color:#fff;
-    font-size:16px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.25s;
+button {
+    height: 62px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(
+        100deg,
+        #2FB6A3 0%,
+        #8E6BC7 35%,
+        #F2647C 68%,
+        #F5A428 100%
+    );
+    background-size: 200% 200%;
+    color: #FFFFFF;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+    box-shadow:
+        0 12px 25px rgba(142, 107, 199, .22),
+        0 8px 18px rgba(47, 182, 163, .15);
 }
 
-button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 14px 30px rgba(255,126,103,.25);
+button:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 17px 32px rgba(142, 107, 199, .28),
+        0 10px 22px rgba(47, 182, 163, .20);
 }
 
-.links{
-    margin-top:10px;
-    text-align:center;
-    color:#7C7180;
-    font-size:.95rem;
+button:active {
+    transform: translateY(1px);
 }
 
-.links a{
-    color:#FF7E67;
-    text-decoration:none;
-    font-weight:700;
+.links {
+    margin-top: 10px;
+    text-align: center;
+    color: #4B4570;
+    font-family: 'Nunito', sans-serif;
+    font-size: .95rem;
+    font-weight: 600;
 }
 
-.links a:hover{
-    color:#55BFA9;
+.links a {
+    color: #8E6BC7;
+    text-decoration: none;
+    font-weight: 800;
 }
 
-.subtitle{
-    max-width:560px;
-    margin:0 auto 45px;
-    text-align:center;
-    font-family:'Inter',sans-serif;
-    font-size:1.08rem;
-    font-weight:500;
-    line-height:1.8;
-    color:#6F6472;
-    letter-spacing:.2px;
+.links a:hover {
+    color: #F2647C;
 }
 
-.error{
-    width:100%;
-    max-width:500px;
-    margin-bottom:24px;
-    padding:16px 18px;
-    background:#FFF1EF;
-    border:1px solid #FFC9C0;
-    color:#D95745;
-    border-radius:14px;
-    text-align:center;
-    font-weight:600;
-    box-shadow:0 10px 20px rgba(217,87,69,.08);
+.subtitle {
+    max-width: 560px;
+    margin: 0 auto 45px;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.8;
+    color: #4B4570;
+    letter-spacing: .2px;
 }
 
+.error {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 24px;
+    padding: 16px 18px;
+    background: #FBE1E7;
+    border: 2px solid #F2647C;
+    color: #8F3045;
+    border-radius: 16px;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    box-shadow: 0 10px 20px rgba(242, 100, 124, .10);
+}
 
-@media (max-width:768px){
+@media (max-width: 768px) {
 
-    body{
-        padding:35px 18px;
+    body {
+        padding: 35px 18px;
     }
 
-    .logo{
-        width:290px;
-        transform:scale(1.18) translateY(-14px);
-        margin-bottom:-10px;
+    .logo {
+        width: 290px;
+        transform: scale(1.18) translateY(-14px);
+        margin-bottom: -10px;
+
     }
 
-    h1{
-        font-size:2.8rem;
+    h1 {
+        font-size: 2.8rem;
     }
 
-    .form_container{
-        padding:32px;
-        margin-top:28px;
+    .form_container {
+        padding: 32px;
+        margin-top: 28px;
     }
-
 }
 
-@media (max-width:480px){
+@media (max-width: 480px) {
 
-    body{
-        padding:25px 14px;
+    body {
+        padding: 25px 14px;
     }
 
-    .logo{
-        width:240px;
-        transform:scale(1.15) translateY(-10px);
-        margin-bottom:-6px;
+    .logo {
+        width: 240px;
+        transform: scale(1.15) translateY(-10px);
+        margin-bottom: -6px;
     }
 
-    h1{
-        font-size:2.2rem;
-        letter-spacing:-2px;
+    h1 {
+        font-size: 2.2rem;
+        letter-spacing: -1px;
     }
 
-    .form_container{
-        padding:24px;
-        border-radius:20px;
+    .form_container {
+        padding: 24px;
+        border-radius: 24px;
     }
 
     input,
-    button{
-        height:54px;
+    button {
+        height: 56px;
     }
-
 }
