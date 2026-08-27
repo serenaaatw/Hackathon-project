@@ -1,26 +1,26 @@
 from flask import (
-Blueprint,
-render_template,
-abort,
-url_for,
-session,
-jsonify,
-request
+    Blueprint,
+    render_template,
+    abort,
+    url_for,
+    session,
+    jsonify,
+    request
 )
 
 from services.sentence_service import SentenceService
 from services.learning_service import LearningService
+
 from models.db import db
-from models.sentence_progress import SentenceProgress
+
 
 sentence_bp = Blueprint(
-"sentence",
-__name__,
-url_prefix="/oraciones"
+    "sentence",
+    __name__,
+    url_prefix="/oraciones"
 )
 
 def serializar_oraciones(oraciones):
-
 
     resultado = []
 
@@ -33,7 +33,7 @@ def serializar_oraciones(oraciones):
             data["image_url"] = url_for(
                 "static",
                 filename=(
-                    "img/oraciones/"
+                    "img/sentences/"
                     + oracion.image_file
                 )
             )
@@ -78,7 +78,9 @@ def serializar_oraciones(oraciones):
 @sentence_bp.route("/fin")
 def fin_oraciones():
 
-    id_user = session.get("usuario_id")
+    id_user = session.get(
+        "usuario_id"
+    )
 
     if id_user is None:
         abort(401)
@@ -98,16 +100,25 @@ def fin_oraciones():
     )
 
 
+
 @sentence_bp.route("/reconocer")
 def reconocer_oraciones():
 
+    id_user = session.get(
+        "usuario_id"
+    )
+
+    if id_user is None:
+        abort(401)
+
     oraciones = (
         SentenceService
-        .obtener_oraciones_para_reconocer()
+        .obtener_oraciones_de_palabras_aprendidas(
+            id_user
+        )
     )
 
     if not oraciones:
-
         abort(404)
 
     return render_template(
@@ -118,13 +129,17 @@ def reconocer_oraciones():
     )
 
 
+
 @sentence_bp.route("/juego/1")
 def juego_oraciones_1():
 
-    numero_bloque = session.get(
-        "oraciones_bloque",
-        1
+    id_user = session.get(
+        "usuario_id"
     )
+
+    if id_user is None:
+        abort(401)
+
 
     ids_refuerzo = session.get(
         "oraciones_refuerzo"
@@ -139,18 +154,62 @@ def juego_oraciones_1():
             )
         )
 
+        numero_bloque = session.get(
+            "oraciones_bloque",
+            1
+        )
+
     else:
+
+
+        ids_oraciones = session.get(
+            "oraciones_totales"
+        )
+
+        if not ids_oraciones:
+
+            oraciones_totales = (
+                SentenceService
+                .obtener_oraciones_de_palabras_aprendidas(
+                    id_user
+                )
+            )
+
+            if not oraciones_totales:
+                abort(404)
+
+            ids_oraciones = [
+                oracion.id_sentence
+                for oracion in oraciones_totales
+            ]
+
+            session["oraciones_totales"] = (
+                ids_oraciones
+            )
+
+        numero_bloque = session.get(
+            "oraciones_bloque",
+            1
+        )
+
+        inicio = (
+            (numero_bloque - 1) * 3
+        )
+
+        ids_bloque = ids_oraciones[
+            inicio:inicio + 3
+        ]
 
         oraciones = (
             SentenceService
-            .obtener_bloque(
-                numero_bloque
+            .obtener_bloque_por_ids(
+                ids_bloque
             )
         )
 
     if not oraciones:
-
         abort(404)
+
 
     session["oraciones_actuales"] = [
         oracion.id_sentence
@@ -168,9 +227,9 @@ def juego_oraciones_1():
     )
 
 
+
 @sentence_bp.route("/juego/2")
 def juego_oraciones_2():
-
 
     ids_actuales = session.get(
         "oraciones_actuales"
@@ -194,7 +253,6 @@ def juego_oraciones_2():
     )
 
     if not oraciones:
-
         abort(404)
 
     session["oraciones_juego_actual"] = 2
@@ -207,9 +265,10 @@ def juego_oraciones_2():
     )
 
 
+
 @sentence_bp.route(
-"/registrar-resultado",
-methods=["POST"]
+    "/registrar-resultado",
+    methods=["POST"]
 )
 def registrar_resultado():
 
@@ -296,8 +355,10 @@ def registrar_resultado():
         progreso.dominio
     )
 
+    db.session.add(
+        progreso
+    )
 
-    db.session.add(progreso)
     db.session.commit()
 
     print(
@@ -312,11 +373,10 @@ def registrar_resultado():
 
 
 @sentence_bp.route(
-"/finalizar-juego-1",
-methods=["POST"]
+    "/finalizar-juego-1",
+    methods=["POST"]
 )
 def finalizar_juego_1():
-
 
     ids_actuales = session.get(
         "oraciones_actuales"
@@ -340,12 +400,12 @@ def finalizar_juego_1():
     })
 
 
+
 @sentence_bp.route(
-"/finalizar-juego-2",
-methods=["POST"]
+    "/finalizar-juego-2",
+    methods=["POST"]
 )
 def finalizar_juego_2():
-
 
     ids_actuales = session.get(
         "oraciones_actuales"
@@ -393,6 +453,7 @@ def finalizar_juego_2():
             None
         )
 
+
         if numero_bloque >= 3:
 
             session.pop(
@@ -410,11 +471,18 @@ def finalizar_juego_2():
                 None
             )
 
+            session.pop(
+                "oraciones_totales",
+                None
+            )
+
             return jsonify({
                 "ok": True,
                 "completo": True,
                 "siguiente": "/oraciones/fin"
             })
+
+ 
 
         siguiente_bloque = (
             numero_bloque + 1
@@ -435,6 +503,7 @@ def finalizar_juego_2():
             "refuerzo": False,
             "siguiente": "/oraciones/juego/1"
         })
+
 
     refuerzo = (
         SentenceService

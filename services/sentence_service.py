@@ -1,5 +1,8 @@
 from models.sentence import Sentence
 from models.sentence_progress import SentenceProgress
+from models.learning_round import LearningRound
+from models.learning_round_word import LearningRoundWord
+from models.db import db
 
 
 class SentenceService:
@@ -26,6 +29,151 @@ class SentenceService:
             )
             .first()
         )
+
+
+    @staticmethod
+    def obtener_oraciones_de_palabras_aprendidas(id_user):
+
+
+        rondas = (
+            LearningRound.query
+            .filter(
+                LearningRound.id_user == id_user,
+                LearningRound.completada.is_(True)
+            )
+            .order_by(
+                LearningRound.id_round.desc()
+            )
+            .limit(2)
+            .all()
+        )
+
+        if len(rondas) < 2:
+            return []
+
+
+        palabras = []
+
+        for ronda in rondas:
+
+            palabras_ronda = (
+                LearningRoundWord.query
+                .filter_by(
+                    id_round=ronda.id_round
+                )
+                .order_by(
+                    LearningRoundWord.orden.asc()
+                )
+                .all()
+            )
+
+            for palabra_ronda in palabras_ronda:
+
+                palabra = palabra_ronda.word
+
+                if palabra is not None:
+                    palabras.append(palabra)
+
+
+        if len(palabras) < 6:
+            return []
+
+
+        animales = []
+        acciones = []
+
+        for palabra in palabras:
+
+            categoria = palabra.category
+
+            if categoria is None:
+                continue
+
+            slug = categoria.slug.lower()
+
+
+            if slug in [
+                "animales",
+                "animal"
+            ]:
+
+                animales.append(palabra)
+
+            elif slug in [
+                "acciones",
+                "accion"
+            ]:
+
+                acciones.append(palabra)
+
+
+        animales = animales[:3]
+        acciones = acciones[:3]
+
+        if (
+            len(animales) < 3
+            or len(acciones) < 3
+        ):
+            return []
+
+        ids_animales = {
+            animal.id_word
+            for animal in animales
+        }
+
+        ids_acciones = {
+            accion.id_word
+            for accion in acciones
+        }
+
+        oraciones = (
+            Sentence.query
+            .filter(
+                Sentence.id_subject.in_(
+                    ids_animales
+                ),
+                Sentence.id_action.in_(
+                    ids_acciones
+                )
+            )
+            .all()
+        )
+
+
+        combinaciones = {}
+
+        for oracion in oraciones:
+
+            clave = (
+                oracion.id_subject,
+                oracion.id_action
+            )
+
+            combinaciones[clave] = oracion
+
+        resultado = []
+
+        for animal in animales:
+
+            for accion in acciones:
+
+                clave = (
+                    animal.id_word,
+                    accion.id_word
+                )
+
+                oracion = combinaciones.get(
+                    clave
+                )
+
+                if oracion is not None:
+
+                    resultado.append(
+                        oracion
+                    )
+
+        return resultado[:9]
+
 
     @staticmethod
     def obtener_bloque(numero_bloque):
@@ -61,6 +209,7 @@ class SentenceService:
             .all()
         )
 
+
     @staticmethod
     def obtener_o_crear_progreso(
         id_user,
@@ -83,7 +232,6 @@ class SentenceService:
                 id_sentence=id_sentence
             )
 
-            from models.db import db
             db.session.add(progreso)
 
         return progreso
@@ -128,6 +276,7 @@ class SentenceService:
                 return False
 
         return True
+
 
     @staticmethod
     def obtener_refuerzo(

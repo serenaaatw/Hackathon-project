@@ -353,3 +353,24 @@ class LearningRoundService:
         )
 
         return ronda is None
+
+    @staticmethod
+    def obtener_dos_rondas_anteriores(id_user):
+
+        rondas = (
+            LearningRound.query
+            .filter(
+                LearningRound.id_user == id_user,
+                LearningRound.completada.is_(True)
+            )
+            .order_by(
+                LearningRound.id_round.desc()
+            )
+            .limit(2)
+            .all()
+        )
+
+        if len(rondas) < 2:
+            return []
+
+        return rondas
