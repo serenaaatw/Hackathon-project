@@ -9,7 +9,7 @@ from routes.game_routes import game_bp
 from routes.menuPrincipal_routes import menu_principal
 from routes.progress_routes import progress_routes
 from routes.profile_routes import profile
-from routes.contact_routes import contact
+from routes.contact_routes import contact_bp
 from routes.sentence_routes import sentence_bp
 from routes.inicio_routes import inicio_bp
 import os
@@ -33,7 +33,7 @@ app.register_blueprint(game_bp)
 app.register_blueprint(menu_principal)
 app.register_blueprint(progress_routes)
 app.register_blueprint(profile)
-app.register_blueprint(contact)
+app.register_blueprint(contact_bp)
 app.register_blueprint(sentence_bp)
 app.register_blueprint(inicio_bp)
 

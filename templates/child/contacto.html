@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS — CONTACTO{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/contacto.css'
+    ) }}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<main class="contact-page">
+
+<section class="contact-card">
+
+    <div class="contact-header">
+
+        <span class="contact-eyebrow">
+            EDUSEÑAS
+        </span>
+
+        <h1>
+            CONTACTANOS
+        </h1>
+
+        <p>
+            ¿TENÉS UNA DUDA, SUGERENCIA O QUERÉS CONTARNOS ALGO?
+        </p>
+
+    </div>
+
+
+    <form
+        id="contactForm"
+        class="contact-form"
+    >
+
+        <!-- MOTIVO -->
+        <div class="mancha-extra mancha-extra--1"></div>
+        <div class="mancha-extra mancha-extra--2"></div>
+        <div class="contact-field">
+
+            <label for="motivo">
+                MOTIVO
+            </label>
+
+            <select
+                id="motivo"
+                name="motivo"
+                required
+            >
+
+                <option
+                    value=""
+                    selected
+                    disabled
+                >
+                    SELECCIONÁ UN MOTIVO
+                </option>
+
+                <option value="consulta">
+                    CONSULTA
+                </option>
+
+                <option value="sugerencia">
+                    SUGERENCIA
+                </option>
+
+                <option value="problema">
+                    REPORTAR UN PROBLEMA
+                </option>
+
+                <option value="otro">
+                    OTRO
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- MAIL -->
+
+        <div class="contact-field">
+
+            <label for="email">
+                TU MAIL
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="TU@MAIL.COM"
+                autocomplete="email"
+                required
+            >
+
+        </div>
+
+
+        <!-- MENSAJE -->
+
+        <div class="contact-field">
+
+            <label for="mensaje">
+                MENSAJE
+            </label>
+
+            <textarea
+                id="mensaje"
+                name="mensaje"
+                rows="6"
+                maxlength="2000"
+                placeholder="ESCRIBÍ TU MENSAJE..."
+                required
+            ></textarea>
+
+        </div>
+
+
+        <!-- FEEDBACK -->
+
+        <div
+            id="contactFeedback"
+            class="contact-feedback"
+            aria-live="polite"
+        ></div>
+
+
+        <!-- ENVIAR -->
+
+        <button
+            type="submit"
+            id="btnEnviarContacto"
+            class="contact-submit"
+        >
+
+            <span class="contact-submit__icon">
+                ✉
+            </span>
+
+            <span>
+                ENVIAR MENSAJE
+            </span>
+
+        </button>
+
+    </form>
+
+</section>
+
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+    const URL_ENVIAR_CONTACTO =
+        "{{ url_for('contact.enviar_contacto') }}";
+
+</script>
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='javascript/contacto.js'
+    ) }}"
+></script>
+
+{% endblock %}
