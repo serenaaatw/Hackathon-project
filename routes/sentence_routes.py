@@ -9,6 +9,7 @@ request
 )
 
 from services.sentence_service import SentenceService
+from services.learning_service import LearningService
 from models.db import db
 from models.sentence_progress import SentenceProgress
 
@@ -72,6 +73,29 @@ def serializar_oraciones(oraciones):
         resultado.append(data)
 
     return resultado
+
+
+@sentence_bp.route("/fin")
+def fin_oraciones():
+
+    id_user = session.get("usuario_id")
+
+    if id_user is None:
+        abort(401)
+
+    palabras_dominadas = (
+        LearningService.obtener_palabras_dominadas(
+            id_user
+        )
+    )
+
+    return render_template(
+        "child/fin.html",
+        palabras=[
+            palabra.word
+            for palabra in palabras_dominadas
+        ]
+    )
 
 
 @sentence_bp.route("/reconocer")
@@ -389,7 +413,7 @@ def finalizar_juego_2():
             return jsonify({
                 "ok": True,
                 "completo": True,
-                "siguiente": "/aprender/"
+                "siguiente": "/oraciones/fin"
             })
 
         siguiente_bloque = (

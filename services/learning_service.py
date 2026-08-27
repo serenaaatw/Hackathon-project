@@ -86,7 +86,12 @@ class LearningService:
                 )
             )
 
-            if len(palabras) >= LearningService.PALABRAS_POR_RONDA:
+            # Antes exigía >= PALABRAS_POR_RONDA (3) para considerar
+            # la categoría "actual". Se relaja a "alguna palabra
+            # nueva" para no perder las últimas palabras sueltas de
+            # una categoría (ej: pájaro y vaca en animales), que antes
+            # nunca llegaban a juntar 3 propias y quedaban afuera.
+            if palabras:
                 return categoria
 
         return None
