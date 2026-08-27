@@ -1,1198 +1,701 @@
 (function () {
 
-    "use strict";
+"use strict";
 
+const state = {
+    sentenceIndex: 0,
+    visited: new Set()
+};
 
-    /*
-     * ESTADO
-     */
+const elements = {
+    image:
+        document.getElementById("sentenceImage"),
 
-    const state = {
+    video:
+        document.getElementById("lsaVideo"),
 
-        sentenceIndex: 0,
+    videoPlay:
+        document.getElementById("btnVideoPlay"),
 
-        visited: new Set()
+    videoPlaceholder:
+        document.getElementById("videoPlaceholder"),
 
-    };
+    sentence:
+        document.getElementById("sentenceText"),
 
+    sentenceWords:
+        document.getElementById("sentenceWords"),
 
-    /*
-     * ELEMENTOS HTML
-     */
+    sentenceSound:
+        document.getElementById("btnSentenceSound"),
 
-    const elements = {
+    sentenceAudio:
+        document.getElementById("sentenceAudio"),
 
-        video:
-            document.getElementById("lsaVideo"),
+    wordAudio:
+        document.getElementById("wordAudio"),
 
-        videoPlay:
-            document.getElementById("btnVideoPlay"),
+    progress:
+        document.getElementById("learningProgress"),
 
-        videoPlaceholder:
-            document.getElementById("videoPlaceholder"),
+    next:
+        document.getElementById("btnNext"),
 
-        sentence:
-            document.getElementById("sentenceText"),
+    prev:
+        document.getElementById("btnPrev"),
 
-        sentenceWords:
-            document.getElementById("sentenceWords"),
+    step:
+        document.getElementById("learningStep"),
 
-        sentenceSound:
-            document.getElementById("btnSentenceSound"),
+    total:
+        document.getElementById("learningTotal")
+};
 
-        sentenceAudio:
-            document.getElementById("sentenceAudio"),
+const AUDIO_PALABRAS_BASE =
+    "/static/audio/palabras/";
 
-        wordAudio:
-            document.getElementById("wordAudio"),
+const AUDIO_ORACIONES_BASE =
+    "/static/audio/oraciones/";
 
-        progress:
-            document.getElementById("learningProgress"),
+function normalizeAudioName(text) {
 
-        next:
-            document.getElementById("btnNext"),
+    return String(text || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, "_");
 
-        prev:
-            document.getElementById("btnPrev"),
+}
 
-        step:
-            document.getElementById("learningStep"),
+function playAudio(audioElement, src) {
 
-        total:
-            document.getElementById("learningTotal")
+    if (!audioElement || !src) {
+        return;
+    }
 
-    };
+    try {
 
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        audioElement.src = src;
 
-    /*
-     * RUTAS DE AUDIO
-     */
+        const promise = audioElement.play();
 
-    const AUDIO_PALABRAS_BASE =
-        "/static/audio/palabras/";
+        if (
+            promise &&
+            typeof promise.catch === "function"
+        ) {
+            promise.catch(function () {});
+        }
 
+    } catch (error) {
 
-    const AUDIO_ORACIONES_BASE =
-        "/static/audio/oraciones/";
+        console.error(
+            "No se pudo reproducir el audio:",
+            error
+        );
 
+    }
 
-    /*
-     * NORMALIZAR NOMBRE
-     *
-     * Ejemplo:
-     *
-     * "PÁJARO" -> "pajaro"
-     * "EL PERRO COME" -> "el_perro_come"
-     */
+}
 
-    function normalizeAudioName(text) {
+function getSentence(item) {
 
-        return String(text || "")
+    if (!item) {
+        return "";
+    }
 
-            .toLowerCase()
+    return (
+        item.text ||
+        item.sentence ||
+        item.oracion ||
+        item.oración ||
+        item.full_sentence ||
+        item.fullSentence ||
+        ""
+    );
 
-            .normalize("NFD")
+}
 
-            .replace(
-                /[\u0300-\u036f]/g,
-                ""
-            )
+function getWords(item) {
 
-            .replace(
-                /\s+/g,
-                "_"
+    if (
+        item &&
+        Array.isArray(item.words)
+    ) {
+        return item.words;
+    }
+
+    return [];
+
+}
+
+function getWordText(word) {
+
+    if (!word) {
+        return "";
+    }
+
+    if (typeof word === "string") {
+        return word;
+    }
+
+    return (
+        word.text ||
+        word.word ||
+        word.nombre ||
+        word.name ||
+        ""
+    );
+
+}
+
+function getWordAudio(word) {
+
+    if (!word) {
+        return "";
+    }
+
+    if (word.audio_url) {
+        return word.audio_url;
+    }
+
+    if (word.word_audio_url) {
+        return word.word_audio_url;
+    }
+
+    const text = getWordText(word);
+
+    if (!text) {
+        return "";
+    }
+
+    return (
+        AUDIO_PALABRAS_BASE +
+        normalizeAudioName(text) +
+        ".mp3"
+    );
+
+}
+
+function getSentenceAudio(item) {
+
+    if (!item) {
+        return "";
+    }
+
+    if (item.audio_url) {
+        return item.audio_url;
+    }
+
+    if (item.sentence_audio_url) {
+        return item.sentence_audio_url;
+    }
+
+    if (item.audio_file) {
+        return (
+            AUDIO_ORACIONES_BASE +
+            item.audio_file
+        );
+    }
+
+    const sentence = getSentence(item);
+
+    if (!sentence) {
+        return "";
+    }
+
+    return (
+        AUDIO_ORACIONES_BASE +
+        normalizeAudioName(sentence) +
+        ".mp3"
+    );
+
+}
+
+function renderProgress() {
+
+    if (!elements.progress) {
+        return;
+    }
+
+    elements.progress.innerHTML = "";
+
+    ORACIONES.forEach(function (_, index) {
+
+        const dot =
+            document.createElement("div");
+
+        dot.className =
+            "learning-dot";
+
+        if (
+            index ===
+            state.sentenceIndex
+        ) {
+            dot.classList.add("current");
+        }
+
+        if (
+            state.visited.has(index) &&
+            index !== state.sentenceIndex
+        ) {
+            dot.classList.add("done");
+        }
+
+        elements.progress.appendChild(dot);
+
+    });
+
+    if (elements.step) {
+
+        elements.step.textContent =
+            String(
+                state.sentenceIndex + 1
             );
 
     }
 
+    if (elements.total) {
 
-    /*
-     * REPRODUCIR AUDIO
-     */
+        elements.total.textContent =
+            String(
+                ORACIONES.length
+            );
 
-    function playAudio(
-        audioElement,
-        src
+    }
+
+}
+
+function renderImage(item) {
+
+    if (!elements.image) {
+        return;
+    }
+
+    if (
+        item &&
+        item.image_url
     ) {
 
-        if (
-            !audioElement ||
-            !src
-        ) {
+        elements.image.src =
+            item.image_url;
 
-            return;
+        elements.image.alt =
+            getSentence(item);
 
-        }
+        elements.image.style.display =
+            "block";
 
-
-        try {
-
-            audioElement.pause();
-
-            audioElement.currentTime = 0;
-
-            audioElement.src = src;
-
-
-            const promise =
-                audioElement.play();
-
-
-            if (
-                promise &&
-                typeof promise.catch === "function"
-            ) {
-
-                promise.catch(
-                    function () {}
-                );
-
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "No se pudo reproducir el audio:",
-                error
-            );
-
-        }
+        return;
 
     }
 
+    elements.image.removeAttribute("src");
 
-    /*
-     * OBTENER TEXTO DE LA ORACIÓN
-     */
+    elements.image.alt =
+        "No hay imagen disponible";
 
-    function getSentence(item) {
+    elements.image.style.display =
+        "none";
 
-        if (!item) {
+}
 
-            return "";
+function renderWords(item) {
 
-        }
-
-
-        return (
-
-            item.text ||
-
-            item.sentence ||
-
-            item.oracion ||
-
-            item.oración ||
-
-            item.full_sentence ||
-
-            item.fullSentence ||
-
-            ""
-
-        );
-
+    if (!elements.sentenceWords) {
+        return;
     }
 
+    elements.sentenceWords.innerHTML = "";
 
-    /*
-     * OBTENER PALABRAS
-     */
+    const words =
+        getWords(item);
 
-    function getWords(item) {
-
-        if (!item) {
-
-            return [];
-
-        }
-
-
-        if (
-            Array.isArray(item.words) &&
-            item.words.length > 0
-        ) {
-
-            return item.words;
-
-        }
-
-
-        return [];
-
-    }
-
-
-    /*
-     * OBTENER TEXTO DE UNA PALABRA
-     */
-
-    function getWordText(word) {
-
-        if (!word) {
-
-            return "";
-
-        }
-
-
-        if (
-            typeof word === "string"
-        ) {
-
-            return word;
-
-        }
-
-
-        return (
-
-            word.text ||
-
-            word.word ||
-
-            word.nombre ||
-
-            word.name ||
-
-            ""
-
-        );
-
-    }
-
-
-    /*
-     * OBTENER AUDIO DE PALABRA
-     */
-
-    function getWordAudio(word) {
-
-        if (!word) {
-
-            return "";
-
-        }
-
-
-        /*
-         * Si el backend ya mandó
-         * la URL, usamos esa.
-         */
-
-        if (word.audio_url) {
-
-            return word.audio_url;
-
-        }
-
-
-        if (word.word_audio_url) {
-
-            return word.word_audio_url;
-
-        }
-
+    words.forEach(function (word) {
 
         const text =
             getWordText(word);
 
-
         if (!text) {
-
-            return "";
-
-        }
-
-
-        return (
-
-            AUDIO_PALABRAS_BASE +
-
-            normalizeAudioName(text) +
-
-            ".mp3"
-
-        );
-
-    }
-
-
-    /*
-     * OBTENER AUDIO DE ORACIÓN
-     */
-
-    function getSentenceAudio(item) {
-
-        if (!item) {
-
-            return "";
-
-        }
-
-
-        /*
-         * Si el backend ya manda
-         * la URL, usamos esa.
-         */
-
-        if (item.audio_url) {
-
-            return item.audio_url;
-
-        }
-
-
-        if (item.sentence_audio_url) {
-
-            return item.sentence_audio_url;
-
-        }
-
-
-        /*
-         * Si tenemos audio_file
-         * usamos ese nombre.
-         */
-
-        if (item.audio_file) {
-
-            return (
-
-                AUDIO_ORACIONES_BASE +
-
-                item.audio_file
-
-            );
-
-        }
-
-
-        /*
-         * Si no existe audio_file,
-         * generamos el nombre.
-         */
-
-        const sentence =
-            getSentence(item);
-
-
-        if (!sentence) {
-
-            return "";
-
-        }
-
-
-        return (
-
-            AUDIO_ORACIONES_BASE +
-
-            normalizeAudioName(sentence) +
-
-            ".mp3"
-
-        );
-
-    }
-
-
-    /*
-     * PROGRESO
-     */
-
-    function renderProgress() {
-
-        if (!elements.progress) {
-
             return;
-
         }
 
+        const card =
+            document.createElement("div");
 
-        elements.progress.innerHTML = "";
+        card.className =
+            "sentence-word-card";
 
+        const wordText =
+            document.createElement("span");
 
-        ORACIONES.forEach(
-            function (_, index) {
+        wordText.className =
+            "sentence-word-text";
 
-                const dot =
-                    document.createElement("div");
+        wordText.textContent =
+            text.toUpperCase();
 
+        const button =
+            document.createElement("button");
 
-                dot.className =
-                    "learning-dot";
+        button.type =
+            "button";
 
+        button.className =
+            "word-sound";
 
-                if (
-                    index ===
-                    state.sentenceIndex
-                ) {
+        button.setAttribute(
+            "aria-label",
+            "Escuchar " + text
+        );
 
-                    dot.classList.add(
-                        "current"
-                    );
+        button.innerHTML =
+            "🔊";
 
-                }
+        button.addEventListener(
+            "click",
+            function () {
 
-
-                if (
-                    state.visited.has(index) &&
-                    index !== state.sentenceIndex
-                ) {
-
-                    dot.classList.add(
-                        "done"
-                    );
-
-                }
-
-
-                elements.progress.appendChild(
-                    dot
+                playAudio(
+                    elements.wordAudio,
+                    getWordAudio(word)
                 );
 
             }
         );
 
-
-        if (elements.step) {
-
-            elements.step.textContent =
-                String(
-                    state.sentenceIndex + 1
-                );
-
-        }
-
-
-        if (elements.total) {
-
-            elements.total.textContent =
-                String(
-                    ORACIONES.length
-                );
-
-        }
-
-    }
-
-
-    /*
-     * RENDERIZAR PALABRAS
-     *
-     * Cada palabra tiene su
-     * propio botón de audio.
-     */
-
-    function renderWords(item) {
-
-        if (!elements.sentenceWords) {
-
-            return;
-
-        }
-
-
-        elements.sentenceWords.innerHTML =
-            "";
-
-
-        const words =
-            getWords(item);
-
-
-        words.forEach(
-            function (word) {
-
-                const text =
-                    getWordText(word);
-
-
-                if (!text) {
-
-                    return;
-
-                }
-
-
-                /*
-                 * TARJETA
-                 */
-
-                const card =
-                    document.createElement("div");
-
-
-                card.className =
-                    "sentence-word-card";
-
-
-                /*
-                 * TEXTO
-                 */
-
-                const wordText =
-                    document.createElement("span");
-
-
-                wordText.className =
-                    "sentence-word-text";
-
-
-                wordText.textContent =
-                    text.toUpperCase();
-
-
-                /*
-                 * BOTÓN AUDIO
-                 */
-
-                const button =
-                    document.createElement("button");
-
-
-                button.type =
-                    "button";
-
-
-                button.className =
-                    "word-sound";
-
-
-                button.setAttribute(
-                    "aria-label",
-                    "Escuchar " + text
-                );
-
-
-                button.innerHTML =
-                    "🔊";
-
-
-                /*
-                 * CLICK
-                 */
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        playAudio(
-
-                            elements.wordAudio,
-
-                            getWordAudio(word)
-
-                        );
-
-                    }
-                );
-
-
-                card.appendChild(
-                    wordText
-                );
-
-
-                card.appendChild(
-                    button
-                );
-
-
-                elements.sentenceWords.appendChild(
-                    card
-                );
-
-            }
+        card.appendChild(
+            wordText
         );
 
+        card.appendChild(
+            button
+        );
+
+        elements.sentenceWords.appendChild(
+            card
+        );
+
+    });
+
+}
+
+function ocultarBotonVideo() {
+
+    if (!elements.videoPlay) {
+        return;
     }
 
+    elements.videoPlay.style.display =
+        "none";
 
-    /*
-     * OCULTAR BOTÓN DEL VIDEO
-     */
+}
 
-    function ocultarBotonVideo() {
+function mostrarBotonVideo() {
 
-        if (!elements.videoPlay) {
-
-            return;
-
-        }
-
-
-        elements.videoPlay.style.display =
-            "none";
-
+    if (!elements.videoPlay) {
+        return;
     }
 
+    elements.videoPlay.style.display =
+        "grid";
 
-    /*
-     * MOSTRAR BOTÓN DEL VIDEO
-     */
+}
 
-    function mostrarBotonVideo() {
+function renderVideo(item) {
 
-        if (!elements.videoPlay) {
-
-            return;
-
-        }
-
-
-        elements.videoPlay.style.display =
-            "grid";
-
+    if (!elements.video) {
+        return;
     }
 
+    const videoFile =
+        item &&
+        item.lsa_video_file;
 
-    /*
-     * RENDERIZAR VIDEO
-     *
-     * El video corresponde solamente
-     * a la oración en LSA.
-     */
-
-    function renderVideo(item) {
-
-        if (!elements.video) {
-
-            return;
-
-        }
-
-
-        /*
-         * IMPORTANTE:
-         *
-         * usamos únicamente
-         * lsa_video_file.
-         */
-
-        const videoFile =
-            item &&
-            item.lsa_video_file;
-
-
-        /*
-         * NO HAY VIDEO
-         */
-
-        if (!videoFile) {
-
-            elements.video.pause();
-
-
-            elements.video.removeAttribute(
-                "src"
-            );
-
-
-            elements.video.load();
-
-
-            elements.video.hidden =
-                true;
-
-
-            if (elements.videoPlay) {
-
-                elements.videoPlay.style.display =
-                    "none";
-
-            }
-
-
-            if (elements.videoPlaceholder) {
-
-                elements.videoPlaceholder.hidden =
-                    false;
-
-            }
-
-
-            return;
-
-        }
-
-
-        /*
-         * OBTENER URL
-         */
-
-        let videoUrl = "";
-
-
-        /*
-         * Primero usamos la URL
-         * que viene del backend.
-         */
-
-        if (item.lsa_video_url) {
-
-            videoUrl =
-                item.lsa_video_url;
-
-        }
-
-        /*
-         * Si no viene del backend,
-         * usamos la carpeta:
-         *
-         * static/videos/lsa/oraciones/
-         */
-
-        else {
-
-            videoUrl =
-                "/static/videos/lsa/oraciones/" +
-                videoFile;
-
-        }
-
-
-        /*
-         * DETENER VIDEO ANTERIOR
-         */
+    if (!videoFile) {
 
         elements.video.pause();
 
-
-        /*
-         * CARGAR NUEVO VIDEO
-         */
-
-        elements.video.src =
-            videoUrl;
-
-
-        elements.video.hidden =
-            false;
-
-
-        /*
-         * Nueva oración:
-         * el botón vuelve a aparecer.
-         */
-
-        mostrarBotonVideo();
-
-
-        /*
-         * Ocultar placeholder
-         */
-
-        if (elements.videoPlaceholder) {
-
-            elements.videoPlaceholder.hidden =
-                true;
-
-        }
-
-
-        /*
-         * Cargar video
-         */
+        elements.video.removeAttribute(
+            "src"
+        );
 
         elements.video.load();
 
+        elements.video.hidden =
+            true;
+
+        ocultarBotonVideo();
+
+        if (elements.videoPlaceholder) {
+            elements.videoPlaceholder.hidden =
+                false;
+        }
+
+        return;
     }
 
+    let videoUrl = "";
 
-    /*
-     * RENDERIZAR ORACIÓN COMPLETA
-     */
+    if (item.lsa_video_url) {
 
-    function renderSentence() {
+        videoUrl =
+            item.lsa_video_url;
 
-        const item =
-            ORACIONES[
-                state.sentenceIndex
-            ];
+    } else {
 
+        videoUrl =
+            "/static/videos/lsa/sentences/" +
+            videoFile;
 
-        if (!item) {
+    }
 
-            return;
+    elements.video.pause();
 
-        }
+    elements.video.src =
+        videoUrl;
 
+    elements.video.hidden =
+        false;
 
-        const sentence =
-            getSentence(item);
+    mostrarBotonVideo();
 
+    if (elements.videoPlaceholder) {
+        elements.videoPlaceholder.hidden =
+            true;
+    }
 
-        /*
-         * TEXTO ORACIÓN
-         */
+    elements.video.load();
 
-        if (elements.sentence) {
+}
 
-            elements.sentence.textContent =
-                sentence.toUpperCase();
+function renderSentence() {
 
-        }
-
-
-        /*
-         * PALABRAS
-         */
-
-        renderWords(item);
-
-
-        /*
-         * VIDEO
-         */
-
-        renderVideo(item);
-
-
-        /*
-         * BOTÓN DE AUDIO
-         */
-
-        if (elements.sentenceSound) {
-
-            elements.sentenceSound.setAttribute(
-                "aria-label",
-                "Escuchar oración " +
-                sentence
-            );
-
-        }
-
-
-        /*
-         * MARCAR VISITADA
-         */
-
-        state.visited.add(
+    const item =
+        ORACIONES[
             state.sentenceIndex
+        ];
+
+    if (!item) {
+        return;
+    }
+
+    const sentence =
+        getSentence(item);
+
+    if (elements.sentence) {
+
+        elements.sentence.textContent =
+            sentence.toUpperCase();
+
+    }
+
+    renderImage(item);
+    renderWords(item);
+    renderVideo(item);
+
+    if (elements.sentenceSound) {
+
+        elements.sentenceSound.setAttribute(
+            "aria-label",
+            "Escuchar oración " +
+            sentence
         );
 
-
-        /*
-         * ACTUALIZAR PROGRESO
-         */
-
-        renderProgress();
-
     }
 
+    state.visited.add(
+        state.sentenceIndex
+    );
 
-    /*
-     * REPRODUCIR VIDEO
-     */
+    renderProgress();
 
-    function reproducirVideo() {
+}
 
-        if (!elements.video) {
+function reproducirVideo() {
 
-            return;
+    if (!elements.video) {
+        return;
+    }
 
-        }
+    if (
+        elements.video.hidden ||
+        !elements.video.src
+    ) {
+        return;
+    }
 
+    if (elements.video.paused) {
+
+        const promise =
+            elements.video.play();
 
         if (
-            elements.video.hidden ||
-            !elements.video.src
+            promise &&
+            typeof promise.catch === "function"
         ) {
 
-            return;
+            promise.catch(function (error) {
 
-        }
-
-
-        /*
-         * SI ESTÁ PAUSADO
-         * → reproducir
-         */
-
-        if (elements.video.paused) {
-
-            const promise =
-                elements.video.play();
-
-
-            if (
-                promise &&
-                typeof promise.catch === "function"
-            ) {
-
-                promise.catch(
-                    function (error) {
-
-                        console.error(
-                            "No se pudo reproducir el video:",
-                            error
-                        );
-
-                    }
+                console.error(
+                    "No se pudo reproducir el video:",
+                    error
                 );
 
-            }
+            });
 
         }
 
-        /*
-         * SI ESTÁ REPRODUCIENDO
-         * → pausar
-         */
+    } else {
 
-        else {
-
-            elements.video.pause();
-
-        }
+        elements.video.pause();
 
     }
 
+}
 
-    /*
-     * INICIAR JUEGO DE ORACIONES
-     */
+function iniciarJuegoOraciones() {
 
-    function iniciarJuegoOraciones() {
+    sessionStorage.setItem(
+        "oracionesReconocidas",
+        JSON.stringify(ORACIONES)
+    );
 
-        /*
-         * Guardamos las oraciones
-         * reconocidas para que el juego
-         * pueda utilizarlas.
-         */
+    window.location.href =
+        URL_JUEGO_ORACIONES;
 
-        sessionStorage.setItem(
-            "oracionesReconocidas",
-            JSON.stringify(ORACIONES)
-        );
+}
 
+function nextSentence() {
 
-        /*
-         * Cuando exista la ruta:
-         *
-         * /oraciones/juego/1
-         *
-         * se podrá utilizar directamente.
-         */
+    if (
+        state.sentenceIndex <
+        ORACIONES.length - 1
+    ) {
 
-        window.location.href =
-            URL_JUEGO_ORACIONES;
-
-    }
-
-
-    /*
-     * SIGUIENTE ORACIÓN
-     */
-
-    function nextSentence() {
-
-        if (
-            state.sentenceIndex <
-            ORACIONES.length - 1
-        ) {
-
-            state.sentenceIndex++;
-
-            renderSentence();
-
-            return;
-
-        }
-
-
-        /*
-         * Ya terminó el reconocimiento.
-         */
-
-        iniciarJuegoOraciones();
-
-    }
-
-
-    /*
-     * ORACIÓN ANTERIOR
-     */
-
-    function previousSentence() {
-
-        if (
-            state.sentenceIndex > 0
-        ) {
-
-            state.sentenceIndex--;
-
-            renderSentence();
-
-        }
-
-    }
-
-
-    /*
-     * INICIALIZACIÓN
-     */
-
-    function init() {
-
-        if (
-            !Array.isArray(ORACIONES) ||
-            ORACIONES.length === 0
-        ) {
-
-            return;
-
-        }
-
-
-        /*
-         * Cargar primera oración
-         */
+        state.sentenceIndex++;
 
         renderSentence();
 
+        return;
+    }
 
-        /*
-         * SIGUIENTE
-         */
+    iniciarJuegoOraciones();
 
-        if (elements.next) {
+}
 
-            elements.next.addEventListener(
-                "click",
-                nextSentence
-            );
+function previousSentence() {
 
-        }
+    if (
+        state.sentenceIndex > 0
+    ) {
 
+        state.sentenceIndex--;
 
-        /*
-         * ANTERIOR
-         */
-
-        if (elements.prev) {
-
-            elements.prev.addEventListener(
-                "click",
-                previousSentence
-            );
-
-        }
-
-
-        /*
-         * BOTÓN VIDEO
-         */
-
-        if (elements.videoPlay) {
-
-            elements.videoPlay.addEventListener(
-                "click",
-                reproducirVideo
-            );
-
-        }
-
-
-        /*
-         * CUANDO EL VIDEO EMPIEZA
-         *
-         * → esconder botón
-         */
-
-        if (elements.video) {
-
-            elements.video.addEventListener(
-                "play",
-                function () {
-
-                    ocultarBotonVideo();
-
-                }
-            );
-
-
-            /*
-             * CUANDO SE PAUSA
-             *
-             * → mostrar botón
-             */
-
-            elements.video.addEventListener(
-                "pause",
-                function () {
-
-                    if (
-                        !elements.video.ended
-                    ) {
-
-                        mostrarBotonVideo();
-
-                    }
-
-                }
-            );
-
-
-            /*
-             * CUANDO TERMINA
-             *
-             * → mostrar botón
-             */
-
-            elements.video.addEventListener(
-                "ended",
-                function () {
-
-                    mostrarBotonVideo();
-
-                }
-            );
-
-        }
-
-
-        /*
-         * ORACIÓN COMPLETA
-         */
-
-        if (elements.sentenceSound) {
-
-            elements.sentenceSound.addEventListener(
-                "click",
-                function () {
-
-                    const item =
-                        ORACIONES[
-                            state.sentenceIndex
-                        ];
-
-
-                    playAudio(
-
-                        elements.sentenceAudio,
-
-                        getSentenceAudio(item)
-
-                    );
-
-                }
-            );
-
-        }
+        renderSentence();
 
     }
 
+}
 
-    /*
-     * ARRANCAR
-     */
+function init() {
 
-    init();
+    if (
+        !Array.isArray(ORACIONES) ||
+        ORACIONES.length === 0
+    ) {
+        return;
+    }
+
+    renderSentence();
+
+    if (elements.next) {
+
+        elements.next.addEventListener(
+            "click",
+            nextSentence
+        );
+
+    }
+
+    if (elements.prev) {
+
+        elements.prev.addEventListener(
+            "click",
+            previousSentence
+        );
+
+    }
+
+    if (elements.videoPlay) {
+
+        elements.videoPlay.addEventListener(
+            "click",
+            reproducirVideo
+        );
+
+    }
+
+    if (elements.video) {
+
+        elements.video.addEventListener(
+            "play",
+            function () {
+
+                ocultarBotonVideo();
+
+            }
+        );
+
+        elements.video.addEventListener(
+            "pause",
+            function () {
+
+                if (
+                    !elements.video.ended
+                ) {
+                    mostrarBotonVideo();
+                }
+
+            }
+        );
+
+        elements.video.addEventListener(
+            "ended",
+            function () {
+
+                mostrarBotonVideo();
+
+            }
+        );
+
+    }
+
+    if (elements.sentenceSound) {
+
+        elements.sentenceSound.addEventListener(
+            "click",
+            function () {
+
+                const item =
+                    ORACIONES[
+                        state.sentenceIndex
+                    ];
+
+                playAudio(
+                    elements.sentenceAudio,
+                    getSentenceAudio(item)
+                );
+
+            }
+        );
+
+    }
+
+}
+
+init();
 
 
 })();
