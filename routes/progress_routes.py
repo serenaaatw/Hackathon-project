@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, url_for
 
 from services.progress_service import ProgressService
+from flask_login import login_required
 
 progress_routes = Blueprint(
     "progress",
@@ -10,6 +11,7 @@ progress_routes = Blueprint(
 
 
 @progress_routes.route("/")
+@login_required
 def progreso():
 
     id_user = session.get("usuario_id")

@@ -1,0 +1,222 @@
+.edit-profile-container {
+    min-height: calc(100vh - 90px);
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:
+        radial-gradient(
+            circle at 5% 10%,
+            rgba(255, 231, 168, .75) 0%,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 95% 85%,
+            rgba(200, 245, 228, .8) 0%,
+            transparent 32%
+        ),
+        #FFF9F1;
+    color: #493B5A;
+}
+
+.edit-profile-card {
+    width: 100%;
+    max-width: 520px;
+    padding: 38px;
+    background: rgba(255, 255, 255, .97);
+    border: 1px solid rgba(73, 59, 90, .06);
+    border-radius: 32px;
+    box-shadow:
+        0 25px 60px rgba(73, 59, 90, .1),
+        0 8px 20px rgba(255, 126, 103, .06);
+    text-align: center;
+}
+
+.edit-profile-header {
+    margin-bottom: 25px;
+}
+
+.edit-profile-eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: #8D7D9C;
+    font-family: 'Inter', sans-serif;
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.edit-profile-header h1 {
+    margin: 0;
+    color: #493B5A;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 900;
+}
+
+.edit-profile-header p {
+    margin: 10px 0 0;
+    color: #766781;
+    font-family: 'Inter', sans-serif;
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+.current-photo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.current-profile-photo {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 7px solid #E8FAF6;
+    box-shadow:
+        0 10px 25px rgba(73, 59, 90, .12);
+}
+
+.edit-profile-error {
+    margin-bottom: 20px;
+    padding: 13px 16px;
+    border-radius: 15px;
+    background: #FFE4DE;
+    color: #A84F40;
+    font-family: 'Inter', sans-serif;
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+.edit-profile-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 13px;
+}
+
+.file-button {
+    width: 100%;
+    min-height: 55px;
+    padding: 15px 20px;
+    border-radius: 17px;
+    background: #FFF3C9;
+    color: #493B5A;
+    font-family: 'Inter', sans-serif;
+    font-size: .75rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        transform .15s ease,
+        filter .15s ease;
+}
+
+.file-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(.98);
+}
+
+.file-button:active {
+    transform: translateY(2px);
+}
+
+.file-name {
+    width: 100%;
+    overflow: hidden;
+    color: #8D7D9C;
+    font-family: 'Inter', sans-serif;
+    font-size: .68rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.save-button {
+    width: 100%;
+    min-height: 55px;
+    margin-top: 8px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 17px;
+    background: #55D6BE;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-size: .75rem;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow:
+        0 5px 0 rgba(41, 142, 125, .16);
+    transition:
+        transform .15s ease,
+        filter .15s ease;
+}
+
+.save-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(.98);
+}
+
+.save-button:active {
+    transform: translateY(2px);
+}
+
+.back-button {
+    display: inline-flex;
+    width: 100%;
+    min-height: 52px;
+    margin-top: 15px;
+    padding: 14px 20px;
+    border-radius: 17px;
+    background: #F2EAF5;
+    color: #493B5A;
+    font-family: 'Inter', sans-serif;
+    font-size: .72rem;
+    font-weight: 900;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    background: #E8FAF6;
+}
+
+@media (max-width: 600px) {
+
+    .edit-profile-container {
+        padding: 25px 14px 35px;
+    }
+
+    .edit-profile-card {
+        padding: 27px 20px;
+        border-radius: 27px;
+    }
+
+    .current-profile-photo {
+        width: 145px;
+        height: 145px;
+    }
+
+    .edit-profile-header h1 {
+        font-size: 1.45rem;
+    }
+
+    .edit-profile-header p {
+        font-size: .68rem;
+        line-height: 1.5;
+    }
+
+    .file-button,
+    .save-button,
+    .back-button {
+        min-height: 52px;
+    }
+}

@@ -1,11 +1,13 @@
 from flask import Blueprint, render_template, redirect, url_for, session
 from models.user import User
 from models.db import db
+from flask_login import login_required
 
 informative_bp = Blueprint("informative_routes", __name__)
 
 
 @informative_bp.route("/video-informativo")
+@login_required
 def video_informativo():
 
     usuario_id = session.get("usuario_id")
@@ -26,6 +28,7 @@ def video_informativo():
 
 
 @informative_bp.route("/video-informativo/completar", methods=["POST"])
+@login_required
 def completar_video():
 
     usuario_id = session.get("usuario_id")

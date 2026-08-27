@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}EDITAR PERFIL - EDUSEÑAS{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/editar_perfil.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<main class="edit-profile-container">
+
+    <section class="edit-profile-card">
+
+        <div class="edit-profile-header">
+            <span class="edit-profile-eyebrow">
+                MI PERFIL
+            </span>
+
+            <h1>
+                CAMBIAR FOTO
+            </h1>
+
+            <p>
+                ELEGÍ UNA FOTO DESDE TU COMPUTADORA
+            </p>
+        </div>
+
+        <div class="current-photo-container">
+
+            <img
+                id="profilePreview"
+                src="{{ url_for('static', filename=child.profile_picture) }}"
+                alt="Foto de perfil"
+                class="current-profile-photo"
+            >
+
+        </div>
+
+        {% if error %}
+            <div class="edit-profile-error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form
+            action="{{ url_for('auth_routes.editar_perfil_route') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="edit-profile-form"
+        >
+
+            <label
+                for="profile_picture"
+                class="file-button"
+            >
+                ELEGIR FOTO
+            </label>
+
+            <input
+                type="file"
+                id="profile_picture"
+                name="profile_picture"
+                accept="image/png,image/jpeg,image/webp"
+                hidden
+            >
+
+            <span
+                id="fileName"
+                class="file-name"
+            >
+                NINGUNA FOTO SELECCIONADA
+            </span>
+
+            <button
+                type="submit"
+                class="save-button"
+            >
+                GUARDAR FOTO
+            </button>
+
+        </form>
+
+        <a
+            href="{{ url_for('profile.perfil') }}"
+            class="back-button"
+        >
+            VOLVER AL PERFIL
+        </a>
+
+    </section>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    const input = document.getElementById("profile_picture");
+    const preview = document.getElementById("profilePreview");
+    const fileName = document.getElementById("fileName");
+
+    input.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        fileName.textContent = file.name.toUpperCase();
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            preview.src = event.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    });
+</script>
+
+{% endblock %}

@@ -1,7 +1,11 @@
 from flask import Flask
 from config.config import DATABASE_CONNECTION_URI
 from dotenv import load_dotenv
+
 from models.db import db
+from flask_login import LoginManager
+
+
 from routes.auth_routes import auth_bp
 from routes.informative_routes import informative_bp
 from routes.learning_routes import learning_bp
@@ -13,6 +17,7 @@ from routes.contact_routes import contact_bp
 from routes.sentence_routes import sentence_bp
 from routes.inicio_routes import inicio_bp
 from routes.help_routes import help_bp
+
 import os
 
 
@@ -20,6 +25,14 @@ load_dotenv()
 
 
 app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+login_manager.login_view = "auth_routes.login_route"
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 app.secret_key = os.getenv("SECRET_KEY")
 
