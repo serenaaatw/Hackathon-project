@@ -14,9 +14,14 @@ from routes.sentence_routes import sentence_bp
 from routes.inicio_routes import inicio_bp
 import os
 
-app= Flask(__name__)
+
+load_dotenv()
+
+
+app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")
+
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_CONNECTION_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -32,14 +37,19 @@ app.register_blueprint(contact)
 app.register_blueprint(sentence_bp)
 app.register_blueprint(inicio_bp)
 
+
 db.init_app(app)
 
+
 with app.app_context():
+
     from models.user import User
     from models.category import Category
     from models.word import Word
     from models.progress import Progress
+
     db.create_all()
+
 
 if __name__ == "__main__":
     app.run(debug=True)

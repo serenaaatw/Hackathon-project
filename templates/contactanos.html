@@ -1,0 +1,103 @@
+
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS — CONTACTO{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/contactanos.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="contact">
+
+    <!-- TÍTULO -->
+    <div class="contact__intro">
+
+        <h1>CONTACTANOS</h1>
+
+        <p>
+            ¿TENÉS ALGÚN PROBLEMA? CONTANOS QUÉ SUCEDIÓ.
+        </p>
+
+    </div>
+
+
+    <!-- FORMULARIO -->
+    <form
+        class="contact__form"
+        method="POST"
+    >
+
+        <!-- MOTIVO -->
+        <div class="contact__field">
+
+            <input
+                type="text"
+                id="motivo"
+                name="motivo"
+                placeholder="MOTIVO"
+                required
+            >
+
+        </div>
+
+
+        <!-- CORREO -->
+        <div class="contact__field">
+
+            <input
+                type="email"
+                id="correo"
+                name="correo"
+                placeholder="CORREO"
+                required
+            >
+
+        </div>
+
+
+        <!-- MENSAJE -->
+        <div class="contact__field">
+
+            <textarea
+                id="mensaje"
+                name="mensaje"
+                placeholder="MENSAJE"
+                required
+            ></textarea>
+
+        </div>
+
+
+        <!-- BOTONES -->
+        <div class="contact__buttons">
+
+        <button
+            type="submit"
+            class="contact__button contact__button--send"
+        >
+            ENVIAR
+        </button>
+
+        <a
+            href="/menu"
+            class="contact__button contact__button--cancel"
+        >
+            CANCELAR
+        </a>
+
+</div>
+
+    </form>
+
+</section>
+
+{% endblock %}
+```

@@ -1,0 +1,46 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS — MENSAJE ENVIADO{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/contactanos.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="contact contact--success">
+
+    <div class="contact__success">
+
+        <div class="contact__success-icon">
+            ✓
+        </div>
+
+        <h1>MENSAJE ENVIADO</h1>
+
+        <p>
+            TU MENSAJE FUE ENVIADO CORRECTAMENTE.
+            <br>
+            GRACIAS POR CONTACTARNOS.
+        </p>
+
+        <a
+            href="/"
+            class="contact__button contact__button--menu"
+        >
+            VOLVER AL MENÚ
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}
+```
