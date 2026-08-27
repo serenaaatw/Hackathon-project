@@ -22,72 +22,13 @@ body {
     font-family: "Nunito", Arial, sans-serif;
 
     background:
-        radial-gradient(
-            circle at -5% -5%,
-            #c8a9e8 0%,
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 105% -5%,
-            #ffd978 0%,
-            transparent 27%
-        ),
-        radial-gradient(
-            circle at -5% 105%,
-            #a9e3df 0%,
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 105% 105%,
-            #f5a9ba 0%,
-            transparent 29%
-        ),
+        radial-gradient(circle at top left, #c8a9e8 0%, transparent 40%),
+        radial-gradient(circle at bottom right, #a9e3df 0%, transparent 42%),
+        radial-gradient(circle at top right, #ffd978 0%, transparent 38%),
+        radial-gradient(circle at bottom left, #f5a9ba 0%, transparent 40%),
         #fffdf9;
 
     overflow-x: hidden;
-}
-
-body::before,
-body::after {
-    content: "";
-
-    position: fixed;
-
-    pointer-events: none;
-
-    z-index: 0;
-}
-
-body::before {
-    width: 380px;
-    height: 300px;
-
-    top: -150px;
-    left: -130px;
-
-    background: #c8a9e8;
-
-    border-radius:
-        68% 45% 70% 35% /
-        50% 55% 45% 50%;
-
-    opacity: 0.65;
-}
-
-body::after {
-    width: 390px;
-    height: 320px;
-
-    right: -150px;
-    bottom: -160px;
-
-    background: #f5a9ba;
-
-    border-radius:
-        45% 65% 35% 70% /
-        55% 45% 65% 40%;
-
-    opacity: 0.6;
 }
 
 .video-container {
@@ -104,12 +45,12 @@ body::after {
 }
 
 #videoInformativo {
-    width: 300px;
-    aspect-ratio: 9 / 16;
+    width: min(400vw, 800px);
+    max-height: 400vh;
 
     display: block;
 
-    object-fit: cover;
+    object-fit: contain;
 
     background: #2e2a4a;
 
@@ -198,45 +139,6 @@ body::after {
 
     body {
         padding: 25px 15px;
-
-        background:
-            radial-gradient(
-                circle at -5% -5%,
-                #c8a9e8 0%,
-                transparent 32%
-            ),
-            radial-gradient(
-                circle at 105% -5%,
-                #ffd978 0%,
-                transparent 30%
-            ),
-            radial-gradient(
-                circle at -5% 105%,
-                #a9e3df 0%,
-                transparent 34%
-            ),
-            radial-gradient(
-                circle at 105% 105%,
-                #f5a9ba 0%,
-                transparent 32%
-            ),
-            #fffdf9;
-    }
-
-    body::before {
-        width: 250px;
-        height: 210px;
-
-        top: -110px;
-        left: -100px;
-    }
-
-    body::after {
-        width: 270px;
-        height: 220px;
-
-        right: -110px;
-        bottom: -110px;
     }
 
     .video-container {
@@ -244,8 +146,8 @@ body::after {
     }
 
     #videoInformativo {
-        width: min(88vw, 350px);
-        max-height: 76vh;
+        width: min(90vw, 400px);
+        max-height: 78vh;
 
         border-width: 6px;
         border-radius: 25px;
@@ -265,22 +167,13 @@ body::after {
         padding: 20px 12px;
     }
 
-    body::before {
-        width: 190px;
-        height: 160px;
-    }
-
-    body::after {
-        width: 210px;
-        height: 170px;
-    }
-
     .video-container {
         gap: 18px;
     }
 
     #videoInformativo {
-        width: min(90vw, 320px);
+        width: min(92vw, 340px);
+        max-height: 74vh;
 
         border-width: 5px;
         border-radius: 22px;

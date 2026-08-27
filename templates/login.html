@@ -3,46 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/auth.css')}}">
-    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <title>Iniciar sesión</title>
 </head>
 <body>
 
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
+<div class="inicio">
 
-    <img src="{{ url_for('static', filename='img/logo/logo.png') }}" alt="Logo" class="logo">
+    <!-- Fondo reutilizado de inicio.css -->
+    <div class="decoracion decoracion--superior-izquierda"></div>
+    <div class="decoracion decoracion--inferior-izquierda"></div>
+    <div class="decoracion decoracion--superior-derecha"></div>
+    <div class="decoracion decoracion--inferior-derecha"></div>
 
-    <h1>Iniciar sesión</h1>
+    <span class="chispa chispa--1"></span>
+    <span class="chispa chispa--2"></span>
+    <span class="chispa chispa--3"></span>
+    <span class="chispa chispa--4"></span>
 
-    <div class="form_container">
-        <form method="POST" action="{{ url_for('auth_routes.login_route') }}">
-            <input 
-                type="text" 
-                name="username or email" 
-                placeholder="Usuario o Email" required
-            >
-            <input 
-                type="password" 
-                name="password" 
-                placeholder="Contraseña" required
-            >
-            <button type="submit">Iniciar sesión</button>
+    <span class="punto punto--1"></span>
+    <span class="punto punto--2"></span>
+    <span class="punto punto--3"></span>
+    <span class="punto punto--4"></span>
+    <span class="punto punto--5"></span>
 
-             <div class="links">
-                ¿No tienes cuenta?
-                <a href="{{ url_for('auth_routes.register_route') }}">
-                Registrarse
-                </a>
-                <p>¿No recuerdas tu contraseña?</p>
-                <a href="{{ url_for('auth_routes.recover_password_route') }}">
-                    Recuperar contraseña
-                </a>
-            </div>
-        </form>
+    <div class="puntitos-arco">
+        <span></span><span></span><span></span><span></span><span></span>
     </div>
-    
-    
+
+    <div class="login__contenido">
+
+        <div class="login__logo">
+            <img src="{{ url_for('static', filename='img/logo/logo.png') }}" alt="EduSeñas" class="login__logo-img">
+        </div>
+
+        <h1 class="login__titulo">Iniciar sesión</h1>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="login__tarjeta">
+            <form method="POST" action="{{ url_for('auth_routes.login_route') }}">
+
+                <div class="login__campo">
+                    <svg class="login__campo-icono" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/>
+                        <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <input
+                        type="text"
+                        name="username or email"
+                        placeholder="Usuario o Email"
+                        required
+                    >
+                </div>
+
+                <div class="login__campo">
+                    <svg class="login__campo-icono" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <input
+                        type="password"
+                        name="password"
+                        id="login-password"
+                        placeholder="Contraseña"
+                        required
+                    >
+                    <button type="button" class="login__ver-clave" id="btn-ver-clave" aria-label="Mostrar contraseña">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="login__extra">
+                    <a href="{{ url_for('auth_routes.recover_password_route') }}">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="submit" class="login__boton">
+                    Iniciar sesión
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <div class="login__separador">
+                    <span>¿No tienes cuenta?</span>
+                </div>
+
+                <a href="{{ url_for('auth_routes.register_route') }}" class="login__boton-outline">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="9" cy="8" r="3.5" stroke="currentColor" stroke-width="2"/>
+                        <path d="M2.5 19c0-3.6 2.9-5.8 6.5-5.8s6.5 2.2 6.5 5.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M19 8v6M16 11h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Registrarse
+                </a>
+
+            </form>
+        </div>
+
+        <p class="login__ayuda">
+            ¿Necesitás ayuda?<br>
+            Escribinos a <a href="mailto:contacto@edusenas.com">contacto@edusenas.com</a>
+        </p>
+
+    </div>
+</div>
+
+<script>
+    const btnVerClave = document.getElementById('btn-ver-clave');
+    const inputClave = document.getElementById('login-password');
+
+    btnVerClave.addEventListener('click', () => {
+        const esPassword = inputClave.type === 'password';
+        inputClave.type = esPassword ? 'text' : 'password';
+        btnVerClave.classList.toggle('login__ver-clave--activo', esPassword);
+    });
+</script>
+
 </body>
 </html>
