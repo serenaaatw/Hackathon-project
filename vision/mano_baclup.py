@@ -13,32 +13,56 @@ from reconocimiento import (
 )
 
 
+# Cámara
+
 camara = cv2.VideoCapture(0)
 
-camara.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-camara.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+camara.set(
+    cv2.CAP_PROP_FRAME_WIDTH,
+    1280
+)
 
+camara.set(
+    cv2.CAP_PROP_FRAME_HEIGHT,
+    720
+)
+
+
+# Modelo MediaPipe
 
 model_path = os.path.join(
     os.path.dirname(__file__),
     "hand_landmarker.task"
 )
 
-with open(model_path, "rb") as archivo:
+
+with open(
+    model_path,
+    "rb"
+) as archivo:
+
     modelo = archivo.read()
 
 
 opciones = vision.HandLandmarkerOptions(
+
     base_options=python.BaseOptions(
         model_asset_buffer=modelo
     ),
+
     running_mode=vision.RunningMode.VIDEO,
+
     num_hands=1,
+
     min_hand_detection_confidence=0.5,
+
     min_hand_presence_confidence=0.5,
+
     min_tracking_confidence=0.5
 )
 
+
+# Variables del dibujo
 
 puntos_dibujo = []
 
@@ -56,12 +80,16 @@ DISTANCIA_MINIMA = 3
 VENTANA_RESULTADO = "Dibujo para IA"
 
 
+# Letras que el usuario debe aprender
+
 LETRAS_EJERCICIO = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 indice_letra = 0
 
 LETRA_OBJETIVO = LETRAS_EJERCICIO[indice_letra]
 
+
+# Progreso de la letra actual
 
 intentos = 0
 
@@ -72,40 +100,16 @@ MAX_INTENTOS = 10
 BUENOS_NECESARIOS = 3
 
 
+# Resultados finales
+
 resultados_letras = {}
+
+
+# Mensaje temporal para mostrar el resultado
 
 mensaje_resultado = ""
 
 tiempo_mensaje = None
-
-
-VENTANA = "EduSeñas"
-
-salir = False
-
-
-def cerrar_programa():
-    global salir
-    salir = True
-
-
-def manejar_click(evento, x, y, flags, parametro):
-
-    if evento == cv2.EVENT_LBUTTONDOWN:
-
-        alto, ancho = parametro
-
-        boton_x1 = ancho - 250
-        boton_y1 = alto - 75
-        boton_x2 = ancho - 40
-        boton_y2 = alto - 20
-
-        if (
-            boton_x1 <= x <= boton_x2
-            and
-            boton_y1 <= y <= boton_y2
-        ):
-            cerrar_programa()
 
 
 def mostrar_dibujo_convertido(imagen):
@@ -124,6 +128,12 @@ def mostrar_dibujo_convertido(imagen):
         cv2.WINDOW_NORMAL
     )
 
+    cv2.moveWindow(
+        VENTANA_RESULTADO,
+        1300,
+        150
+    )
+
     cv2.imshow(
         VENTANA_RESULTADO,
         imagen_grande
@@ -133,10 +143,13 @@ def mostrar_dibujo_convertido(imagen):
 def cerrar_resultado():
 
     try:
+
         cv2.destroyWindow(
             VENTANA_RESULTADO
         )
+
     except:
+
         pass
 
 
@@ -213,21 +226,29 @@ def procesar_dibujo():
         return
 
 
+    # Mostrar dibujo procesado
+
     mostrar_dibujo_convertido(
         imagen_ia
     )
 
+
+    # Reconocimiento de la IA
 
     letra_detectada, confianza = reconocer_letra(
         imagen_ia
     )
 
 
+    # Comparación con la letra objetivo
+
     similitud = comparar_con_letra(
         imagen_ia,
         LETRA_OBJETIVO
     )
 
+
+    # Determinar la calificación
 
     if similitud >= 70:
 
@@ -242,14 +263,12 @@ def procesar_dibujo():
         calificacion = "MALO"
 
 
+    # Cada dibujo cuenta como un intento
+
     intentos += 1
 
 
-    if (
-        calificacion == "BUENO"
-        or
-        calificacion == "MEDIO"
-    ):
+    if calificacion == "BUENO" or calificacion == "MEDIO":
 
         buenos += 1
 
@@ -264,6 +283,9 @@ def procesar_dibujo():
         f"Resultado: {calificacion}"
     )
 
+
+    # Si consiguió los 3 buenos,
+    # la letra queda aprendida.
 
     if buenos >= BUENOS_NECESARIOS:
 
@@ -299,6 +321,10 @@ def procesar_dibujo():
 
         return
 
+
+    # Si llegó a 10 intentos sin conseguir
+    # los 3 buenos, la letra queda como
+    # no aprendida.
 
     if intentos >= MAX_INTENTOS:
 
@@ -347,13 +373,29 @@ def procesar_dibujo():
 
 def mano_abierta(mano):
 
-    indice_arriba = mano[8].y < mano[6].y
+    indice_arriba = (
+        mano[8].y
+        <
+        mano[6].y
+    )
 
-    medio_arriba = mano[12].y < mano[10].y
+    medio_arriba = (
+        mano[12].y
+        <
+        mano[10].y
+    )
 
-    anular_arriba = mano[16].y < mano[14].y
+    anular_arriba = (
+        mano[16].y
+        <
+        mano[14].y
+    )
 
-    menique_arriba = mano[20].y < mano[18].y
+    menique_arriba = (
+        mano[20].y
+        <
+        mano[18].y
+    )
 
     return (
         indice_arriba
@@ -368,13 +410,29 @@ def mano_abierta(mano):
 
 def puño_cerrado(mano):
 
-    indice_cerrado = mano[8].y > mano[6].y
+    indice_cerrado = (
+        mano[8].y
+        >
+        mano[6].y
+    )
 
-    medio_cerrado = mano[12].y > mano[10].y
+    medio_cerrado = (
+        mano[12].y
+        >
+        mano[10].y
+    )
 
-    anular_cerrado = mano[16].y > mano[14].y
+    anular_cerrado = (
+        mano[16].y
+        >
+        mano[14].y
+    )
 
-    menique_cerrado = mano[20].y > mano[18].y
+    menique_cerrado = (
+        mano[20].y
+        >
+        mano[18].y
+    )
 
     return (
         indice_cerrado
@@ -387,130 +445,22 @@ def puño_cerrado(mano):
     )
 
 
-def dibujar_mano(frame, mano, ancho, alto):
-
-    puntos = []
-
-    for punto in mano:
-
-        x = int(punto.x * ancho)
-        y = int(punto.y * alto)
-
-        puntos.append([x, y])
-
-
-    puntos = cv2.convexHull(
-        __import__("numpy").array(
-            puntos,
-            dtype="int32"
-        )
-    )
-
-
-    capa = frame.copy()
-
-    cv2.fillConvexPoly(
-        capa,
-        puntos,
-        (255, 190, 0)
-    )
-
-
-    frame[:] = cv2.addWeighted(
-        capa,
-        0.55,
-        frame,
-        0.45,
-        0
-    )
-
-
-    conexiones = [
-        (0, 1),
-        (1, 2),
-        (2, 3),
-        (3, 4),
-
-        (0, 5),
-        (5, 6),
-        (6, 7),
-        (7, 8),
-
-        (5, 9),
-        (9, 10),
-        (10, 11),
-        (11, 12),
-
-        (9, 13),
-        (13, 14),
-        (14, 15),
-        (15, 16),
-
-        (13, 17),
-        (17, 18),
-        (18, 19),
-        (19, 20),
-
-        (0, 17)
-    ]
-
-
-    for inicio, fin in conexiones:
-
-        x1, y1 = puntos_mano_real(
-            mano[inicio],
-            ancho,
-            alto
-        )
-
-        x2, y2 = puntos_mano_real(
-            mano[fin],
-            ancho,
-            alto
-        )
-
-        cv2.line(
-            frame,
-            (x1, y1),
-            (x2, y2),
-            (0, 255, 255),
-            4
-        )
-
-
-def puntos_mano_real(punto, ancho, alto):
-
-    return (
-        int(punto.x * ancho),
-        int(punto.y * alto)
-    )
-
-
-cv2.namedWindow(
-    VENTANA,
-    cv2.WINDOW_NORMAL
-)
-
-cv2.setWindowProperty(
-    VENTANA,
-    cv2.WND_PROP_FULLSCREEN,
-    cv2.WINDOW_FULLSCREEN
-)
-
-
 with vision.HandLandmarker.create_from_options(
     opciones
 ) as detector:
 
     tiempo_inicio = time.time()
 
-    while not salir:
+    while True:
 
         correcto, frame = camara.read()
 
         if not correcto:
+
             break
 
+
+        # Espejo
 
         frame = cv2.flip(
             frame,
@@ -521,52 +471,23 @@ with vision.HandLandmarker.create_from_options(
         alto, ancho, _ = frame.shape
 
 
-        fondo = cv2.GaussianBlur(
-            frame,
-            (51, 51),
-            0
-        )
-
-
-        overlay = fondo.copy()
-
-
-        cv2.rectangle(
-            overlay,
-            (0, 0),
-            (ancho, alto),
-            (80, 45, 20),
-            -1
-        )
-
-
-        frame = cv2.addWeighted(
-            overlay,
-            0.35,
-            fondo,
-            0.65,
-            0
-        )
-
+        # Cuadro de dibujo
 
         margen_x = int(
-            ancho * 0.17
+            ancho * 0.20
         )
 
         margen_y = int(
-            alto * 0.14
+            alto * 0.15
         )
-
 
         zona_x1 = margen_x
 
         zona_y1 = margen_y
 
-        zona_x2 = int(
-            ancho * 0.72
-        )
+        zona_x2 = ancho - margen_x
 
-        zona_y2 = alto - 120
+        zona_y2 = alto - margen_y
 
 
         cv2.rectangle(
@@ -580,68 +501,71 @@ with vision.HandLandmarker.create_from_options(
                 zona_y2
             ),
             (255, 255, 255),
-            4
+            3
         )
 
 
-        cv2.rectangle(
+        cv2.putText(
             frame,
+            "Dibuja dentro del cuadro",
             (
-                zona_x1 + 8,
-                zona_y1 + 8
+                zona_x1,
+                zona_y1 - 15
             ),
-            (
-                zona_x2 - 8,
-                zona_y2 - 8
-            ),
-            (255, 190, 0),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (255, 255, 255),
             2
         )
 
+
+        # Mostrar letra actual
 
         if not ejercicio_terminado():
 
             cv2.putText(
                 frame,
-                f"{LETRA_OBJETIVO}",
+                f"Letra: {LETRA_OBJETIVO}",
                 (
-                    35,
-                    115
+                    30,
+                    alto - 70
                 ),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                3.0,
-                (255, 220, 50),
-                7
+                1.0,
+                (255, 255, 255),
+                2
             )
 
 
             cv2.putText(
                 frame,
-                f"BUENOS  {buenos}/{BUENOS_NECESARIOS}",
+                f"Buenos: {buenos}/{BUENOS_NECESARIOS}",
                 (
-                    35,
-                    alto - 75
+                    30,
+                    alto - 35
                 ),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.9,
+                0.8,
                 (255, 255, 255),
-                3
+                2
             )
 
 
             cv2.putText(
                 frame,
-                f"INTENTOS  {intentos}/{MAX_INTENTOS}",
+                f"Intentos: {intentos}/{MAX_INTENTOS}",
                 (
-                    330,
-                    alto - 75
+                    350,
+                    alto - 35
                 ),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.9,
+                0.8,
                 (255, 255, 255),
-                3
+                2
             )
 
+
+        # MediaPipe
 
         frame_rgb = cv2.cvtColor(
             frame,
@@ -671,18 +595,14 @@ with vision.HandLandmarker.create_from_options(
         )
 
 
+        # Mano detectada
+
         if resultado.hand_landmarks:
 
             mano = resultado.hand_landmarks[0]
 
 
-            dibujar_mano(
-                frame,
-                mano,
-                ancho,
-                alto
-            )
-
+            # Punto del índice
 
             x_real = int(
                 mano[8].x
@@ -697,9 +617,12 @@ with vision.HandLandmarker.create_from_options(
             )
 
 
+            # Suavizado
+
             if ultimo_x is None:
 
                 x_indice = x_real
+
                 y_indice = y_real
 
             else:
@@ -729,29 +652,21 @@ with vision.HandLandmarker.create_from_options(
                 )
 
 
+            # Punto rojo
+
             cv2.circle(
                 frame,
                 (
                     x_real,
                     y_real
                 ),
-                13,
+                12,
                 (0, 0, 255),
                 -1
             )
 
 
-            cv2.circle(
-                frame,
-                (
-                    x_real,
-                    y_real
-                ),
-                18,
-                (255, 255, 255),
-                2
-            )
-
+            # Dentro del cuadro
 
             dentro_de_zona = (
 
@@ -775,10 +690,14 @@ with vision.HandLandmarker.create_from_options(
                 mano
             )
 
+
             cerrada = puño_cerrado(
                 mano
             )
 
+
+            # Si ya terminó el ejercicio,
+            # no seguimos dibujando.
 
             if ejercicio_terminado():
 
@@ -798,6 +717,7 @@ with vision.HandLandmarker.create_from_options(
                     puntos_dibujo.clear()
 
                     ultimo_x = x_indice
+
                     ultimo_y = y_indice
 
 
@@ -821,6 +741,8 @@ with vision.HandLandmarker.create_from_options(
                     )
 
 
+                    # Esperar 1 segundo
+
                     if tiempo_transcurrido >= 1.0:
 
                         estado = "LISTO"
@@ -828,6 +750,7 @@ with vision.HandLandmarker.create_from_options(
                         puntos_dibujo.clear()
 
                         ultimo_x = x_indice
+
                         ultimo_y = y_indice
 
 
@@ -887,10 +810,13 @@ with vision.HandLandmarker.create_from_options(
                         )
 
                         ultimo_x = x_real
+
                         ultimo_y = y_real
 
 
             elif estado == "DIBUJANDO":
+
+                # Puño = terminar dibujo
 
                 if cerrada:
 
@@ -898,6 +824,8 @@ with vision.HandLandmarker.create_from_options(
 
 
                 elif abierta:
+
+                    # Dentro del cuadro
 
                     if dentro_de_zona:
 
@@ -948,8 +876,11 @@ with vision.HandLandmarker.create_from_options(
                             )
 
                             ultimo_x = x_real
+
                             ultimo_y = y_real
 
+
+                    # Fuera del cuadro
 
                     else:
 
@@ -958,14 +889,16 @@ with vision.HandLandmarker.create_from_options(
                             "VOLVE AL CUADRO",
                             (
                                 zona_x1,
-                                zona_y2 + 45
+                                zona_y2 + 40
                             ),
                             cv2.FONT_HERSHEY_SIMPLEX,
                             1.0,
-                            (0, 80, 255),
+                            (0, 0, 255),
                             3
                         )
 
+
+            # Mostrar trazo
 
             for trazo in puntos_dibujo:
 
@@ -978,24 +911,26 @@ with vision.HandLandmarker.create_from_options(
                         frame,
                         trazo[i - 1],
                         trazo[i],
-                        (255, 120, 0),
-                        7
+                        (255, 0, 0),
+                        5
                     )
 
+
+            # Mensajes
 
             if estado == "PREPARANDO":
 
                 cv2.putText(
                     frame,
-                    "PREPARANDO...",
+                    "Preparando...",
                     (
-                        zona_x1,
-                        zona_y1 - 20
+                        30,
+                        55
                     ),
                     cv2.FONT_HERSHEY_SIMPLEX,
-                    0.9,
+                    1.0,
                     (255, 255, 255),
-                    3
+                    2
                 )
 
 
@@ -1003,49 +938,68 @@ with vision.HandLandmarker.create_from_options(
 
                 cv2.putText(
                     frame,
-                    "DIBUJA!",
+                    "Listo para dibujar",
                     (
-                        zona_x1,
-                        zona_y1 - 20
+                        30,
+                        55
                     ),
                     cv2.FONT_HERSHEY_SIMPLEX,
-                    0.9,
-                    (0, 255, 255),
-                    3
+                    1.0,
+                    (0, 255, 0),
+                    2
                 )
 
 
             elif estado == "DIBUJANDO":
 
-                cv2.putText(
-                    frame,
-                    "DIBUJANDO...",
-                    (
-                        zona_x1,
-                        zona_y1 - 20
-                    ),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.9,
-                    (0, 255, 255),
-                    3
-                )
+                if dentro_de_zona:
+
+                    cv2.putText(
+                        frame,
+                        "DIBUJANDO",
+                        (
+                            30,
+                            55
+                        ),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1.2,
+                        (0, 255, 0),
+                        3
+                    )
+
+                else:
+
+                    cv2.putText(
+                        frame,
+                        "VOLVE AL CUADRO",
+                        (
+                            30,
+                            55
+                        ),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1.0,
+                        (0, 0, 255),
+                        3
+                    )
 
 
         else:
 
             cv2.putText(
                 frame,
-                "MOSTRA TU MANO",
+                "MANO NO DETECTADA",
                 (
-                    zona_x1,
-                    zona_y1 - 20
+                    30,
+                    55
                 ),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.9,
-                (255, 255, 255),
-                3
+                (0, 0, 255),
+                2
             )
 
+
+        # Mostrar resultado temporal
 
         if mensaje_resultado:
 
@@ -1053,155 +1007,30 @@ with vision.HandLandmarker.create_from_options(
                 frame,
                 mensaje_resultado,
                 (
-                    zona_x1,
-                    75
+                    30,
+                    100
                 ),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.8,
-                (0, 255, 120),
-                3
+                0.9,
+                (0, 255, 0),
+                2
             )
 
 
-        panel_x1 = int(ancho * 0.76)
-
-        panel_y1 = 120
-
-        panel_x2 = ancho - 40
-
-        panel_y2 = 390
-
-
-        cv2.rectangle(
-            frame,
-            (
-                panel_x1,
-                panel_y1
-            ),
-            (
-                panel_x2,
-                panel_y2
-            ),
-            (40, 40, 70),
-            -1
-        )
-
-
-        cv2.rectangle(
-            frame,
-            (
-                panel_x1,
-                panel_y1
-            ),
-            (
-                panel_x2,
-                panel_y2
-            ),
-            (255, 220, 50),
-            4
-        )
-
-
-        cv2.putText(
-            frame,
-            "VIDEO",
-            (
-                panel_x1 + 70,
-                panel_y1 + 45
-            ),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            1.0,
-            (255, 255, 255),
-            3
-        )
-
-
-        cv2.putText(
-            frame,
-            "Mira como",
-            (
-                panel_x1 + 35,
-                panel_y1 + 120
-            ),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.65,
-            (255, 255, 255),
-            2
-        )
-
-
-        cv2.putText(
-            frame,
-            "hacer la seña",
-            (
-                panel_x1 + 20,
-                panel_y1 + 155
-            ),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.65,
-            (255, 255, 255),
-            2
-        )
-
-
-        boton_x1 = ancho - 250
-        boton_y1 = alto - 75
-        boton_x2 = ancho - 40
-        boton_y2 = alto - 20
-
-
-        cv2.rectangle(
-            frame,
-            (
-                boton_x1,
-                boton_y1
-            ),
-            (
-                boton_x2,
-                boton_y2
-            ),
-            (50, 70, 230),
-            -1
-        )
-
-
-        cv2.rectangle(
-            frame,
-            (
-                boton_x1,
-                boton_y1
-            ),
-            (
-                boton_x2,
-                boton_y2
-            ),
-            (255, 255, 255),
-            3
-        )
-
-
-        cv2.putText(
-            frame,
-            "SALIR",
-            (
-                boton_x1 + 65,
-                boton_y1 + 38
-            ),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.8,
-            (255, 255, 255),
-            3
-        )
-
+        # Mostrar cámara
 
         cv2.imshow(
-            VENTANA,
+            "EduSeñas",
             frame
         )
 
 
-        tecla = cv2.waitKey(1) & 0xFF
+        tecla = cv2.waitKey(
+            1
+        ) & 0xFF
 
+
+        # C = limpiar el intento actual
 
         if (
             tecla == ord("c")
@@ -1221,6 +1050,8 @@ with vision.HandLandmarker.create_from_options(
 
             cerrar_resultado()
 
+
+        # Q = salir
 
         if (
             tecla == ord("q")

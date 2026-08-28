@@ -1,21 +1,40 @@
 # Entorno virtual
-venv/
 env/
 .venv/
-myenv
+myenv/
 
-# Variables de entorno (nunca subir esto)
+# Variables de entorno
 .env
 
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
 .pytest_cache/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
 # Dataset de entrenamiento
 az-handwritten-alphabets-in-csv-format.zip
 dataset_az/
 
-*.egg-info/
+# Node
+node_modules/
+
+# Archivos temporales
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
+desktop.ini
 

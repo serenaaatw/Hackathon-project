@@ -1,0 +1,599 @@
+.vision-page {
+min-height: calc(100vh - 80px);
+padding: 30px 25px 40px;
+position: relative;
+overflow: hidden;
+
+display: flex;
+flex-direction: column;
+align-items: center;
+
+background:
+    radial-gradient(circle at 10% 15%, #ffe680 0 5%, transparent 6%),
+    radial-gradient(circle at 90% 20%, #b8f2ff 0 7%, transparent 8%),
+    radial-gradient(circle at 15% 85%, #ffc4e1 0 6%, transparent 7%),
+    linear-gradient(
+        135deg,
+        #fff8d9,
+        #e8f8ff,
+        #fff0f8
+    );
+
+}
+
+/* DECORACIÓN */
+
+.floating-shape {
+position: absolute;
+font-size: 55px;
+pointer-events: none;
+animation: float 3s ease-in-out infinite;
+}
+
+.shape-one {
+top: 45px;
+left: 5%;
+}
+
+.shape-two {
+top: 150px;
+right: 5%;
+animation-delay: .5s;
+}
+
+.shape-three {
+bottom: 110px;
+left: 7%;
+animation-delay: 1s;
+}
+
+.shape-four {
+bottom: 70px;
+right: 6%;
+animation-delay: 1.5s;
+}
+
+@keyframes float {
+
+
+0%,
+100% {
+    transform: translateY(0) rotate(-5deg);
+}
+
+50% {
+    transform: translateY(-12px) rotate(5deg);
+}
+
+
+}
+
+/* TITULO */
+
+.welcome-card {
+width: min(850px, 95%);
+
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+gap: 20px;
+
+margin-bottom: 15px;
+
+
+}
+
+.title-sticker {
+width: 85px;
+height: 85px;
+
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+background: #ffffff;
+
+border-radius: 30px;
+
+font-size: 50px;
+
+box-shadow:
+    0 8px 0 #ffd85c,
+    0 14px 25px rgba(0, 0, 0, .12);
+
+transform: rotate(-6deg);
+
+
+}
+
+.title-content {
+text-align: left;
+}
+
+.title-content h1 {
+margin: 0;
+
+
+font-family: "Fredoka", sans-serif;
+
+font-size: clamp(48px, 7vw, 72px);
+
+line-height: .9;
+
+color: #5b5be7;
+
+text-shadow:
+    3px 3px 0 #ffffff,
+    6px 6px 0 #ffd85c;
+
+
+}
+
+.title-content p {
+margin: 8px 0 0;
+
+
+font-family: "Nunito", sans-serif;
+
+font-size: 20px;
+
+font-weight: 900;
+
+color: #444;
+
+
+}
+
+/* LETRA */
+
+.letter-card {
+width: min(480px, 90%);
+
+
+background: #ffffff;
+
+border-radius: 40px;
+
+padding: 15px 30px 20px;
+
+text-align: center;
+
+position: relative;
+z-index: 2;
+
+box-shadow:
+    0 10px 0 #ffcf4a,
+    0 18px 35px rgba(0, 0, 0, .14);
+
+
+}
+
+.letter-label {
+font-family: "Nunito", sans-serif;
+
+
+font-size: 17px;
+
+font-weight: 900;
+
+letter-spacing: 2px;
+
+color: #888;
+
+
+}
+
+.big-letter {
+font-family: "Fredoka", sans-serif;
+
+
+font-size: clamp(100px, 15vw, 150px);
+
+line-height: .9;
+
+color: #ff6b8a;
+
+text-shadow:
+    5px 5px 0 #ffd6e1;
+
+
+}
+
+.happy-message {
+font-family: "Fredoka", sans-serif;
+
+
+font-size: 25px;
+
+color: #ff9d00;
+
+
+}
+
+/* PASOS */
+
+.steps-container {
+display: flex;
+
+
+align-items: center;
+justify-content: center;
+
+gap: 10px;
+
+width: min(1100px, 98%);
+
+margin-top: 28px;
+
+
+}
+
+.step-card {
+width: 170px;
+
+
+min-height: 125px;
+
+background: rgba(255, 255, 255, .96);
+
+border-radius: 28px;
+
+padding: 10px 8px;
+
+text-align: center;
+
+box-shadow:
+    0 7px 0 #b9e8f5,
+    0 12px 20px rgba(0, 0, 0, .1);
+
+transition: .2s ease;
+
+
+}
+
+.step-card:hover {
+transform: translateY(-5px) rotate(-1deg);
+}
+
+.step-icon {
+font-size: 42px;
+
+
+height: 50px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+
+}
+
+.step-number {
+display: inline-flex;
+
+
+width: 25px;
+height: 25px;
+
+align-items: center;
+justify-content: center;
+
+border-radius: 50%;
+
+background: #ffcf4a;
+
+color: #ffffff;
+
+font-family: "Fredoka", sans-serif;
+
+font-size: 16px;
+
+
+}
+
+.step-title {
+margin-top: 6px;
+
+font-family: "Fredoka", sans-serif;
+
+font-size: 18px;
+
+line-height: 1.05;
+
+color: #555;
+
+
+}
+
+.step-arrow {
+font-size: 30px;
+
+
+color: #ff7a59;
+
+font-weight: 900;
+
+
+}
+
+/* PROGRESO */
+
+.progress-card {
+width: min(620px, 90%);
+
+
+margin-top: 25px;
+
+padding: 14px 22px;
+
+background: rgba(255, 255, 255, .9);
+
+border-radius: 25px;
+
+box-shadow:
+    0 6px 0 #d6d6d6,
+    0 10px 20px rgba(0, 0, 0, .08);
+
+
+}
+
+.progress-top {
+display: flex;
+
+
+align-items: center;
+
+justify-content: space-between;
+
+font-family: "Nunito", sans-serif;
+
+font-weight: 900;
+
+color: #555;
+
+
+}
+
+.progress-top strong {
+font-family: "Fredoka", sans-serif;
+
+
+font-size: 21px;
+
+color: #5b5be7;
+
+
+}
+
+.progress-bar {
+width: 100%;
+
+
+height: 17px;
+
+margin-top: 9px;
+
+background: #eeeeee;
+
+border-radius: 20px;
+
+overflow: hidden;
+
+
+}
+
+.progress-fill {
+width: 4%;
+
+
+height: 100%;
+
+border-radius: 20px;
+
+background: linear-gradient(
+    90deg,
+    #ff7a59,
+    #ffcf4a,
+    #70d6ff
+);
+
+
+}
+
+.stars {
+display: flex;
+
+
+justify-content: center;
+
+gap: 18px;
+
+margin-top: 7px;
+
+font-size: 25px;
+
+color: #ffcf4a;
+
+
+}
+
+/* BOTÓN */
+
+.start-button {
+margin-top: 24px;
+
+
+width: min(390px, 85%);
+
+min-height: 70px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+gap: 15px;
+
+text-decoration: none;
+
+border-radius: 28px;
+
+background: linear-gradient(
+    135deg,
+    #ff6b6b,
+    #ff9f43
+);
+
+color: #ffffff;
+
+font-family: "Fredoka", sans-serif;
+
+font-size: 30px;
+
+letter-spacing: 1px;
+
+box-shadow:
+    0 9px 0 #dc5555,
+    0 15px 25px rgba(0, 0, 0, .18);
+
+transition: .15s ease;
+
+
+}
+
+.start-button:hover {
+transform: translateY(-4px);
+}
+
+.start-button:active {
+transform: translateY(5px);
+
+box-shadow:
+    0 4px 0 #dc5555,
+    0 8px 15px rgba(0, 0, 0, .15);
+
+
+}
+
+.rocket {
+font-size: 38px;
+}
+
+/* MENSAJE FINAL */
+
+.bottom-message {
+margin-top: 15px;
+
+font-family: "Fredoka", sans-serif;
+
+font-size: 21px;
+
+color: #5b5be7;
+
+
+}
+
+/* CELULAR */
+
+@media (max-width: 850px) {
+
+
+.steps-container {
+    flex-wrap: wrap;
+
+    max-width: 650px;
+}
+
+.step-arrow {
+    font-size: 25px;
+}
+
+.step-card {
+    width: 145px;
+}
+
+
+}
+
+@media (max-width: 650px) {
+
+
+.vision-page {
+    padding: 25px 15px 35px;
+}
+
+.welcome-card {
+    gap: 12px;
+}
+
+.title-sticker {
+    width: 70px;
+    height: 70px;
+
+    font-size: 40px;
+
+    border-radius: 22px;
+}
+
+.title-content h1 {
+    font-size: 50px;
+}
+
+.title-content p {
+    font-size: 16px;
+}
+
+.steps-container {
+    gap: 8px;
+}
+
+.step-card {
+    width: 120px;
+
+    min-height: 105px;
+}
+
+.step-icon {
+    font-size: 35px;
+
+    height: 43px;
+}
+
+.step-title {
+    font-size: 16px;
+}
+
+.step-arrow {
+    font-size: 20px;
+}
+
+.floating-shape {
+    font-size: 35px;
+}
+
+
+}
+
+@media (max-width: 480px) {
+
+
+.steps-container {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    max-width: 330px;
+}
+
+.step-arrow {
+    display: none;
+}
+
+.step-card {
+    width: auto;
+}
+}
