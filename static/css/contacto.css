@@ -27,6 +27,10 @@ body {
     overflow-x: hidden;
 }
 
+/* =========================================================
+   FONDO: mismo degradé de 4 círculos suaves que el login
+   ========================================================= */
+
 .contact-page {
     position: relative;
     min-height: 100vh;
@@ -38,123 +42,17 @@ body {
 
     overflow: hidden;
 
-    background: #FFFDF9;
+    background:
+        radial-gradient(circle at top left, #c8a9e8 0%, transparent 40%),
+        radial-gradient(circle at bottom right, #a9e3df 0%, transparent 42%),
+        radial-gradient(circle at top right, #ffd978 0%, transparent 38%),
+        radial-gradient(circle at bottom left, #f5a9ba 0%, transparent 40%),
+        #FFFDF9;
 }
 
-.contact-page::before,
-.contact-page::after {
-    content: "";
-    position: absolute;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.contact-page::before {
-    width: 700px;
-    height: 520px;
-
-    top: -220px;
-    left: -220px;
-
-    border-radius: 68% 62% 63% 37% / 41% 44% 56% 59%;
-
-    background: #CDB9E8;
-
-    transform: rotate(-8deg);
-
-    box-shadow:
-        190px 190px 0 -120px #F3B7C3,
-        390px 270px 0 -200px #F7D98A;
-}
-
-.contact-page::after {
-    width: 650px;
-    height: 620px;
-
-    right: -240px;
-    bottom: -280px;
-
-    border-radius: 63% 37% 42% 58% / 58% 42% 63% 37%;
-
-    background: #F6D58A;
-
-    transform: rotate(8deg);
-
-    box-shadow:
-        -180px -60px 0 -125px #F3B7C3,
-        -80px -210px 0 -190px #A9DDD5;
-}
-
-.contact-page > .contact-decoration-left,
-.contact-page > .contact-decoration-right {
-    position: absolute;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.contact-decoration-left {
-    width: 520px;
-    height: 620px;
-
-    left: -300px;
-    bottom: -260px;
-
-    border-radius: 85% 70% 90% 52% / 35% 60% 60% 20%;
-
-    background: #A9DDD5;
-
-    transform: rotate(-10deg);
-}
-
-.contact-decoration-right {
-    width: 430px;
-    height: 470px;
-
-    right: -220px;
-    top: 80px;
-
-    border-radius: 55% 45% 60% 40% / 45% 55% 45% 55%;
-
-    background: #F3B7C3;
-
-    transform: rotate(-12deg);
-}
-
-.contact-decoration-small {
-    position: absolute;
-    pointer-events: none;
-    z-index: 0;
-
-    width: 250px;
-    height: 300px;
-
-    left: 8%;
-    bottom: -220px;
-
-    border-radius: 63% 37% 42% 58% / 58% 42% 63% 37%;
-
-    background: #CDB9E8;
-
-    transform: rotate(20deg);
-}
-
-.contact-decoration-top-right {
-    position: absolute;
-    pointer-events: none;
-    z-index: 0;
-
-    width: 260px;
-    height: 350px;
-
-    right: 12%;
-    top: -280px;
-
-    border-radius: 68% 62% 63% 37% / 41% 44% 56% 59%;
-
-    background: #A9DDD5;
-
-    transform: rotate(18deg);
-}
+/* =========================================================
+   TARJETA: mismo look que .login__tarjeta / form del login
+   ========================================================= */
 
 .contact-card {
     position: relative;
@@ -162,19 +60,17 @@ body {
 
     width: min(100%, 540px);
 
-    padding: 40px 44px 42px;
+    padding: 34px;
 
-    border: 2px solid rgba(142, 107, 199, 0.16);
+    border: 2px solid #EFEAF6;
 
-    border-radius: 24px;
+    border-radius: 26px;
 
-    background: rgba(255, 255, 255, 0.97);
+    background: #FFFFFF;
 
     box-shadow:
-        0 15px 45px rgba(46, 42, 74, 0.12),
-        0 4px 12px rgba(47, 182, 163, 0.08);
-
-    backdrop-filter: blur(10px);
+        0 20px 45px rgba(46, 42, 74, .12),
+        0 8px 20px rgba(47, 182, 163, .07);
 }
 
 .contact-card::before,
@@ -562,43 +458,6 @@ body {
 
     .contact-page {
         padding: 38px 16px;
-    }
-
-    .contact-page::before {
-        width: 400px;
-        height: 330px;
-
-        top: -160px;
-        left: -170px;
-    }
-
-    .contact-page::after {
-        width: 380px;
-        height: 360px;
-
-        right: -180px;
-        bottom: -180px;
-    }
-
-    .contact-decoration-left {
-        width: 300px;
-        height: 400px;
-
-        left: -180px;
-        bottom: -180px;
-    }
-
-    .contact-decoration-right {
-        width: 260px;
-        height: 320px;
-
-        right: -170px;
-        top: 120px;
-    }
-
-    .contact-decoration-small,
-    .contact-decoration-top-right {
-        display: none;
     }
 
     .contact-card {

@@ -10,34 +10,20 @@
     justify-content: center;
 
     background:
-        radial-gradient(
-            circle at 10% 10%,
-            var(--yellow-pale) 0%,
-            transparent 32%
-        ),
-
-        radial-gradient(
-            circle at 90% 20%,
-            var(--coral-pale) 0%,
-            transparent 30%
-        ),
-
-        radial-gradient(
-            circle at 50% 95%,
-            var(--turquoise-pale) 0%,
-            transparent 35%
-        ),
-
-        #FFF9F1;
+        radial-gradient(circle at top left, #c8a9e8 0%, transparent 40%),
+        radial-gradient(circle at bottom right, #a9e3df 0%, transparent 42%),
+        radial-gradient(circle at top right, #ffd978 0%, transparent 38%),
+        radial-gradient(circle at bottom left, #f5a9ba 0%, transparent 40%),
+        #FFFDF9;
 }
 
 
 .fin-card {
 
     width: 100%;
-    max-width: 520px;
+    max-width: 680px;
 
-    padding: 44px 32px;
+    padding: 56px 44px;
 
     background: var(--white);
 
@@ -48,7 +34,7 @@
     align-items: center;
     text-align: center;
 
-    gap: 18px;
+    gap: 26px;
 
     box-shadow: var(--shadow-soft);
 
@@ -58,7 +44,7 @@
 
 .fin-icon {
 
-    font-size: 4.2rem;
+    font-size: 5.4rem;
 
     line-height: 1;
 
@@ -68,25 +54,38 @@
 
 .fin-title {
 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    gap: 1px;
+
     font-family: 'Sora', sans-serif;
 
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    font-size: clamp(2.3rem, 7.5vw, 3.3rem);
 
     font-weight: 800;
-
-    color: var(--dark);
 }
 
+.fin-title span {
 
-.fin-subtitle {
+    display: inline-block;
+}
 
-    font-family: 'Inter', sans-serif;
+.fin-title span:nth-child(4n+1) {
+    color: #3DBFB8;
+}
 
-    font-size: 1.05rem;
+.fin-title span:nth-child(4n+2) {
+    color: #4A3B78;
+}
 
-    color: var(--text-light);
+.fin-title span:nth-child(4n+3) {
+    color: #FFC64B;
+}
 
-    max-width: 360px;
+.fin-title span:nth-child(4n) {
+    color: #FF7A59;
 }
 
 
@@ -94,9 +93,9 @@
 
     width: 100%;
 
-    padding: 18px;
+    padding: 28px 22px;
 
-    border-radius: 18px;
+    border-radius: 22px;
 
     background: var(--yellow-pale);
 
@@ -104,7 +103,7 @@
     flex-direction: column;
     align-items: center;
 
-    gap: 12px;
+    gap: 22px;
 }
 
 
@@ -112,7 +111,7 @@
 
     font-family: 'Sora', sans-serif;
 
-    font-size: .72rem;
+    font-size: .95rem;
     font-weight: 700;
 
     letter-spacing: .5px;
@@ -124,29 +123,63 @@
 
 .fin-words__row {
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    width: 100%;
 
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 22px;
 }
 
 
-.fin-word-chip {
+.fin-word-card {
 
-    padding: 7px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    border-radius: 999px;
+    gap: 10px;
+}
+
+
+.fin-word-card__img {
+
+    width: 110px;
+    height: 110px;
+
+    border-radius: 50%;
 
     background: var(--white);
 
-    color: var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    font-family: 'Sora', sans-serif;
-    font-size: .85rem;
-    font-weight: 700;
+    padding: 14px;
+
+    overflow: hidden;
 
     box-shadow: var(--shadow-card);
+}
+
+.fin-word-card__img img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+.fin-word-card__label {
+
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+
+    color: var(--purple);
+
+    text-transform: uppercase;
 }
 
 
@@ -169,14 +202,14 @@
     align-items: center;
     justify-content: center;
 
-    padding: 16px 20px;
+    padding: 20px 24px;
 
     border-radius: 999px;
 
     text-decoration: none;
 
     font-family: 'Sora', sans-serif;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 700;
 
     letter-spacing: .3px;
@@ -189,13 +222,19 @@
 
 .fin-btn--primary {
 
-    background: var(--success);
+    background:
+        linear-gradient(
+            90deg,
+            #3DBFB8,
+            #4A3B78,
+            #FF7A59
+        );
 
     color: var(--white);
 
     box-shadow:
         0 8px 0 rgba(15, 23, 42, .1),
-        0 12px 22px rgba(66, 184, 131, .3);
+        0 12px 22px rgba(74, 59, 120, .3);
 }
 
 
@@ -275,4 +314,28 @@
         flex: 1;
     }
 
+}
+
+
+@media (max-width: 480px) {
+
+    .fin-card {
+
+        padding: 40px 24px;
+
+        gap: 20px;
+    }
+
+    .fin-words__row {
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 18px;
+    }
+
+    .fin-word-card__img {
+
+        width: 92px;
+        height: 92px;
+    }
 }

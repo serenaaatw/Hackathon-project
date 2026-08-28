@@ -1,12 +1,28 @@
 .progreso {
     min-height: 100vh;
     padding: 50px 7% 70px;
-    background: linear-gradient(
-        135deg,
-        #FFFDF7,
-        #F4FBF8,
-        #FFF7F2
-    );
+    background:
+        radial-gradient(
+            circle at top left,
+            #c8a9e8 0%,
+            transparent 40%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            #a9e3df 0%,
+            transparent 42%
+        ),
+        radial-gradient(
+            circle at top right,
+            #ffd978 0%,
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            #f5a9ba 0%,
+            transparent 40%
+        ),
+        #FFFDF9;
     font-family: "Inter", sans-serif;
 }
 
@@ -45,9 +61,43 @@
     overflow: hidden;
     padding: 30px;
     border-radius: 30px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #EEF1EF;
-    box-shadow: 0 12px 30px rgba(80, 90, 90, 0.07);
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #EFEAF6;
+    box-shadow:
+        0 20px 45px rgba(46, 42, 74, 0.10),
+        0 8px 20px rgba(47, 182, 163, 0.06);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.progreso__categoria:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 26px 55px rgba(46, 42, 74, 0.14),
+        0 10px 24px rgba(47, 182, 163, 0.09);
+}
+
+/* Acento de color por categoria, ciclando la paleta */
+
+.progreso__categoria:nth-child(4n+1) {
+    --accent-a: #55D6BE;
+    --accent-b: #82E5D0;
+}
+
+.progreso__categoria:nth-child(4n+2) {
+    --accent-a: #FFB86B;
+    --accent-b: #FFE08A;
+}
+
+.progreso__categoria:nth-child(4n+3) {
+    --accent-a: #FF7E67;
+    --accent-b: #FF9B87;
+}
+
+.progreso__categoria:nth-child(4n+4) {
+    --accent-a: #9A7DD5;
+    --accent-b: #B69AE8;
 }
 
 .progreso__categoria::before {
@@ -57,7 +107,11 @@
     left: 0;
     width: 100%;
     height: 7px;
-    background: #B8DDD1;
+    background: linear-gradient(
+        90deg,
+        var(--accent-a, #B8DDD1),
+        var(--accent-b, #C9E5D8)
+    );
 }
 
 .progreso__categoria-header {
@@ -92,11 +146,16 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: #F8E9B8;
-    color: #59615F;
+    background: linear-gradient(
+        135deg,
+        var(--accent-b, #F8E9B8),
+        var(--accent-a, #F4DA8E)
+    );
+    color: #FFFFFF;
     font-family: "Sora", sans-serif;
     font-size: 18px;
     font-weight: 700;
+    box-shadow: 0 10px 22px rgba(73, 59, 90, 0.16);
 }
 
 .progreso__barra {
@@ -113,8 +172,8 @@
     border-radius: inherit;
     background: linear-gradient(
         90deg,
-        #B8DDD1,
-        #C9E5D8
+        var(--accent-a, #B8DDD1),
+        var(--accent-b, #C9E5D8)
     );
     transition: width 0.5s ease;
 }
@@ -130,6 +189,7 @@
     border-radius: 20px;
     background: #FAFAF8;
     border: 1px solid #ECEDEA;
+    box-shadow: 0 4px 10px rgba(80, 90, 90, 0.04);
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
@@ -177,7 +237,7 @@
 .progreso__palabra-barra-completada {
     height: 100%;
     border-radius: inherit;
-    background: #F3C7B4;
+    background: var(--accent-a, #F3C7B4);
     transition: width 0.5s ease;
 }
 

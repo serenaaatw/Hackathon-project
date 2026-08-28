@@ -19,27 +19,42 @@
 
         <div class="fin-icon" aria-hidden="true">🎉</div>
 
-        <h1 class="fin-title">¡FELICITACIONES!</h1>
-
-        <p class="fin-subtitle">
-            Aprendiste a leer y armar oraciones nuevas.
-        </p>
+        <h1 class="fin-title" aria-label="¡Felicitaciones!">
+            {% for letra in "¡FELICITACIONES!" %}<span>{{ letra }}</span>{% endfor %}
+        </h1>
 
         {% if palabras %}
 
         <div class="fin-words">
 
             <span class="fin-words__label">
-                PALABRAS QUE YA DOMINÁS
+                PALABRAS QUE APRENDISTE
             </span>
 
             <div class="fin-words__row">
 
                 {% for palabra in palabras %}
 
-                <span class="fin-word-chip">
-                    {{ palabra }}
-                </span>
+                <div class="fin-word-card">
+
+                    <div class="fin-word-card__img">
+
+                        {% if palabra.image_url %}
+
+                        <img
+                            src="{{ palabra.image_url }}"
+                            alt="{{ palabra.word }}"
+                        >
+
+                        {% endif %}
+
+                    </div>
+
+                    <span class="fin-word-card__label">
+                        {{ palabra.word }}
+                    </span>
+
+                </div>
 
                 {% endfor %}
 

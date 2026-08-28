@@ -45,8 +45,8 @@
 
 .navbar__logo {
 
-    width: 100px;
-    height: 100px;
+    width: auto;
+    height: 58px;
 
     object-fit: contain;
 
@@ -159,8 +159,8 @@
 
     .navbar__logo {
 
-        width: 46px;
-        height: 46px;
+        width: auto;
+        height: 38px;
     }
 
 
