@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
 .help-stage {
     width: 100%;
     min-height: calc(100vh - 90px);
@@ -6,30 +8,24 @@
     justify-content: center;
     align-items: flex-start;
     background:
-        radial-gradient(
-            circle at 5% 10%,
-            rgba(255, 231, 168, .75) 0%,
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 95% 80%,
-            rgba(200, 245, 228, .8) 0%,
-            transparent 30%
-        ),
-        #FFF9F1;
-    color: #493B5A;
+        radial-gradient(circle at top left, #c8a9e8 0%, transparent 40%),
+        radial-gradient(circle at bottom right, #a9e3df 0%, transparent 42%),
+        radial-gradient(circle at top right, #ffd978 0%, transparent 38%),
+        radial-gradient(circle at bottom left, #f5a9ba 0%, transparent 40%),
+        #FFFDF9;
+    color: #2E2A4A;
 }
 
 .help-card {
     width: 100%;
     max-width: 900px;
     padding: 34px;
-    background: rgba(255, 255, 255, .96);
-    border: 1px solid rgba(73, 59, 90, .06);
+    background: #FFFFFF;
+    border: 1px solid rgba(46, 42, 74, .06);
     border-radius: 32px;
     box-shadow:
-        0 25px 60px rgba(73, 59, 90, .09),
-        0 8px 20px rgba(255, 126, 103, .06);
+        0 25px 60px rgba(46, 42, 74, .1),
+        0 8px 20px rgba(47, 182, 163, .07);
 }
 
 .help-header {
@@ -40,28 +36,44 @@
 .help-eyebrow {
     display: block;
     margin-bottom: 6px;
-    color: #8D7D9C;
-    font-family: 'Inter', sans-serif;
-    font-size: .68rem;
+    color: #8E6BC7;
+    font-family: 'Nunito', sans-serif;
+    font-size: .72rem;
     font-weight: 800;
     letter-spacing: 1.2px;
 }
 
 .help-header h1 {
     margin: 0;
-    color: #493B5A;
-    font-family: 'Sora', sans-serif;
+    color: #2E2A4A;
+    font-family: 'Fredoka', sans-serif;
     font-size: clamp(1.5rem, 4vw, 2.1rem);
-    font-weight: 900;
+    font-weight: 700;
     line-height: 1.2;
+}
+
+.help-header h1::after {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 5px;
+    margin: 12px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        #2FB6A3 0%,
+        #8E6BC7 35%,
+        #F2647C 68%,
+        #F5A428 100%
+    );
 }
 
 .help-header p {
     max-width: 600px;
-    margin: 10px auto 0;
-    color: #766781;
-    font-family: 'Inter', sans-serif;
-    font-size: .75rem;
+    margin: 16px auto 0;
+    color: #4B4570;
+    font-family: 'Nunito', sans-serif;
+    font-size: .85rem;
     font-weight: 700;
     line-height: 1.5;
 }
@@ -74,19 +86,18 @@
 
 .help-item {
     overflow: hidden;
-    border-radius: 20px;
-    background: #FFF9E8;
-    box-shadow:
-        0 6px 16px rgba(73, 59, 90, .05);
+    border-radius: 18px;
+    background: #FAF8FD;
+    border: 2px solid #EFEAF6;
+    box-shadow: none;
     transition:
         transform .18s ease,
-        box-shadow .18s ease;
+        border-color .18s ease;
 }
 
 .help-item:hover {
     transform: translateY(-2px);
-    box-shadow:
-        0 9px 20px rgba(73, 59, 90, .08);
+    border-color: #D9CFEE;
 }
 
 .help-item summary {
@@ -98,9 +109,9 @@
     gap: 15px;
     cursor: pointer;
     list-style: none;
-    color: #493B5A;
-    font-family: 'Sora', sans-serif;
-    font-size: .82rem;
+    color: #2E2A4A;
+    font-family: 'Nunito', sans-serif;
+    font-size: .88rem;
     font-weight: 800;
 }
 
@@ -115,9 +126,9 @@
     display: grid;
     place-items: center;
     border-radius: 11px;
-    background: #55D6BE;
+    background: #2FB6A3;
     color: #FFFFFF;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Nunito', sans-serif;
     font-size: 1.25rem;
     font-weight: 700;
     transition:
@@ -127,7 +138,7 @@
 
 .help-item[open] .help-icon {
     transform: rotate(45deg);
-    background: #FF7E67;
+    background: #F2647C;
 }
 
 .help-answer {
@@ -137,11 +148,11 @@
 .help-answer p {
     margin: 0;
     padding: 16px 18px;
-    border-radius: 16px;
+    border-radius: 14px;
     background: #FFFFFF;
-    color: #766781;
-    font-family: 'Inter', sans-serif;
-    font-size: .78rem;
+    color: #4B4570;
+    font-family: 'Nunito', sans-serif;
+    font-size: .84rem;
     font-weight: 600;
     line-height: 1.65;
 }
@@ -154,13 +165,8 @@
     justify-content: center;
     gap: 14px;
     border-radius: 20px;
-    background:
-        linear-gradient(
-            135deg,
-            #E8FAF6,
-            #D9F5EE
-        );
-    color: #493B5A;
+    background: #EAFBF8;
+    color: #2E2A4A;
 }
 
 .help-footer-icon {
@@ -170,11 +176,11 @@
     display: grid;
     place-items: center;
     border-radius: 13px;
-    background: #493B5A;
+    background: #2FB6A3;
     color: #FFFFFF;
-    font-family: 'Sora', sans-serif;
+    font-family: 'Fredoka', sans-serif;
     font-size: 1.2rem;
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .help-footer div:last-child {
@@ -184,20 +190,20 @@
 }
 
 .help-footer strong {
-    font-family: 'Sora', sans-serif;
-    font-size: .75rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: .8rem;
     font-weight: 800;
 }
 
 .help-footer span {
-    color: #766781;
-    font-family: 'Inter', sans-serif;
-    font-size: .68rem;
-    font-weight: 600;
+    color: #4B4570;
+    font-family: 'Nunito', sans-serif;
+    font-size: .72rem;
+    font-weight: 700;
 }
 
 .help-item summary:focus-visible {
-    outline: 3px solid #55D6BE;
+    outline: 3px solid #2FB6A3;
     outline-offset: -3px;
 }
 
@@ -224,19 +230,19 @@
     }
 
     .help-header p {
-        font-size: .68rem;
+        font-size: .78rem;
         line-height: 1.5;
     }
 
     .help-item {
-        border-radius: 17px;
+        border-radius: 16px;
     }
 
     .help-item summary {
         min-height: 64px;
         padding: 15px;
         text-align: center;
-        font-size: .72rem;
+        font-size: .78rem;
         line-height: 1.35;
     }
 
@@ -254,7 +260,7 @@
     .help-answer p {
         padding: 14px;
         text-align: center;
-        font-size: .72rem;
+        font-size: .78rem;
         line-height: 1.6;
     }
 
@@ -269,10 +275,10 @@
     }
 
     .help-footer strong {
-        font-size: .72rem;
+        font-size: .78rem;
     }
 
     .help-footer span {
-        font-size: .65rem;
+        font-size: .7rem;
     }
 }

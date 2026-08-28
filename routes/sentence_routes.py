@@ -107,7 +107,7 @@ def fin_oraciones():
     return render_template(
         "child/fin.html",
         palabras=[
-            palabra.word
+            palabra.serialize()
             for palabra in palabras_dominadas
         ]
     )
