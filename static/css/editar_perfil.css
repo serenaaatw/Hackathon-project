@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
 .edit-profile-container {
     min-height: calc(100vh - 90px);
     padding: 40px 20px;
@@ -5,30 +7,24 @@
     justify-content: center;
     align-items: center;
     background:
-        radial-gradient(
-            circle at 5% 10%,
-            rgba(255, 231, 168, .75) 0%,
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 95% 85%,
-            rgba(200, 245, 228, .8) 0%,
-            transparent 32%
-        ),
-        #FFF9F1;
-    color: #493B5A;
+        radial-gradient(circle at top left, #c8a9e8 0%, transparent 40%),
+        radial-gradient(circle at bottom right, #a9e3df 0%, transparent 42%),
+        radial-gradient(circle at top right, #ffd978 0%, transparent 38%),
+        radial-gradient(circle at bottom left, #f5a9ba 0%, transparent 40%),
+        #FFFDF9;
+    color: #2E2A4A;
 }
 
 .edit-profile-card {
     width: 100%;
-    max-width: 520px;
-    padding: 38px;
-    background: rgba(255, 255, 255, .97);
-    border: 1px solid rgba(73, 59, 90, .06);
+    max-width: 620px;
+    padding: 50px 44px;
+    background: #FFFFFF;
+    border: 1px solid rgba(46, 42, 74, .06);
     border-radius: 32px;
     box-shadow:
-        0 25px 60px rgba(73, 59, 90, .1),
-        0 8px 20px rgba(255, 126, 103, .06);
+        0 25px 60px rgba(46, 42, 74, .1),
+        0 8px 20px rgba(47, 182, 163, .07);
     text-align: center;
 }
 
@@ -39,26 +35,42 @@
 .edit-profile-eyebrow {
     display: block;
     margin-bottom: 6px;
-    color: #8D7D9C;
-    font-family: 'Inter', sans-serif;
-    font-size: .7rem;
+    color: #8E6BC7;
+    font-family: 'Nunito', sans-serif;
+    font-size: .72rem;
     font-weight: 800;
     letter-spacing: 1.2px;
 }
 
 .edit-profile-header h1 {
     margin: 0;
-    color: #493B5A;
-    font-family: 'Sora', sans-serif;
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    font-weight: 900;
+    color: #2E2A4A;
+    font-family: 'Fredoka', sans-serif;
+    font-size: clamp(1.8rem, 4.5vw, 2.4rem);
+    font-weight: 700;
+}
+
+.edit-profile-header h1::after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 5px;
+    margin: 12px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        #2FB6A3 0%,
+        #8E6BC7 35%,
+        #F2647C 68%,
+        #F5A428 100%
+    );
 }
 
 .edit-profile-header p {
-    margin: 10px 0 0;
-    color: #766781;
-    font-family: 'Inter', sans-serif;
-    font-size: .75rem;
+    margin: 16px 0 0;
+    color: #4B4570;
+    font-family: 'Nunito', sans-serif;
+    font-size: .98rem;
     font-weight: 700;
 }
 
@@ -69,24 +81,24 @@
 }
 
 .current-profile-photo {
-    width: 170px;
-    height: 170px;
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
     object-fit: cover;
-    border: 7px solid #E8FAF6;
-    box-shadow:
-        0 10px 25px rgba(73, 59, 90, .12);
+    border: 8px solid #DDF3EF;
+    box-shadow: 0 10px 25px rgba(47, 182, 163, .18);
 }
 
 .edit-profile-error {
     margin-bottom: 20px;
     padding: 13px 16px;
     border-radius: 15px;
-    background: #FFE4DE;
-    color: #A84F40;
-    font-family: 'Inter', sans-serif;
-    font-size: .75rem;
-    font-weight: 700;
+    background: #FBE1E7;
+    border: 2px solid #F2647C;
+    color: #8F3045;
+    font-family: 'Nunito', sans-serif;
+    font-size: .8rem;
+    font-weight: 800;
 }
 
 .edit-profile-form {
@@ -98,21 +110,19 @@
 
 .file-button {
     width: 100%;
-    min-height: 55px;
+    min-height: 66px;
     padding: 15px 20px;
-    border-radius: 17px;
-    background: #FFF3C9;
-    color: #493B5A;
-    font-family: 'Inter', sans-serif;
-    font-size: .75rem;
-    font-weight: 900;
+    border-radius: 18px;
+    background: #FDF0D2;
+    color: #854F0B;
+    font-family: 'Nunito', sans-serif;
+    font-size: .95rem;
+    font-weight: 800;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition:
-        transform .15s ease,
-        filter .15s ease;
+    transition: transform .15s ease, filter .15s ease;
 }
 
 .file-button:hover {
@@ -121,15 +131,15 @@
 }
 
 .file-button:active {
-    transform: translateY(2px);
+    transform: translateY(1px);
 }
 
 .file-name {
     width: 100%;
     overflow: hidden;
-    color: #8D7D9C;
-    font-family: 'Inter', sans-serif;
-    font-size: .68rem;
+    color: #8D84A0;
+    font-family: 'Nunito', sans-serif;
+    font-size: .85rem;
     font-weight: 700;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -137,56 +147,51 @@
 
 .save-button {
     width: 100%;
-    min-height: 55px;
+    min-height: 66px;
     margin-top: 8px;
     padding: 15px 20px;
     border: none;
-    border-radius: 17px;
-    background: #55D6BE;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #2FB6A3 0%, #21968A 100%);
     color: #FFFFFF;
-    font-family: 'Inter', sans-serif;
-    font-size: .75rem;
-    font-weight: 900;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
     cursor: pointer;
-    box-shadow:
-        0 5px 0 rgba(41, 142, 125, .16);
-    transition:
-        transform .15s ease,
-        filter .15s ease;
+    box-shadow: 0 12px 24px rgba(47, 182, 163, .3);
+    transition: transform .15s ease, box-shadow .15s ease;
 }
 
 .save-button:hover {
     transform: translateY(-2px);
-    filter: brightness(.98);
+    box-shadow: 0 16px 30px rgba(47, 182, 163, .38);
 }
 
 .save-button:active {
-    transform: translateY(2px);
+    transform: translateY(1px);
 }
 
 .back-button {
     display: inline-flex;
     width: 100%;
-    min-height: 52px;
+    min-height: 60px;
     margin-top: 15px;
     padding: 14px 20px;
-    border-radius: 17px;
-    background: #F2EAF5;
-    color: #493B5A;
-    font-family: 'Inter', sans-serif;
-    font-size: .72rem;
-    font-weight: 900;
+    border-radius: 18px;
+    background: #F3EDFB;
+    color: #5A3F94;
+    font-family: 'Nunito', sans-serif;
+    font-size: .92rem;
+    font-weight: 800;
     text-decoration: none;
     align-items: center;
     justify-content: center;
-    transition:
-        transform .15s ease,
-        background .15s ease;
+    transition: transform .15s ease, background .15s ease;
 }
 
 .back-button:hover {
     transform: translateY(-2px);
-    background: #E8FAF6;
+    background: #EAFBF8;
 }
 
 @media (max-width: 600px) {
@@ -210,7 +215,7 @@
     }
 
     .edit-profile-header p {
-        font-size: .68rem;
+        font-size: .76rem;
         line-height: 1.5;
     }
 
