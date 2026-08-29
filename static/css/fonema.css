@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
+
+:root {
+    --turquoise: #55D6BE;
+    --yellow: #FFD166;
+    --coral: #FF7E67;
+    --purple: #B69AE8;
+    --cream: #FFFDF7;
+    --ink: #30304A;
+    --white: #FFFFFF;
+}
+
+.fonemas {
+    min-height: calc(100vh - 80px);
+    padding: 35px 6% 60px;
+    background: var(--cream);
+    font-family: 'Inter', sans-serif;
+}
+
+.fonemas__header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.fonemas__header h1 {
+    margin: 0;
+    font-family: 'Sora', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.fonemas__header p {
+    margin: 8px 0 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #8A8899;
+    letter-spacing: 0.5px;
+}
+
+.fonemas__grid {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.fonema-card {
+    min-height: 270px;
+    padding: 18px;
+    background: var(--white);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 3px solid var(--turquoise);
+    box-shadow: 0 7px 18px rgba(48, 48, 74, 0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fonema-card:nth-child(3n + 2) {
+    border-color: var(--yellow);
+}
+
+.fonema-card:nth-child(3n + 3) {
+    border-color: var(--coral);
+}
+
+.fonema-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(48, 48, 74, 0.11);
+}
+
+.fonema-card__image {
+    width: 100%;
+    height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fonema-card__image img {
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
+}
+
+.fonema-card__sound {
+    width: 58px;
+    height: 48px;
+    border: none;
+    border-radius: 16px;
+    background: var(--turquoise);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #36BBA5;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fonema-card:nth-child(3n + 2) .fonema-card__sound {
+    background: var(--yellow);
+    box-shadow: 0 4px 0 #D9AA35;
+}
+
+.fonema-card:nth-child(3n + 3) .fonema-card__sound {
+    background: var(--coral);
+    box-shadow: 0 4px 0 #D85D4B;
+}
+
+.fonema-card__sound span {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.fonema-card__sound:hover {
+    transform: translateY(-2px);
+}
+
+.fonema-card__sound:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #36BBA5;
+}
+
+.fonema-card:nth-child(3n + 2) .fonema-card__sound:active {
+    box-shadow: 0 1px 0 #D9AA35;
+}
+
+.fonema-card:nth-child(3n + 3) .fonema-card__sound:active {
+    box-shadow: 0 1px 0 #D85D4B;
+}
+
+.fonema-card__sound:focus-visible {
+    outline: 3px solid var(--purple);
+    outline-offset: 3px;
+}
+
+@media (max-width: 800px) {
+    .fonemas {
+        padding: 30px 5% 50px;
+    }
+
+    .fonemas__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+
+    .fonema-card {
+        min-height: 255px;
+    }
+
+    .fonema-card__image {
+        height: 175px;
+    }
+}
+
+@media (max-width: 500px) {
+    .fonemas {
+        padding: 25px 18px 40px;
+    }
+
+    .fonemas__header h1 {
+        font-size: 2rem;
+    }
+
+    .fonemas__header p {
+        font-size: 0.75rem;
+    }
+
+    .fonemas__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fonema-card {
+        min-height: 260px;
+    }
+
+    .fonema-card__image {
+        height: 180px;
+    }
+}

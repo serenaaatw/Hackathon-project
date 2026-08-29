@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}EDUSEÑAS — FONEMAS{% endblock %}
+
+{% block styles %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/fonema.css') }}"
+>
+{% endblock %}
+
+{% block content %}
+
+<section class="fonemas">
+
+    <div class="fonemas__header">
+        <h1>FONEMAS</h1>
+        <p>PRÓXIMAMENTE: RECONOCIMIENTO DE FONEMAS</p>
+    </div>
+
+    <div class="fonemas__grid">
+
+        {% for fonema in fonemas %}
+
+        <article class="fonema-card">
+
+            <div class="fonema-card__image">
+                <img
+                    src="{{ url_for('static', filename='img/fonemas/' ~ fonema.imagen) }}"
+                    alt=""
+                >
+            </div>
+
+            <button
+                type="button"
+                class="fonema-card__sound"
+                data-sound="{{ url_for('static', filename='audio/fonemas/' ~ fonema.sonido) }}"
+                aria-label="Reproducir sonido"
+            >
+                <span>🔊</span>
+            </button>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<script>
+document.querySelectorAll(".fonema-card__sound").forEach(button => {
+    button.addEventListener("click", () => {
+        const audio = new Audio(button.dataset.sound);
+        audio.play();
+    });
+});
+</script>
+
+{% endblock %}

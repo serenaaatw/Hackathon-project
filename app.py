@@ -16,6 +16,7 @@ from routes.contact_routes import contact_bp
 from routes.sentence_routes import sentence_bp
 from routes.inicio_routes import inicio_bp
 from routes.help_routes import help_bp
+from routes.fonemas_routes import fonema_bp
 
 import os
 
@@ -48,6 +49,7 @@ app.register_blueprint(contact_bp)
 app.register_blueprint(sentence_bp)
 app.register_blueprint(inicio_bp)
 app.register_blueprint(help_bp)
+app.register_blueprint(fonema_bp)
 
 db.init_app(app)
 
@@ -57,6 +59,7 @@ with app.app_context():
     from models.category import Category
     from models.word import Word
     from models.progress import Progress
+    from models.fonemas import Fonema
 
     db.create_all()
 
