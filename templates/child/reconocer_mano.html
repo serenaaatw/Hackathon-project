@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}EduSeñas - Señas{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/reconocer_mano.css') }}"
+>
+{% endblock %}
+
+{% block content %}
+
+<section class="vision-page">
+
+```
+<div class="floating-shape shape-one">⭐</div>
+<div class="floating-shape shape-two">🌈</div>
+<div class="floating-shape shape-three">✨</div>
+<div class="floating-shape shape-four">🖐️</div>
+
+
+<div class="welcome-card">
+
+    <div class="title-sticker">
+        🖐️
+    </div>
+
+    <div class="title-content">
+
+        <h1>SEÑAS</h1>
+
+        <p>¡Aprendé jugando! ⭐</p>
+
+    </div>
+
+</div>
+
+
+<div class="letter-card">
+
+    <div class="letter-label">
+        TU LETRA
+    </div>
+
+    <div class="big-letter">
+        A
+    </div>
+
+    <div class="happy-message">
+        ⭐ ¡VAMOS! ⭐
+    </div>
+
+</div>
+
+
+<div class="steps-container">
+
+    <div class="step-card">
+
+        <div class="step-icon">
+            🖐️
+        </div>
+
+        <div class="step-number">
+            1
+        </div>
+
+        <div class="step-title">
+            MANO ABIERTA
+        </div>
+
+    </div>
+
+
+    <div class="step-arrow">
+        ➜
+    </div>
+
+
+    <div class="step-card">
+
+        <div class="step-icon">
+            🖐️
+        </div>
+
+        <div class="step-number">
+            2
+        </div>
+
+        <div class="step-title">
+            DIBUJAR
+        </div>
+
+    </div>
+
+
+    <div class="step-arrow">
+        ➜
+    </div>
+
+
+    <div class="step-card">
+
+        <div class="step-icon">
+            ✊
+        </div>
+
+        <div class="step-number">
+            3
+        </div>
+
+        <div class="step-title">
+            NO DIBUJAR
+        </div>
+
+    </div>
+
+
+    <div class="step-arrow">
+        ➜
+    </div>
+
+
+    <div class="step-card">
+
+        <div class="step-icon">
+            ⭐
+        </div>
+
+        <div class="step-number">
+            4
+        </div>
+
+        <div class="step-title">
+            ¡GANAR!
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="progress-card">
+
+    <div class="progress-top">
+
+        <span>🌟 PROGRESO</span>
+
+        <strong>1 / 26</strong>
+
+    </div>
+
+    <div class="progress-bar">
+
+        <div class="progress-fill"></div>
+
+    </div>
+
+    <div class="stars">
+
+        <span>☆</span>
+        <span>☆</span>
+        <span>☆</span>
+
+    </div>
+
+</div>
+
+
+<a
+    href="{{  url_for('vision.camara') }}"
+    class="start-button"
+>
+
+    <span class="rocket">
+        🚀
+    </span>
+
+    <span>
+        COMENZAR
+    </span>
+
+</a>
+
+
+<div class="bottom-message">
+    🎉 ¡A DIBUJAR! ⭐
+</div>
+```
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

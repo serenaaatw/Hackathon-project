@@ -1,0 +1,757 @@
+.camera-page {
+min-height: calc(100vh - 80px);
+padding: 18px 28px 24px;
+position: relative;
+overflow: hidden;
+background:
+radial-gradient(circle at 7% 12%, rgba(255, 211, 61, .9) 0 38px, transparent 40px),
+radial-gradient(circle at 94% 18%, rgba(58, 212, 255, .85) 0 48px, transparent 50px),
+radial-gradient(circle at 5% 88%, rgba(255, 92, 155, .58) 0 42px, transparent 44px),
+radial-gradient(circle at 85% 85%, rgba(122, 109, 255, .25) 0 70px, transparent 72px),
+linear-gradient(135deg, #eefaff 0%, #fff8e8 48%, #f7efff 100%);
+display: flex;
+flex-direction: column;
+isolation: isolate;
+}
+
+.camera-page::before,
+.camera-page::after {
+content: "";
+position: absolute;
+border-radius: 50%;
+z-index: -1;
+pointer-events: none;
+}
+
+.camera-page::before {
+width: 360px;
+height: 360px;
+right: -150px;
+bottom: -140px;
+background: rgba(104, 232, 255, .22);
+}
+
+.camera-page::after {
+width: 280px;
+height: 280px;
+left: -110px;
+top: 35%;
+background: rgba(255, 173, 210, .2);
+}
+
+.deco {
+position: absolute;
+pointer-events: none;
+user-select: none;
+z-index: 0;
+animation: float 4s ease-in-out infinite;
+}
+
+.deco-star-1 {
+left: 18px;
+top: 145px;
+font-size: 36px;
+}
+
+.deco-star-2 {
+right: 28px;
+top: 90px;
+font-size: 30px;
+animation-delay: .5s;
+}
+
+.deco-sun {
+left: 15px;
+bottom: 105px;
+font-size: 40px;
+animation-delay: .8s;
+}
+
+.deco-rainbow {
+right: 70px;
+bottom: 95px;
+font-size: 42px;
+animation-delay: 1.2s;
+}
+
+.deco-star-3 {
+left: 48%;
+top: 8px;
+font-size: 28px;
+animation-delay: 1.7s;
+}
+
+@keyframes float {
+0%,
+100% {
+transform: translateY(0) rotate(-4deg);
+}
+
+
+50% {
+    transform: translateY(-8px) rotate(4deg);
+}
+
+
+}
+
+.camera-header {
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 14px;
+position: relative;
+z-index: 5;
+}
+
+.game-title {
+font-family: "Fredoka", sans-serif;
+font-size: 31px;
+font-weight: 800;
+color: #5b5be7;
+text-shadow:
+2px 2px 0 #ffffff,
+4px 4px 0 #ffd84f;
+}
+
+.exit-button {
+padding: 12px 22px;
+border-radius: 17px;
+background: #ff5f6f;
+color: #ffffff;
+text-decoration: none;
+font-family: "Fredoka", sans-serif;
+font-size: 18px;
+font-weight: 800;
+box-shadow:
+0 6px 0 #d84555,
+0 10px 22px rgba(0, 0, 0, .12);
+transition: .15s ease;
+}
+
+.exit-button:hover {
+transform: translateY(-3px);
+}
+
+.game-area {
+flex: 1;
+width: 100%;
+min-height: 0;
+display: grid;
+grid-template-columns: 220px minmax(0, 1fr) 225px;
+gap: 18px;
+position: relative;
+z-index: 2;
+}
+
+.left-panel,
+.right-panel {
+min-width: 0;
+min-height: 0;
+}
+
+.left-panel {
+display: grid;
+grid-template-rows: minmax(0, 1fr) auto;
+gap: 18px;
+}
+
+.target-card,
+.progress-card,
+.lsa-card,
+.character-card {
+background: rgba(255, 255, 255, .96);
+border: 2px solid rgba(255, 255, 255, .98);
+backdrop-filter: blur(8px);
+}
+
+.target-card {
+min-height: 0;
+border-radius: 34px;
+padding: 20px 14px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+box-shadow:
+0 9px 0 #ffd04a,
+0 16px 30px rgba(71, 82, 145, .15);
+overflow: hidden;
+}
+
+.target-label {
+font-family: "Nunito", sans-serif;
+font-size: 17px;
+font-weight: 900;
+letter-spacing: 3px;
+color: #8b8b99;
+}
+
+.big-letter {
+margin-top: 10px;
+font-family: "Fredoka", sans-serif;
+font-size: 145px;
+line-height: .78;
+font-weight: 900;
+color: #5b5be7;
+text-shadow:
+4px 4px 0 #c9c8ff,
+8px 8px 0 #a9a7f5,
+12px 12px 0 #8c89e8,
+16px 16px 0 rgba(91, 91, 231, .18);
+transform: translateY(-3px);
+animation: letterFloat 3.2s ease-in-out infinite;
+}
+
+.letter-decoration {
+margin-top: 20px;
+font-size: 28px;
+animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes letterFloat {
+0%,
+100% {
+transform: translateY(-3px) rotate(-1deg);
+}
+
+
+50% {
+    transform: translateY(-10px) rotate(1deg);
+}
+
+
+}
+
+@keyframes sparkle {
+0%,
+100% {
+opacity: .65;
+transform: scale(.95);
+}
+
+50% {
+    opacity: 1;
+    transform: scale(1.12);
+}
+
+
+}
+
+.progress-card {
+border-radius: 30px;
+padding: 15px;
+box-shadow:
+0 8px 0 #72d8ee,
+0 13px 25px rgba(71, 82, 145, .13);
+}
+
+.progress-item {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.progress-item + .progress-item {
+margin-top: 12px;
+}
+
+.progress-icon {
+width: 48px;
+height: 48px;
+flex-shrink: 0;
+border-radius: 16px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 26px;
+background: linear-gradient(135deg, #eef2ff, #fff4d7);
+box-shadow:
+inset 0 -4px 0 rgba(0, 0, 0, .04);
+}
+
+.progress-info {
+display: flex;
+flex: 1;
+flex-direction: column;
+gap: 2px;
+}
+
+.progress-info span {
+font-family: "Nunito", sans-serif;
+font-size: 15px;
+font-weight: 900;
+color: #777786;
+letter-spacing: .5px;
+}
+
+.progress-info strong {
+font-family: "Fredoka", sans-serif;
+font-size: 30px;
+line-height: 1;
+font-weight: 900;
+color: #5b5be7;
+}
+
+.mini-stars {
+margin-top: 12px;
+text-align: center;
+font-size: 28px;
+letter-spacing: 5px;
+color: #ffd04a;
+text-shadow:
+1px 2px 0 rgba(0, 0, 0, .08);
+}
+
+.camera-column {
+min-width: 0;
+min-height: 0;
+display: grid;
+grid-template-rows: minmax(0, 1fr) 110px;
+gap: 14px;
+}
+
+.camera-container {
+min-width: 0;
+min-height: 0;
+background: rgba(255, 255, 255, .97);
+border-radius: 36px;
+padding: 13px;
+display: flex;
+flex-direction: column;
+box-shadow:
+0 11px 0 #63d7ef,
+0 20px 38px rgba(71, 82, 145, .16);
+}
+
+.camera-screen {
+position: relative;
+flex: 1;
+min-height: 0;
+overflow: hidden;
+border-radius: 28px;
+background: #111827;
+isolation: isolate;
+}
+
+#video {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+border-radius: 28px;
+transform: scaleX(-1);
+background: #111827;
+z-index: 1;
+}
+
+#canvas {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+border-radius: 28px;
+transform: none;
+pointer-events: none;
+z-index: 2;
+}
+
+.camera-glow {
+position: absolute;
+inset: 0;
+pointer-events: none;
+z-index: 3;
+border-radius: 28px;
+box-shadow:
+inset 0 0 0 3px rgba(255, 255, 255, .12),
+inset 0 0 70px rgba(91, 91, 231, .12);
+}
+
+.camera-footer {
+height: 58px;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 13px;
+padding-top: 10px;
+}
+
+.action-pill,
+.status {
+min-width: 56px;
+height: 42px;
+padding: 0 15px;
+border-radius: 16px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: "Fredoka", sans-serif;
+font-weight: 800;
+}
+
+.action-pill {
+font-size: 24px;
+background: linear-gradient(135deg, #f0f2ff, #fff8df);
+box-shadow:
+0 4px 0 #d6dcff;
+}
+
+.status {
+background: #e4f9eb;
+color: #1d9b54;
+font-size: 15px;
+box-shadow:
+0 4px 0 #b8e8c9;
+}
+
+.character-card {
+border-radius: 30px;
+padding: 10px 16px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+overflow: hidden;
+box-shadow:
+0 7px 0 #ffb5d1,
+0 12px 24px rgba(71, 82, 145, .12);
+position: relative;
+}
+
+.character-card::after {
+content: "";
+position: absolute;
+width: 110px;
+height: 110px;
+right: -25px;
+top: -40px;
+border-radius: 50%;
+background: rgba(255, 226, 91, .26);
+}
+
+.character-text {
+display: flex;
+flex-direction: column;
+gap: 3px;
+z-index: 2;
+}
+
+.character-text span {
+font-family: "Fredoka", sans-serif;
+font-size: 17px;
+font-weight: 800;
+color: #5b5be7;
+}
+
+.character-text small {
+font-family: "Nunito", sans-serif;
+font-size: 13px;
+font-weight: 800;
+color: #858594;
+}
+
+.character-placeholder {
+width: 86px;
+height: 86px;
+flex-shrink: 0;
+border-radius: 28px 28px 20px 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 48px;
+background: linear-gradient(135deg, #e8faff, #ffe5f1);
+box-shadow:
+inset 0 -5px 0 rgba(0, 0, 0, .04),
+0 7px 14px rgba(0, 0, 0, .08);
+z-index: 2;
+}
+
+.right-panel {
+display: flex;
+}
+
+.lsa-card {
+width: 100%;
+min-height: 0;
+border-radius: 34px;
+padding: 18px 15px;
+display: flex;
+flex-direction: column;
+box-shadow:
+0 9px 0 #9e9bf2,
+0 16px 30px rgba(71, 82, 145, .15);
+overflow: hidden;
+position: relative;
+}
+
+.lsa-header {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.lsa-icon {
+width: 46px;
+height: 46px;
+border-radius: 15px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 25px;
+background: #eef0ff;
+}
+
+.lsa-header > div {
+display: flex;
+flex-direction: column;
+gap: 2px;
+}
+
+.lsa-title {
+font-family: "Fredoka", sans-serif;
+font-size: 20px;
+font-weight: 900;
+color: #5b5be7;
+}
+
+.lsa-subtitle {
+font-family: "Nunito", sans-serif;
+font-size: 12px;
+font-weight: 800;
+color: #898997;
+}
+
+.lsa-display {
+flex: 1;
+min-height: 0;
+margin-top: 18px;
+border-radius: 26px;
+background:
+radial-gradient(circle at 30% 25%, #fff6af, transparent 33%),
+linear-gradient(145deg, #eef9ff, #f6efff);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 14px;
+border: 3px solid rgba(91, 91, 231, .08);
+}
+
+.lsa-image {
+width: 110px;
+height: 130px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 72px;
+border-radius: 28px;
+background: rgba(255, 255, 255, .72);
+box-shadow:
+0 9px 20px rgba(91, 91, 231, .09);
+}
+
+.lsa-letter {
+font-family: "Fredoka", sans-serif;
+font-size: 60px;
+line-height: 1;
+font-weight: 900;
+color: #ff6b8a;
+text-shadow:
+3px 3px 0 #ffd5e1,
+6px 6px 0 rgba(255, 107, 138, .16);
+}
+
+.lsa-decoration {
+margin-top: 12px;
+text-align: center;
+font-size: 19px;
+letter-spacing: 5px;
+color: #ffd04a;
+}
+
+.result-message {
+min-height: 0;
+}
+
+@media (max-width: 1100px) {
+.camera-page {
+padding: 15px;
+}
+
+
+.game-area {
+    grid-template-columns: 190px minmax(0, 1fr) 190px;
+    gap: 14px;
+}
+
+.big-letter {
+    font-size: 120px;
+}
+
+.progress-info strong {
+    font-size: 26px;
+}
+
+.character-text span {
+    font-size: 15px;
+}
+
+
+}
+
+@media (max-width: 850px) {
+.game-area {
+grid-template-columns: 190px minmax(0, 1fr);
+}
+
+
+.right-panel {
+    display: none;
+}
+
+
+}
+
+@media (max-width: 700px) {
+.game-area {
+grid-template-columns: 1fr;
+grid-template-rows: auto minmax(0, 1fr);
+}
+
+
+.left-panel {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 210px;
+}
+
+.progress-card {
+    align-self: stretch;
+}
+
+.camera-column {
+    grid-template-rows: minmax(0, 1fr) 95px;
+}
+
+.camera-screen {
+    min-height: 380px;
+}
+
+.character-placeholder {
+    width: 70px;
+    height: 70px;
+    font-size: 40px;
+}
+
+.deco {
+    display: none;
+}
+
+
+}
+
+@media (max-width: 520px) {
+.camera-page {
+padding: 12px;
+}
+
+
+.camera-header {
+    margin-bottom: 10px;
+}
+
+.game-title {
+    font-size: 24px;
+}
+
+.exit-button {
+    padding: 9px 15px;
+    font-size: 15px;
+}
+
+.left-panel {
+    grid-template-columns: 1fr;
+    grid-template-rows: 210px auto;
+}
+
+.camera-column {
+    grid-template-rows: minmax(0, 1fr) 90px;
+}
+
+.camera-screen {
+    min-height: 300px;
+}
+
+.character-text span {
+    font-size: 14px;
+}
+
+.character-text small {
+    font-size: 11px;
+}
+
+.camera-footer {
+    gap: 8px;
+}
+
+.action-pill {
+    min-width: 48px;
+    padding: 0 10px;
+}
+
+
+}
+/* =========================================================
+   VIDEO TUTORIAL
+   ========================================================= */
+
+.tutorial-video-section {
+    flex: 0 0 170px;
+    margin-top: 12px;
+}
+
+.lsa-video-label {
+    font-family: "Nunito", sans-serif;
+    font-size: 13px;
+    font-weight: 900;
+    color: #777786;
+    text-align: center;
+    margin-bottom: 7px;
+    letter-spacing: .5px;
+}
+
+.tutorial-video {
+    width: 100%;
+    height: 140px;
+    display: block;
+    object-fit: cover;
+    border-radius: 20px;
+    background: #111827;
+    box-shadow:
+        0 6px 14px rgba(91, 91, 231, .10);
+}
+.lsa-display {
+    flex: 1;
+    min-height: 0;
+    margin-top: 14px;
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at 30% 25%, #fff6af, transparent 33%),
+        linear-gradient(145deg, #eef9ff, #f6efff);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 3px solid rgba(91, 91, 231, .08);
+    overflow: hidden;
+}
+
+.lsa-video {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 20px;
+    background: #ffffff;
+}

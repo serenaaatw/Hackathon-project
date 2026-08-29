@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+
+{% block title %}EduSeñas - Dibujar{% endblock %}
+
+{% block styles %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/camara.css') }}"
+>
+
+{% endblock %}
+
+{% block content %}
+
+<section class="camera-page">
+
+```
+<div class="deco deco-star-1">⭐</div>
+<div class="deco deco-star-2">✨</div>
+<div class="deco deco-sun">☀️</div>
+<div class="deco deco-rainbow">🌈</div>
+<div class="deco deco-star-3">💫</div>
+
+<header class="camera-header">
+
+    <div class="game-title">
+        ✋ EDUSEÑAS
+    </div>
+
+    <a
+        href="{{ url_for('vision.reconocer') }}"
+        class="exit-button"
+    >
+        SALIR
+    </a>
+
+</header>
+
+<main class="game-area">
+
+    <aside class="left-panel">
+
+        <div class="target-card">
+
+            <div class="target-label">
+                LETRA
+            </div>
+
+            <div
+                class="big-letter"
+                id="letraObjetivo"
+            >
+                A
+            </div>
+
+            <div class="letter-decoration">
+                ✨
+            </div>
+
+        </div>
+
+        <div class="progress-card">
+
+            <div class="progress-item">
+
+                <div class="progress-icon">
+                    ⭐
+                </div>
+
+                <div class="progress-info">
+
+                    <span>
+                        BUENOS
+                    </span>
+
+                    <strong id="buenos">
+                        0 / 3
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="progress-item">
+
+                <div class="progress-icon">
+                    🎯
+                </div>
+
+                <div class="progress-info">
+
+                    <span>
+                        INTENTOS
+                    </span>
+
+                    <strong id="intentos">
+                        0 / 10
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="mini-stars">
+                ☆ ☆ ☆
+            </div>
+
+        </div>
+
+    </aside>
+
+    <section class="camera-column">
+
+        <div class="camera-container">
+
+            <div class="camera-screen">
+
+                <video
+                    id="video"
+                    autoplay
+                    playsinline
+                    muted
+                ></video>
+
+                <canvas
+                    id="canvas"
+                ></canvas>
+
+                <div class="camera-glow"></div>
+
+            </div>
+
+            <div class="camera-footer">
+
+                <div class="action-pill">
+                    🖐️
+                </div>
+
+                <div class="action-pill">
+                    ✊
+                </div>
+
+                <div
+                    class="status"
+                    id="status"
+                >
+                    ● LISTO
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="character-card">
+
+            <div class="character-text">
+                <span>
+                    ¡APRENDÉ CON EDUSEÑAS!
+                </span>
+                <small>
+                    Dibujá junto a nosotros
+                </small>
+            </div>
+
+            <div class="character-placeholder">
+                👦🏻✏️
+            </div>
+
+        </div>
+
+    </section>
+    <aside class="right-panel">
+
+    <div class="lsa-card">
+
+        <div class="lsa-header">
+            <span class="lsa-icon">
+                ✋
+            </span>
+
+            <div>
+                <span class="lsa-title">
+                    SEÑA EN LSA
+                </span>
+
+                <span class="lsa-subtitle">
+                    Mirá cómo se hace
+                </span>
+            </div>
+        </div>
+
+        <!-- ESPACIO SUPERIOR: FUTURO VIDEO LSA -->
+        <div class="lsa-display">
+            <video
+                id="videoLSA"
+                class="lsa-video"
+                autoplay
+                muted
+                loop
+                playsinline
+            ></video>
+            <div
+                class="lsa-letter"
+                id="lsaLetra"
+                >
+                A
+            </div>
+
+        </div>
+
+        <!-- VIDEO TUTORIAL ABAJO -->
+        <div class="tutorial-video-section">
+
+            <div class="lsa-video-label">
+                TUTORIAL EDUSEÑAS
+            </div>
+
+            <video
+                id="videoTutorial"
+                class="lsa-video tutorial-video"
+                autoplay
+                muted
+                loop
+                playsinline
+            >
+                <source
+                    src="{{ url_for('static', filename='videos/video_camara/cideo_tutorial.mp4') }}"
+                    type="video/mp4"
+                >
+            </video>
+
+        </div>
+
+        <div class="lsa-decoration">
+            ✨ ⭐ ✨
+        </div>
+
+    </div>
+
+</aside>
+    
+
+</main>
+
+<div
+    class="result-message"
+    id="resultado"
+></div>
+```
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script type="module">
+
+    import {
+        FilesetResolver,
+        HandLandmarker
+    } from "/static/vision_bundle.mjs";
+
+    window.FilesetResolver =
+        FilesetResolver;
+
+    window.HandLandmarker =
+        HandLandmarker;
+
+    const script =
+        document.createElement("script");
+
+    script.src =
+        "{{ url_for('static', filename='javascript/camara.js') }}";
+
+    document.body.appendChild(
+        script
+    );
+
+</script>
+
+{% endblock %}

@@ -15,6 +15,9 @@ from routes.profile_routes import profile
 from routes.contact_routes import contact_bp
 from routes.sentence_routes import sentence_bp
 from routes.inicio_routes import inicio_bp
+from routes.vision_routes import vision_bp
+
+import os
 from routes.help_routes import help_bp
 from routes.fonemas_routes import fonema_bp
 
@@ -48,6 +51,8 @@ app.register_blueprint(profile)
 app.register_blueprint(contact_bp)
 app.register_blueprint(sentence_bp)
 app.register_blueprint(inicio_bp)
+app.register_blueprint(vision_bp)
+
 app.register_blueprint(help_bp)
 app.register_blueprint(fonema_bp)
 
