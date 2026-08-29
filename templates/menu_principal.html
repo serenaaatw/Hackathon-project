@@ -13,9 +13,53 @@
 
 <section class="menu">
 
+    <div class="menu__decor" aria-hidden="true">
+        <span class="deco deco--star deco--1">✦</span>
+        <span class="deco deco--star deco--2">✧</span>
+        <span class="deco deco--plus deco--3">+</span>
+        <span class="deco deco--heart deco--4">♥</span>
+        <span class="deco deco--star deco--5">✦</span>
+        <span class="deco deco--plus deco--6">+</span>
+        <span class="deco deco--heart deco--7">♥</span>
+        <span class="deco deco--star deco--8">✧</span>
+    </div>
+
     <div class="menu__intro">
-        <h1>¡HOLA!</h1>
-        <p>¿QUÉ QUERÉS HACER?</p>
+
+        <div class="hola-row">
+
+            <svg
+                class="confetti confetti--left"
+                viewBox="0 0 40 40"
+                width="34"
+                height="34"
+                fill="none"
+                aria-hidden="true"
+            >
+                <rect x="2" y="17" width="14" height="5" rx="2.5" fill="#55D6BE" transform="rotate(-25 9 19.5)"/>
+                <rect x="24" y="4" width="12" height="5" rx="2.5" fill="#B69AE8" transform="rotate(20 30 6.5)"/>
+                <rect x="26" y="28" width="12" height="5" rx="2.5" fill="#FF7E67" transform="rotate(-15 32 30.5)"/>
+            </svg>
+
+            <h1>¡HOLA!</h1>
+
+            <svg
+                class="confetti confetti--right"
+                viewBox="0 0 40 40"
+                width="34"
+                height="34"
+                fill="none"
+                aria-hidden="true"
+            >
+                <rect x="2" y="17" width="14" height="5" rx="2.5" fill="#FFD166" transform="rotate(-25 9 19.5)"/>
+                <rect x="24" y="4" width="12" height="5" rx="2.5" fill="#FF9BB0" transform="rotate(20 30 6.5)"/>
+                <rect x="26" y="28" width="12" height="5" rx="2.5" fill="#B69AE8" transform="rotate(-15 32 30.5)"/>
+            </svg>
+
+        </div>
+
+        <p>¿QUÉ QUERÉS HACER HOY?</p>
+
     </div>
 
 
@@ -54,6 +98,7 @@
 
                 <div class="menu-card__text">
                     <h2>APRENDER</h2>
+                    <p>Empezá a aprender nuevas palabras</p>
                 </div>
 
             </a>
@@ -72,6 +117,7 @@
 
                 <div class="menu-card__text">
                     <h2>PROGRESO</h2>
+                    <p>Revisá tu avance y logros</p>
                 </div>
 
             </a>
@@ -89,6 +135,7 @@
 
                 <div class="menu-card__text">
                     <h2>PERFIL</h2>
+                    <p>Editá tu información y preferencias</p>
                 </div>
 
             </a>
@@ -106,23 +153,24 @@
 
                 <div class="menu-card__text">
                     <h2>CONTACTO</h2>
+                    <p>Escribinos si necesitás ayuda</p>
                 </div>
 
             </a>
 
         </section>
 
-        <!-- PROGRESO --> 
-         <aside class="info-card info-card--progress"> 
-            <div class="info-card__icon"> 
-                <img src="{{ url_for('static', filename='img/iconos/progreso2.png') }}" alt="" > 
-            </div> 
-            <div class="info-card__content"> 
-                <span>MI PROGRESO</span> 
-                <strong>PRÓXIMAMENTE</strong> 
-            </div> 
-        </aside> 
-    </div> 
+        <!-- PROGRESO -->
+         <aside class="info-card info-card--progress">
+            <div class="info-card__icon">
+                <img src="{{ url_for('static', filename='img/iconos/progreso2.png') }}" alt="" >
+            </div>
+            <div class="info-card__content">
+                <span>MI PROGRESO</span>
+                <strong>PRÓXIMAMENTE</strong>
+            </div>
+        </aside>
+    </div>
 </section>
 
 {% endblock %}

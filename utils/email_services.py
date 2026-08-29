@@ -1,130 +1,112 @@
-import smtplib
-from email.message import EmailMessage
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
 import random
 import os
 
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 MAIL_USERNAME = os.getenv("MAIL_USERNAME")
-MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
 def send_verification_code(adressee):
     code = random.randint(100000, 999999)
 
-    msg = EmailMessage()
+    configuration = sib_api_v3_sdk.Configuration()
+    configuration.api_key["api-key"] = BREVO_API_KEY
 
-    msg["Subject"] = "Código de verificación"
+    api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+        sib_api_v3_sdk.ApiClient(configuration)
+    )
 
-    msg["From"] = MAIL_USERNAME
+    sender = {
+        "name": "EduSeñas",
+        "email": MAIL_USERNAME
+    }
 
-    msg["To"] = adressee
+    email = sib_api_v3_sdk.SendSmtpEmail(
+        sender=sender,
+        to=[{"email": adressee}],
+        subject="Código de verificación",
+        text_content=f"""
+Hola {adressee}!
 
-    msg.set_content(f"""
+Gracias por registrarte en EduSeñas.
 
+Tu código de verificación es:
 
-    Hola {adressee}!
+====================
+{code}
+====================
 
-    Gracias por registrarte en EduSeñas.
+Ingresá este código en la página de verificación.
 
-    Tu código de verificación es:
+No compartas este código con nadie.
 
-    ====================
-    {code}
-    ====================
+Si no solicitaste este código, ignorá este correo.
 
-    Ingresá este código en la página de verificación.
-
-    No compartas este código con nadie.
-
-    Si no solicitaste este código, ignorá este correo.
-
-    Saludos,
-    EduSeñas Team
-    """)
-
+Saludos,
+EduSeñas Team
+"""
+    )
 
     try:
-
-        with smtplib.SMTP_SSL(
-            "smtp.gmail.com",
-            465
-        ) as server:
-
-            server.login(
-                MAIL_USERNAME,
-                MAIL_PASSWORD
-            )
-
-            server.send_message(msg)
-
+        api_instance.send_transac_email(email)
         return code
 
-    except Exception as e:
-
+    except ApiException as e:
         raise Exception(
             f"Error al enviar el correo: {e}"
         )
 
 
 def send_contact_message(
-user_email,
-motivo,
-mensaje
+    user_email,
+    motivo,
+    mensaje
 ):
+    configuration = sib_api_v3_sdk.Configuration()
+    configuration.api_key["api-key"] = BREVO_API_KEY
 
-    msg = EmailMessage()
-
-    msg["Subject"] = (
-        f"{motivo.upper()}"
+    api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+        sib_api_v3_sdk.ApiClient(configuration)
     )
 
-    msg["From"] = MAIL_USERNAME
+    sender = {
+        "name": "EduSeñas",
+        "email": MAIL_USERNAME
+    }
 
-    msg["To"] = MAIL_USERNAME
+    email = sib_api_v3_sdk.SendSmtpEmail(
+        sender=sender,
+        to=[{"email": MAIL_USERNAME}],
+        reply_to={"email": user_email},
+        subject=motivo.upper(),
+        text_content=f"""
+Nuevo mensaje recibido desde EduSeñas.
 
-    msg["Reply-To"] = user_email
+MOTIVO:
+{motivo}
 
-    msg.set_content(f"""
+MAIL DEL USUARIO:
+{user_email}
 
-
-    Nuevo mensaje recibido desde EduSeñas.
-
-    MOTIVO:
-    {motivo}
-
-    MAIL DEL USUARIO:
-    {user_email}
-
-    MENSAJE:
-    {mensaje}
-    """)
+MENSAJE:
+{mensaje}
+"""
+    )
 
     try:
+        api_instance.send_transac_email(email)
 
-        with smtplib.SMTP_SSL(
-            "smtp.gmail.com",
-            465
-        ) as server:
-
-            server.login(
-                MAIL_USERNAME,
-                MAIL_PASSWORD
-            )
-
-            server.send_message(msg)
-
-    except Exception as e:
-
+    except ApiException as e:
         raise Exception(
             f"Error al enviar el correo: {e}"
         )
 
+
 def verify_code(
-input_code,
-actual_code
+    input_code,
+    actual_code
 ):
-
-
     return (
         str(input_code) ==
         str(actual_code)
     )
-

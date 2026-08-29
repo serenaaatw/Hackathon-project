@@ -36,17 +36,11 @@ body {
     min-height: 100vh;
 
     background:
-        radial-gradient(
-            circle at 12% 8%,
-            var(--turquoise-pale) 0%,
-            transparent 40%
-        ),
-        radial-gradient(
-            circle at 90% 85%,
-            #FFF3DC 0%,
-            transparent 45%
-        ),
-        var(--bg);
+        radial-gradient(circle at top left, #c8a9e8 0%, transparent 40%),
+        radial-gradient(circle at bottom right, #a9e3df 0%, transparent 42%),
+        radial-gradient(circle at top right, #ffd978 0%, transparent 38%),
+        radial-gradient(circle at bottom left, #f5a9ba 0%, transparent 40%),
+        #FFFDF9;
 
     font-family: var(--font-body);
     color: var(--ink);
@@ -165,8 +159,8 @@ body {
 
 .prompt-card {
     width: 100%;
-    max-width: 340px;
-    min-height: 260px;
+    max-width: 460px;
+    min-height: 340px;
 
     background: var(--white);
 
@@ -174,7 +168,7 @@ body {
 
     box-shadow: var(--shadow-card);
 
-    padding: 30px;
+    padding: 34px;
 
     display: flex;
     align-items: center;
@@ -204,8 +198,8 @@ body {
 }
 
 .prompt-card__sticker {
-    width: 220px;
-    height: 220px;
+    width: 300px;
+    height: 300px;
 
     border-radius: 50%;
 
@@ -215,7 +209,7 @@ body {
     align-items: center;
     justify-content: center;
 
-    padding: 18px;
+    padding: 22px;
 
     overflow: hidden;
 }
@@ -229,7 +223,7 @@ body {
 }
 
 .prompt-card--video {
-    padding: 24px;
+    padding: 28px;
 }
 
 .prompt-card--video .video-frame {
@@ -253,20 +247,11 @@ body {
     height: 100%;
 
     object-fit: cover;
+    object-position: center 15%;
 }
 
 .video-frame__placeholder {
-    color: var(--white);
-
-    text-align: center;
-
-    padding: 14px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    gap: 8px;
+    display: none !important;
 }
 
 .video-frame__placeholder p {
@@ -284,11 +269,11 @@ body {
     font-family: var(--font-display);
     font-weight: 600;
 
-    font-size: 1.15rem;
+    font-size: 1.35rem;
 
     color: var(--ink);
 
-    margin: 22px 0 18px;
+    margin: 26px 0 20px;
 
     text-align: center;
 
@@ -297,21 +282,21 @@ body {
 
 .options {
     width: 100%;
-    max-width: 420px;
+    max-width: 520px;
 
     display: grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 12px;
+    gap: 14px;
 }
 
 .option {
     font-family: var(--font-display);
     font-weight: 600;
 
-    font-size: 1rem;
+    font-size: 1.15rem;
 
     color: var(--ink);
 
@@ -323,7 +308,7 @@ body {
 
     box-shadow: var(--shadow-btn);
 
-    padding: 18px 8px;
+    padding: 22px 10px;
 
     cursor: pointer;
 
@@ -332,7 +317,7 @@ body {
         box-shadow .1s ease,
         background .15s ease;
 
-    min-height: 64px;
+    min-height: 76px;
 
     text-transform: uppercase;
 }
@@ -360,8 +345,8 @@ body {
 }
 
 .option-img {
-    width: 56px;
-    height: 56px;
+    width: 68px;
+    height: 68px;
 
     object-fit: contain;
 }
@@ -495,11 +480,11 @@ body {
 
     width: 100%;
 
-    max-width: 430px;
+    max-width: 520px;
 
-    min-height: 440px;
+    min-height: 520px;
 
-    padding: 28px;
+    padding: 34px;
 
     background: var(--white);
 
@@ -575,7 +560,7 @@ body {
 .tutorial__content {
     position: relative;
 
-    min-height: 320px;
+    min-height: 380px;
 
     display: flex;
 
@@ -584,19 +569,19 @@ body {
     align-items: center;
     justify-content: center;
 
-    gap: 24px;
+    gap: 28px;
 }
 
 .tutorial__image {
-    width: 170px;
-    height: 170px;
+    width: 230px;
+    height: 230px;
 
     border-radius: 50%;
 
     background:
         var(--turquoise-pale);
 
-    padding: 16px;
+    padding: 20px;
 
     display: flex;
 
@@ -619,12 +604,13 @@ body {
 }
 
 .tutorial__video {
-    width: 190px;
-    height: 190px;
+    width: 260px;
+    height: 260px;
 
     border-radius: 24px;
 
     object-fit: cover;
+    object-position: center 15%;
 
     background: var(--ink);
 
@@ -646,11 +632,11 @@ body {
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 10px;
+    gap: 12px;
 }
 
 .tutorial__fake-word {
-    min-height: 65px;
+    min-height: 78px;
 
     display: flex;
 
@@ -676,7 +662,7 @@ body {
 
     font-weight: 700;
 
-    font-size: .85rem;
+    font-size: 1rem;
 
     color: var(--ink);
 
@@ -688,8 +674,8 @@ body {
 }
 
 .tutorial__fake-word img {
-    width: 55px;
-    height: 55px;
+    width: 66px;
+    height: 66px;
 
     object-fit: contain;
 
@@ -916,17 +902,17 @@ body {
     }
 
     .prompt-card {
-        max-width: 330px;
-        min-height: 250px;
+        max-width: 400px;
+        min-height: 310px;
     }
 
     .prompt-card__sticker {
-        width: 205px;
-        height: 205px;
+        width: 260px;
+        height: 260px;
     }
 
     .options {
-        max-width: 410px;
+        max-width: 460px;
     }
 }
 
@@ -949,44 +935,44 @@ body {
     }
 
     .prompt-card {
-        max-width: 300px;
-        min-height: 230px;
+        max-width: 330px;
+        min-height: 260px;
 
-        padding: 24px;
+        padding: 26px;
     }
 
     .prompt-card__sticker {
-        width: 185px;
-        height: 185px;
+        width: 215px;
+        height: 215px;
     }
 
     .stage__instruction {
-        font-size: 1rem;
+        font-size: 1.1rem;
 
         padding: 0 15px;
 
-        margin-top: 19px;
+        margin-top: 20px;
     }
 
     .options {
-        max-width: 360px;
+        max-width: 380px;
 
         gap: 10px;
     }
 
     .option {
-        min-height: 62px;
+        min-height: 68px;
 
-        font-size: .85rem;
+        font-size: .92rem;
 
-        padding: 15px 6px;
+        padding: 16px 6px;
 
         border-width: 2.5px;
     }
 
     .option-img {
-        width: 50px;
-        height: 50px;
+        width: 56px;
+        height: 56px;
     }
 
     .tutorial {
@@ -994,55 +980,55 @@ body {
     }
 
     .tutorial__card {
-        min-height: 390px;
+        min-height: 440px;
 
-        padding: 25px 18px;
+        padding: 26px 18px;
 
         border-radius: 25px;
     }
 
     .tutorial__content {
-        min-height: 270px;
+        min-height: 300px;
     }
 
     .tutorial__image {
-        width: 135px;
-        height: 135px;
+        width: 165px;
+        height: 165px;
     }
 
     .tutorial__video {
-        width: 150px;
-        height: 150px;
+        width: 180px;
+        height: 180px;
 
         border-radius: 20px;
     }
 
     .tutorial__fake-word {
-        min-height: 58px;
+        min-height: 64px;
 
-        font-size: .72rem;
+        font-size: .78rem;
 
         border-width: 2.5px;
     }
 
     .tutorial__fake-word img {
-        width: 48px;
-        height: 48px;
+        width: 54px;
+        height: 54px;
     }
 }
 
 @media (max-width: 380px) {
 
     .prompt-card {
-        max-width: 270px;
-        min-height: 210px;
+        max-width: 290px;
+        min-height: 230px;
 
-        padding: 20px;
+        padding: 22px;
     }
 
     .prompt-card__sticker {
-        width: 165px;
-        height: 165px;
+        width: 185px;
+        height: 185px;
     }
 
     .options {
@@ -1067,8 +1053,8 @@ body {
     }
 
     .tutorial__video {
-        width: 135px;
-        height: 135px;
+        width: 150px;
+        height: 150px;
     }
 }
 

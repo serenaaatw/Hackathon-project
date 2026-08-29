@@ -12,6 +12,7 @@ request
 from services.learning_service import LearningService
 from services.learning_round_service import LearningRoundService
 from services.sentence_service import SentenceService
+from flask_login import login_required
 
 learning_bp = Blueprint(
 "learning",
@@ -19,7 +20,9 @@ __name__,
 url_prefix="/aprender"
 )
 
+
 @learning_bp.route("/")
+@login_required
 def aprender():
 
     id_user = session.get("usuario_id")
@@ -116,10 +119,12 @@ def aprender():
         decision=decision
     )
 
+
 @learning_bp.route(
 "/iniciar-ejercicios",
 methods=["POST"]
 )
+@login_required
 def iniciar_ejercicios():
 
 

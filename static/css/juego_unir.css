@@ -34,18 +34,14 @@
 body {
     margin: 0;
     min-height: 100vh;
+
     background:
-        radial-gradient(
-            circle at 12% 8%,
-            var(--turquoise-pale) 0%,
-            transparent 40%
-        ),
-        radial-gradient(
-            circle at 90% 85%,
-            #FFF3DC 0%,
-            transparent 45%
-        ),
-        var(--bg);
+        radial-gradient(circle at top left, #c8a9e8 0%, transparent 40%),
+        radial-gradient(circle at bottom right, #a9e3df 0%, transparent 42%),
+        radial-gradient(circle at top right, #ffd978 0%, transparent 38%),
+        radial-gradient(circle at bottom left, #f5a9ba 0%, transparent 40%),
+        #FFFDF9;
+
     font-family: var(--font-body);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
@@ -131,36 +127,36 @@ body {
 
 .unir-board {
     width: 100%;
-    max-width: 520px;
+    max-width: 600px;
     display: flex;
     justify-content: center;
-    gap: 24px;
+    gap: 28px;
 }
 
 .unir-col {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    max-width: 220px;
+    gap: 16px;
+    max-width: 260px;
 }
 
 .unir-item {
     width: 100%;
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 1.15rem;
     color: var(--ink);
     background: var(--white);
     border: 3px solid var(--turquoise);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-btn);
-    padding: 14px 10px;
+    padding: 18px 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 84px;
+    min-height: 104px;
     transition:
         transform .15s ease,
         box-shadow .15s ease,
@@ -185,8 +181,8 @@ body {
 }
 
 .unir-item__img {
-    width: 60px;
-    height: 60px;
+    width: 76px;
+    height: 76px;
     object-fit: contain;
 }
 
@@ -297,9 +293,9 @@ body {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 430px;
-    min-height: 390px;
-    padding: 28px 24px 22px;
+    max-width: 500px;
+    min-height: 440px;
+    padding: 32px 28px 24px;
     background: var(--white);
     border-radius: 30px;
     box-shadow:
@@ -349,23 +345,23 @@ body {
 
 .tutorial__content {
     position: relative;
-    min-height: 285px;
+    min-height: 330px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 24px;
 }
 
 .tutorial__label {
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--ink);
     text-align: center;
     text-transform: uppercase;
     margin: 0;
-    max-width: 310px;
+    max-width: 360px;
 }
 
 .tutorial__unir-demo {
@@ -373,20 +369,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 18px;
+    gap: 22px;
 }
 
 .tutorial__unir-col {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    width: 125px;
+    gap: 14px;
+    width: 155px;
 }
 
 .tutorial__unir-col .unir-item {
-    min-height: 70px;
-    font-size: .75rem;
-    padding: 8px;
+    min-height: 88px;
+    font-size: .88rem;
+    padding: 10px;
     cursor: default;
     pointer-events: none;
 }
@@ -397,8 +393,8 @@ body {
 }
 
 .tutorial__unir-col .unir-item__img {
-    width: 46px;
-    height: 46px;
+    width: 58px;
+    height: 58px;
 }
 
 .tutorial__unir-col .unir-item.is-selected {
@@ -461,6 +457,17 @@ body {
         0 2px 0 rgba(74, 59, 120, .18);
 }
 
+@media (max-width: 768px) {
+
+    .unir-board {
+        max-width: 520px;
+    }
+
+    .unir-col {
+        max-width: 230px;
+    }
+}
+
 @media (max-width: 500px) {
 
     .stage {
@@ -469,15 +476,52 @@ body {
     }
 
     .unir-board {
-        gap: 14px;
+        gap: 16px;
     }
 
     .unir-col {
-        max-width: 170px;
+        max-width: 190px;
     }
 
     .unir-item {
-        min-height: 76px;
+        min-height: 88px;
+        font-size: 1rem;
+    }
+
+    .unir-item__img {
+        width: 62px;
+        height: 62px;
+    }
+
+    .tutorial__card {
+        max-width: 400px;
+        padding: 28px 20px 22px;
+    }
+
+    .tutorial__unir-demo {
+        gap: 12px;
+    }
+
+    .tutorial__unir-col {
+        width: 130px;
+    }
+
+}
+
+@media (max-width: 380px) {
+
+    .unir-board {
+        gap: 12px;
+    }
+
+    .unir-col {
+        max-width: 165px;
+    }
+
+    .unir-item {
+        font-size: .92rem;
+        padding: 12px 8px;
+        min-height: 78px;
     }
 
     .unir-item__img {
@@ -486,55 +530,19 @@ body {
     }
 
     .tutorial__card {
-        max-width: 360px;
-        padding: 26px 18px 20px;
-    }
-
-    .tutorial__unir-demo {
-        gap: 10px;
-    }
-
-    .tutorial__unir-col {
-        width: 110px;
-    }
-
-}
-
-@media (max-width: 380px) {
-
-    .unir-board {
-        gap: 10px;
-    }
-
-    .unir-col {
-        max-width: 150px;
-    }
-
-    .unir-item {
-        font-size: .85rem;
-        padding: 10px 6px;
-        min-height: 68px;
-    }
-
-    .unir-item__img {
-        width: 48px;
-        height: 48px;
-    }
-
-    .tutorial__card {
-        min-height: 360px;
+        min-height: 400px;
     }
 
     .tutorial__content {
-        min-height: 250px;
+        min-height: 290px;
     }
 
     .tutorial__unir-col {
-        width: 95px;
+        width: 108px;
     }
 
     .tutorial__unir-col .unir-item {
-        min-height: 62px;
+        min-height: 70px;
     }
 
 }

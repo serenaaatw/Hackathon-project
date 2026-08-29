@@ -1,111 +1,393 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* =========================================================
+   CONTENIDO DE LAS PÁGINAS DE LOGIN / REGISTRO
+   (el fondo -blobs, chispas, puntos- viene de inicio.css)
+   ========================================================= */
 
-body {
-    min-height: 100vh;
+.login__contenido {
+    position: relative;
+    z-index: 10;
+
+    width: min(470px, 92%);
+
+    padding: 40px 20px;
+
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 50px 20px;
-    font-family: 'Nunito', sans-serif;
-    background:
-        radial-gradient(circle at top left, #E9DDF8 0%, transparent 32%),
-        radial-gradient(circle at bottom right, #DDF3EF 0%, transparent 35%),
-        radial-gradient(circle at top right, #FDF0D2 0%, transparent 28%),
-        #FFFDF9;
 }
 
-.logo {
-    width: 350px;
-    max-width: 92vw;
-    transform: scale(1.22) translateY(-18px);
-    margin-bottom: -20px;
-    filter: drop-shadow(0 18px 35px rgba(46, 42, 74, .16));
-    user-select: none;
-    padding-bottom: 50px;
-    padding-top: 25px;
+.login__contenido--ancho {
+    width: min(560px, 94%);
 }
 
-h1 {
-    font-family: 'Fredoka', sans-serif;
-    font-size: 3.6rem;
-    font-weight: 700;
-    color: #2E2A4A;
-    letter-spacing: -1px;
-    text-align: center;
-    margin-bottom: 12px;
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.login__logo {
+    margin-bottom: 6px;
 }
 
-h1::after {
-    content: "";
+.login__logo-img {
     display: block;
-    width: 110px;
-    height: 7px;
+
+    width: min(310px, 70vw);
+    height: auto;
+
+    object-fit: contain;
+
+    filter: drop-shadow(0 12px 22px rgba(46, 42, 74, .12));
+}
+
+
+/* =========================================================
+   TÍTULO
+   ========================================================= */
+
+.login__titulo {
+    margin: 4px 0 0;
+
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+
+    font-size: clamp(1.9rem, 4.5vw, 2.4rem);
+    color: #2E2A4A;
+
+    text-align: center;
+}
+
+.login__titulo::after {
+    content: "";
+
+    display: block;
+
+    width: 150px;
+    height: 6px;
+
     margin: 14px auto 0;
+
     border-radius: 999px;
+
     background: linear-gradient(
         90deg,
         #2FB6A3 0%,
         #8E6BC7 35%,
-        #F2647C 65%,
+        #F2647C 68%,
         #F5A428 100%
     );
 }
 
-.form_container {
-    width: 100%;
-    max-width: 500px;
-    margin-top: 35px;
-    background: #FFFFFF;
-    border: 2px solid #d3d3d3;
-    border-radius: 30px;
-    padding: 42px;
-    box-shadow:
-        0 10px 25px rgba(46, 42, 74, .12),
-        0 6px 15px rgba(47, 182, 163, .08);
+.login__subtitulo {
+    max-width: 440px;
+
+    margin: 14px 0 0;
+
+    text-align: center;
+
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: .95rem;
+    line-height: 1.5;
+
+    color: #5A5475;
 }
 
-form {
+
+/* =========================================================
+   TARJETA
+   ========================================================= */
+
+.login__tarjeta {
+    width: 100%;
+
+    margin-top: 24px;
+
+    background: #FFFFFF;
+
+    border-radius: 26px;
+
+    padding: 34px;
+
+    box-shadow: 0 20px 45px rgba(46, 42, 74, .12);
+}
+
+.login__tarjeta form {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
 }
 
-input {
-    height: 60px;
-    padding: 0 18px;
-    border: 2px solid #C9BFE0;
-    border-radius: 16px;
-    background: #F7F3FC;
-    font-family: 'Nunito', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
+
+/* =========================================================
+   FILA DE DOS COLUMNAS (Nombre / Apellido)
+   ========================================================= */
+
+.login__fila {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 480px) {
+    .login__fila {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================================
+   CAMPOS
+   ========================================================= */
+
+.login__campo {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+}
+
+.login__campo-icono {
+    position: absolute;
+    left: 18px;
+
+    width: 20px;
+    height: 20px;
+
+    color: #8E6BC7;
+
+    pointer-events: none;
+}
+
+.login__campo input {
+    width: 100%;
+
+    height: 58px;
+
+    padding: 0 46px;
+
+    border: 2px solid #E5DFF2;
+
+    border-radius: 14px;
+
+    background: #FAF8FD;
+
+    font-family: "Nunito", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
     color: #2E2A4A;
-    transition: .25s;
+
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
 }
 
-input::placeholder {
-    color: #706780;
-    opacity: 1;
+.login__campo input::placeholder {
+    color: #8D84A0;
+    font-weight: 600;
 }
 
-input:focus {
+.login__campo input:focus {
     outline: none;
+
     border-color: #2FB6A3;
     background: #FFFFFF;
-    box-shadow: 0 0 0 4px rgba(47, 182, 163, .18);
+
+    box-shadow: 0 0 0 4px rgba(47, 182, 163, .14);
 }
 
-button {
-    height: 62px;
+.login__ver-clave {
+    position: absolute;
+    right: 14px;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    background: transparent;
+
+    color: #8D84A0;
+
+    cursor: pointer;
+}
+
+.login__ver-clave svg {
+    width: 20px;
+    height: 20px;
+}
+
+.login__ver-clave--activo {
+    color: #2FB6A3;
+}
+
+
+/* =========================================================
+   OLVIDÉ MI CONTRASEÑA / EXTRAS
+   ========================================================= */
+
+.login__extra {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: -4px;
+}
+
+.login__extra--centro {
+    justify-content: center;
+    gap: 6px;
+
+    margin-top: 2px;
+}
+
+.login__extra a {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: .88rem;
+
+    color: #8E6BC7;
+    text-decoration: none;
+}
+
+.login__extra a:hover {
+    color: #F2647C;
+}
+
+.login__texto-simple {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: .88rem;
+    color: #5A5475;
+}
+
+
+/* =========================================================
+   SELECTOR DE ROL (Alumno / Tutor)
+   ========================================================= */
+
+.login__rol-section {
+    margin-top: 2px;
+}
+
+.login__rol-titulo {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-family: "Nunito", sans-serif;
+    font-weight: 800;
+    font-size: .9rem;
+
+    color: #2E2A4A;
+}
+
+.login__rol-options {
+    display: flex;
+    gap: 12px;
+}
+
+.login__rol-card {
+    flex: 1;
+
+    position: relative;
+
+    cursor: pointer;
+}
+
+.login__rol-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.login__rol-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 14px 8px;
+
+    border: 2px solid #E5DFF2;
+    border-radius: 16px;
+
+    background: #FAF8FD;
+
+    text-align: center;
+
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.login__rol-icono {
+    width: 26px;
+    height: 26px;
+
+    color: #8D84A0;
+
+    transition: color .2s ease;
+}
+
+.login__rol-icono--emoji {
+    width: auto;
+    height: auto;
+
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.login__rol-texto {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: .85rem;
+
+    color: #5A5475;
+}
+
+.login__rol-card:hover .login__rol-content {
+    border-color: #D9CFEE;
+    background: #F7F3FC;
+}
+
+.login__rol-card input[type="radio"]:checked + .login__rol-content {
+    border-color: #2FB6A3;
+    background: #EAFBF8;
+
+    box-shadow: 0 6px 16px rgba(47, 182, 163, .16);
+}
+
+.login__rol-card input[type="radio"]:checked + .login__rol-content .login__rol-icono {
+    color: #2FB6A3;
+}
+
+.login__rol-card input[type="radio"]:checked + .login__rol-content .login__rol-texto {
+    color: #21968A;
+}
+
+
+/* =========================================================
+   BOTÓN PRINCIPAL
+   ========================================================= */
+
+.login__boton {
+    width: 100%;
+    height: 58px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
     border: none;
     border-radius: 999px;
+
+    margin-top: 4px;
+
     background: linear-gradient(
         100deg,
         #2FB6A3 0%,
@@ -113,123 +395,187 @@ button {
         #F2647C 68%,
         #F5A428 100%
     );
-    background-size: 200% 200%;
+
     color: #FFFFFF;
-    font-family: 'Fredoka', sans-serif;
-    font-size: 18px;
+
+    font-family: "Fredoka", sans-serif;
     font-weight: 600;
-    letter-spacing: .3px;
+    font-size: 1.1rem;
+
     cursor: pointer;
+
+    box-shadow: 0 14px 28px rgba(142, 107, 199, .25);
+
     transition: transform .2s ease, box-shadow .2s ease;
-    box-shadow:
-        0 12px 25px rgba(142, 107, 199, .22),
-        0 8px 18px rgba(47, 182, 163, .15);
 }
 
-button:hover {
-    transform: translateY(-3px);
-    box-shadow:
-        0 17px 32px rgba(142, 107, 199, .28),
-        0 10px 22px rgba(47, 182, 163, .20);
+.login__boton svg {
+    width: 20px;
+    height: 20px;
 }
 
-button:active {
+.login__boton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 32px rgba(142, 107, 199, .3);
+}
+
+.login__boton:active {
     transform: translateY(1px);
 }
 
-.links {
-    margin-top: 10px;
+
+/* =========================================================
+   SEPARADOR
+   ========================================================= */
+
+.login__separador {
+    position: relative;
+
     text-align: center;
-    color: #4B4570;
-    font-family: 'Nunito', sans-serif;
-    font-size: .95rem;
-    font-weight: 600;
+
+    margin: 8px 0 2px;
 }
 
-.links a {
+.login__separador::before {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+
+    height: 1px;
+
+    background: #ECE7F5;
+}
+
+.login__separador span {
+    position: relative;
+
+    padding: 0 14px;
+
+    background: #FFFFFF;
+
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: .88rem;
+
+    color: #7A7290;
+}
+
+
+/* =========================================================
+   BOTÓN SECUNDARIO (outline)
+   ========================================================= */
+
+.login__boton-outline {
+    width: 100%;
+    height: 58px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    border: 2px solid #D9CFEE;
+    border-radius: 999px;
+
+    background: #FFFFFF;
+
+    color: #8E6BC7;
+    text-decoration: none;
+
+    font-family: "Fredoka", sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.login__boton-outline svg {
+    width: 20px;
+    height: 20px;
+}
+
+.login__boton-outline:hover {
+    background: #F7F3FC;
+    border-color: #8E6BC7;
+}
+
+
+/* =========================================================
+   AYUDA
+   ========================================================= */
+
+.login__ayuda {
+    margin-top: 26px;
+
+    text-align: center;
+
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: .9rem;
+    line-height: 1.6;
+
+    color: #5A5475;
+}
+
+.login__ayuda a {
     color: #8E6BC7;
     text-decoration: none;
     font-weight: 800;
 }
 
-.links a:hover {
+.login__ayuda a:hover {
     color: #F2647C;
 }
 
-.subtitle {
-    max-width: 560px;
-    margin: 0 auto 45px;
-    text-align: center;
-    font-family: 'Nunito', sans-serif;
-    font-size: 1.08rem;
-    font-weight: 700;
-    line-height: 1.8;
-    color: #4B4570;
-    letter-spacing: .2px;
-}
+
+/* =========================================================
+   MENSAJE DE ERROR
+   ========================================================= */
 
 .error {
     width: 100%;
-    max-width: 500px;
-    margin-bottom: 24px;
-    padding: 16px 18px;
+    max-width: 470px;
+
+    margin-top: 16px;
+
+    padding: 14px 18px;
+
     background: #FBE1E7;
     border: 2px solid #F2647C;
+
     color: #8F3045;
+
     border-radius: 16px;
+
     text-align: center;
-    font-family: 'Nunito', sans-serif;
+
+    font-family: "Nunito", sans-serif;
     font-weight: 800;
-    box-shadow: 0 10px 20px rgba(242, 100, 124, .10);
 }
 
-@media (max-width: 768px) {
 
-    body {
-        padding: 35px 18px;
-    }
-
-    .logo {
-        width: 290px;
-        transform: scale(1.18) translateY(-14px);
-        margin-bottom: -10px;
-
-    }
-
-    h1 {
-        font-size: 2.8rem;
-    }
-
-    .form_container {
-        padding: 32px;
-        margin-top: 28px;
-    }
-}
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
 
 @media (max-width: 480px) {
 
-    body {
-        padding: 25px 14px;
-    }
-
-    .logo {
+    .login__logo-img {
         width: 240px;
-        transform: scale(1.15) translateY(-10px);
-        margin-bottom: -6px;
     }
 
-    h1 {
-        font-size: 2.2rem;
-        letter-spacing: -1px;
+    .login__tarjeta {
+        padding: 26px;
+        border-radius: 22px;
     }
 
-    .form_container {
-        padding: 24px;
-        border-radius: 24px;
-    }
-
-    input,
-    button {
-        height: 56px;
+    .login__campo input,
+    .login__boton,
+    .login__boton-outline {
+        height: 54px;
     }
 }
+

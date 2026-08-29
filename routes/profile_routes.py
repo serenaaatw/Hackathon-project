@@ -3,10 +3,13 @@ from models.user import User
 from models.category import Category
 from models.progress import Progress
 from services.progress_service import ProgressService
+from flask_login import login_required
 
 profile = Blueprint("profile", __name__)
 
+
 @profile.route("/perfil")
+@login_required
 def perfil():
     # Aceptamos 'usuario_id' que es como lo guardas en AuthService.login()
     user_id = session.get("usuario_id") or session.get("user_id") or session.get("id_user")
@@ -21,8 +24,9 @@ def perfil():
     return render_template("child/profile.html", child=user)
 
 
-# RUTA PERFIL DEL TUTOR
+
 @profile.route("/perfil/tutor")
+@login_required
 def perfil_tutor():
     # Aceptamos 'usuario_id' aquí también
     user_id = session.get("usuario_id") or session.get("user_id") or session.get("id_user")
@@ -74,3 +78,4 @@ def perfil_tutor():
         tutor=tutor, 
         children_stats=children_stats
     )
+    

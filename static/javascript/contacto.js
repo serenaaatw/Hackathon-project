@@ -1,7 +1,6 @@
 (function () {
 "use strict";
 
-
 const els = {
 
     form:
@@ -24,11 +23,9 @@ const els = {
 
 };
 
-
 if (!els.form) {
     return;
 }
-
 
 function mostrarFeedback(
     mensaje,
@@ -42,7 +39,6 @@ function mostrarFeedback(
         "contact-feedback " + tipo;
 
 }
-
 
 function bloquearFormulario(
     bloqueado
@@ -62,13 +58,11 @@ function bloquearFormulario(
 
 }
 
-
 els.form.addEventListener(
     "submit",
     function (event) {
 
         event.preventDefault();
-
 
         const motivo =
             els.motivo.value.trim();
@@ -78,7 +72,6 @@ els.form.addEventListener(
 
         const mensaje =
             els.mensaje.value.trim();
-
 
         if (
             !motivo ||
@@ -94,15 +87,12 @@ els.form.addEventListener(
             return;
         }
 
-
         bloquearFormulario(true);
-
 
         mostrarFeedback(
             "ENVIANDO MENSAJE...",
             ""
         );
-
 
         fetch(
             URL_ENVIAR_CONTACTO,
@@ -111,6 +101,8 @@ els.form.addEventListener(
 
                 headers: {
                     "Content-Type":
+                        "application/json",
+                    "Accept":
                         "application/json"
                 },
 
@@ -128,17 +120,30 @@ els.form.addEventListener(
                 })
             }
         )
-        .then(function (response) {
+        .then(async function (response) {
 
-            return response.json()
-                .then(function (data) {
+            const contentType =
+                response.headers.get("content-type") || "";
 
-                    return {
-                        ok: response.ok,
-                        data: data
-                    };
+            if (
+                !contentType.includes(
+                    "application/json"
+                )
+            ) {
 
-                });
+                throw new Error(
+                    "EL SERVIDOR NO DEVOLVIÓ UNA RESPUESTA VÁLIDA."
+                );
+
+            }
+
+            const data =
+                await response.json();
+
+            return {
+                ok: response.ok,
+                data: data
+            };
 
         })
         .then(function (resultado) {
@@ -155,15 +160,12 @@ els.form.addEventListener(
 
             }
 
-
             mostrarFeedback(
                 "¡MENSAJE ENVIADO! GRACIAS POR CONTACTARNOS 💚",
                 "success"
             );
 
-
             els.form.reset();
-
 
             setTimeout(
                 function () {
@@ -186,7 +188,6 @@ els.form.addEventListener(
                 error
             );
 
-
             mostrarFeedback(
                 error.message ||
                 "NO SE PUDO ENVIAR EL MENSAJE.",
@@ -202,6 +203,5 @@ els.form.addEventListener(
 
     }
 );
-
 
 })();

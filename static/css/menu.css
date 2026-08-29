@@ -8,32 +8,140 @@
     display: flex;
     flex-direction: column;
 
+    position: relative;
+
+    overflow: hidden;
+
     background:
         radial-gradient(
-            circle at 5% 20%,
-            #FFE7A8 0%,
-            transparent 28%
+            circle at top left,
+            #c8a9e8 0%,
+            transparent 40%
         ),
 
         radial-gradient(
-            circle at 95% 75%,
-            #C8F5E4 0%,
-            transparent 30%
+            circle at bottom right,
+            #a9e3df 0%,
+            transparent 42%
         ),
 
         radial-gradient(
-            circle at 50% 100%,
-            #F2E8FF 0%,
-            transparent 25%
-        );
+            circle at top right,
+            #ffd978 0%,
+            transparent 38%
+        ),
+
+        radial-gradient(
+            circle at bottom left,
+            #f5a9ba 0%,
+            transparent 40%
+        ),
+
+        #FFFDF9;
+}
+
+
+/* ===== DESTELLOS DE FONDO ===== */
+
+.menu__decor {
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+.deco {
+
+    position: absolute;
+
+    line-height: 1;
+
+    font-size: 1.4rem;
+
+    opacity: .55;
+
+    animation:
+        decoFloat 5s ease-in-out infinite;
+}
+
+
+.deco--star {
+    color: #B69AE8;
+}
+
+
+.deco--plus {
+    color: #55D6BE;
+
+    font-weight: 800;
+}
+
+
+.deco--heart {
+    color: #FF9BB0;
+}
+
+
+.deco--1 { top: 9%;  left: 6%;  font-size: 1.1rem; animation-delay: 0s; }
+.deco--2 { top: 15%; left: 90%; font-size: 1.7rem; animation-delay: .6s; color: #FFD166; }
+.deco--3 { top: 42%; left: 3%;  font-size: 1.2rem; animation-delay: 1.1s; }
+.deco--4 { top: 58%; left: 95%; font-size: 1.3rem; animation-delay: .3s; }
+.deco--5 { top: 84%; left: 9%;  font-size: 1.5rem; animation-delay: .9s; color: #FF7E67; }
+.deco--6 { top: 90%; left: 88%; font-size: 1.1rem; animation-delay: 1.4s; }
+.deco--7 { top: 26%; left: 96%; font-size: 1rem;   animation-delay: 1.8s; }
+.deco--8 { top: 6%;  left: 78%; font-size: 1rem;   animation-delay: .5s; color: #FFD166; }
+
+
+@keyframes decoFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: .5;
+    }
+
+    50% {
+        transform: translateY(-8px) scale(1.08);
+        opacity: .85;
+    }
 }
 
 
 .menu__intro {
 
+    position: relative;
+
+    z-index: 1;
+
     text-align: center;
 
     margin-bottom: 38px;
+}
+
+
+.hola-row {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+}
+
+
+.confetti {
+    flex-shrink: 0;
+}
+
+
+.confetti--right {
+    transform: scaleX(-1);
 }
 
 
@@ -48,12 +156,12 @@
     letter-spacing: -1.5px;
 
     color: #493B5A;
-
-    margin-bottom: 8px;
 }
 
 
 .menu__intro p {
+
+    margin-top: 8px;
 
     font-family: 'Inter', sans-serif;
 
@@ -68,6 +176,10 @@
 
 
 .menu__layout {
+
+    position: relative;
+
+    z-index: 1;
 
     width: 100%;
     max-width: 1250px;
@@ -141,27 +253,38 @@
 }
 
 
+/* "PRÓXIMAMENTE" — en gris, para que se lean como deshabilitadas */
+
 .info-card--word {
 
-    background: #FFF3C9;
+    background: #ECE9F0;
 }
 
 
 .info-card--word::before {
 
-    background: #FFD166;
+    background: #DAD4E2;
 }
 
 
 .info-card--progress {
 
-    background: #E8FAF6;
+    background: #ECE9F0;
 }
 
 
 .info-card--progress::before {
 
-    background: #55D6BE;
+    background: #DAD4E2;
+}
+
+
+.info-card--word .info-card__icon img,
+.info-card--progress .info-card__icon img {
+
+    filter:
+        grayscale(1)
+        opacity(.55);
 }
 
 
@@ -401,6 +524,14 @@
     position: relative;
 
     z-index: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 4px;
 }
 
 
@@ -417,6 +548,26 @@
     letter-spacing: .3px;
 
     text-align: center;
+}
+
+
+.menu-card__text p {
+
+    font-family: 'Inter', sans-serif;
+
+    font-size: .72rem;
+
+    font-weight: 600;
+
+    color: #493B5A;
+
+    opacity: .72;
+
+    line-height: 1.35;
+
+    text-align: center;
+
+    max-width: 150px;
 }
 
 
@@ -473,6 +624,19 @@
 
 
 @media (max-width: 600px) {
+
+    .menu__decor {
+
+        display: none;
+    }
+
+
+    .confetti {
+
+        width: 24px;
+        height: 24px;
+    }
+
 
     .menu {
 
@@ -540,6 +704,14 @@
     }
 
 
+    .menu-card__text p {
+
+        font-size: .6rem;
+
+        max-width: 120px;
+    }
+
+
     .info-card--progress {
 
         display: none;
@@ -585,6 +757,22 @@
     .menu-card__text h2 {
 
         font-size: .68rem;
+    }
+
+
+    .menu-card__text p {
+
+        display: none;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .deco {
+
+        animation: none;
     }
 
 }

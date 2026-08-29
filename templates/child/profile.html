@@ -18,6 +18,13 @@
             <span class="role-badge">NIÑO</span>
         </div>
 
+          <a
+            href="{{ url_for('auth_routes.editar_perfil_route') }}"
+            class="edit-profile-button"
+        >
+            EDITAR FOTO
+        </a>
+
         <div class="profile-header">
             <h1 class="child-name">{{ child.name }} {{ child.last_name }}</h1>
             <p class="child-username">@{{ child.username }}</p>
@@ -52,6 +59,8 @@
             🏠 MENÚ PRINCIPAL
         </a>
     </div>
-
+    <a href="{{ url_for('auth_routes.logout_route') }}" class="logout-button">
+        CERRAR SESIÓN
+    </a>
 </section>
 {% endblock %}
