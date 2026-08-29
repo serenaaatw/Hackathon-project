@@ -54,6 +54,10 @@
                     A
                 </div>
 
+                <div class="letter-decoration">
+                    ✨
+                </div>
+
             </div>
 
             <div class="progress-card">
@@ -106,45 +110,112 @@
 
         </aside>
 
-        <section class="camera-container">
+        <section class="camera-column">
 
-            <div class="camera-screen">
+            <div class="camera-container">
 
-                <video
-                    id="video"
-                    autoplay
-                    playsinline
-                    muted
-                ></video>
+                <div class="camera-screen">
 
-                <canvas
-                    id="canvas"
-                ></canvas>
+                    <video
+                        id="video"
+                        autoplay
+                        playsinline
+                        muted
+                    ></video>
 
-                <div class="camera-glow"></div>
+                    <canvas
+                        id="canvas"
+                    ></canvas>
+
+                    <div class="camera-glow"></div>
+
+                </div>
+
+                <div class="camera-footer">
+
+                    <div class="action-pill">
+                        🖐️
+                    </div>
+
+                    <div class="action-pill">
+                        ✊
+                    </div>
+
+                    <div
+                        class="status"
+                        id="status"
+                    >
+                        ● LISTO
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="camera-footer">
+            <div class="character-card">
 
-                <div class="action-pill">
-                    🖐️
+                <div class="character-text">
+                    <span>
+                        ¡APRENDÉ CON EDUSEÑAS!
+                    </span>
+                    <small>
+                        Dibujá junto a nosotros
+                    </small>
                 </div>
 
-                <div class="action-pill">
-                    ✊
-                </div>
-
-                <div
-                    class="status"
-                    id="status"
-                >
-                    ● LISTO
+                <div class="character-placeholder">
+                    👦🏻✏️
                 </div>
 
             </div>
 
         </section>
+
+        <aside class="right-panel">
+
+            <div class="lsa-card">
+
+                <div class="lsa-header">
+                    <span class="lsa-icon">
+                        ✋
+                    </span>
+
+                    <div>
+                        <span class="lsa-title">
+                            SEÑA EN LSA
+                        </span>
+
+                        <span class="lsa-subtitle">
+                            Mirá cómo se hace
+                        </span>
+                    </div>
+                </div>
+
+                <div class="lsa-display">
+
+                    <div
+                        class="lsa-image"
+                        id="lsaImagen"
+                    >
+                        ✋
+                    </div>
+
+                    <div
+                        class="lsa-letter"
+                        id="lsaLetra"
+                    >
+                        A
+                    </div>
+
+                </div>
+
+                <div class="lsa-decoration">
+                    ✨ ⭐ ✨
+                </div>
+
+            </div>
+
+        </aside>
 
     </main>
 
@@ -172,14 +243,8 @@
     window.HandLandmarker =
         HandLandmarker;
 
-    console.log(
-        "MediaPipe cargado correctamente"
-    );
-
     const script =
-        document.createElement(
-            "script"
-        );
+        document.createElement("script");
 
     script.src =
         "{{ url_for('static', filename='javascript/camara.js') }}";

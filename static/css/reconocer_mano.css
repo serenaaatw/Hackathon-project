@@ -1,3 +1,4 @@
+
 .vision-page {
 min-height: calc(100vh - 80px);
 padding: 30px 25px 40px;
@@ -9,14 +10,14 @@ flex-direction: column;
 align-items: center;
 
 background:
-    radial-gradient(circle at 10% 15%, #ffe680 0 5%, transparent 6%),
-    radial-gradient(circle at 90% 20%, #b8f2ff 0 7%, transparent 8%),
-    radial-gradient(circle at 15% 85%, #ffc4e1 0 6%, transparent 7%),
+    radial-gradient(circle at 10% 15%, #F6C445 0 5%, transparent 6%),
+    radial-gradient(circle at 90% 20%, #A9E3DF 0 7%, transparent 8%),
+    radial-gradient(circle at 15% 85%, #F2A8B9 0 6%, transparent 7%),
     linear-gradient(
         135deg,
-        #fff8d9,
-        #e8f8ff,
-        #fff0f8
+        #FFFDF9,
+        #DDF3EF,
+        #FBE1E7
     );
 
 }
@@ -94,15 +95,15 @@ display: flex;
 align-items: center;
 justify-content: center;
 
-background: #ffffff;
+background: #FFFFFF;
 
 border-radius: 30px;
 
 font-size: 50px;
 
 box-shadow:
-    0 8px 0 #ffd85c,
-    0 14px 25px rgba(0, 0, 0, .12);
+    0 8px 0 #F6C445,
+    0 14px 25px rgba(46, 42, 74, .12);
 
 transform: rotate(-6deg);
 
@@ -123,11 +124,11 @@ font-size: clamp(48px, 7vw, 72px);
 
 line-height: .9;
 
-color: #5b5be7;
+color: #8E6BC7;
 
 text-shadow:
-    3px 3px 0 #ffffff,
-    6px 6px 0 #ffd85c;
+    3px 3px 0 #FFFFFF,
+    6px 6px 0 #F6C445;
 
 
 }
@@ -142,7 +143,7 @@ font-size: 20px;
 
 font-weight: 900;
 
-color: #444;
+color: #4B4570;
 
 
 }
@@ -153,7 +154,7 @@ color: #444;
 width: min(480px, 90%);
 
 
-background: #ffffff;
+background: #FFFFFF;
 
 border-radius: 40px;
 
@@ -165,8 +166,8 @@ position: relative;
 z-index: 2;
 
 box-shadow:
-    0 10px 0 #ffcf4a,
-    0 18px 35px rgba(0, 0, 0, .14);
+    0 10px 0 #F5A428,
+    0 18px 35px rgba(46, 42, 74, .14);
 
 
 }
@@ -181,7 +182,7 @@ font-weight: 900;
 
 letter-spacing: 2px;
 
-color: #888;
+color: #4B4570;
 
 
 }
@@ -194,10 +195,10 @@ font-size: clamp(100px, 15vw, 150px);
 
 line-height: .9;
 
-color: #ff6b8a;
+color: #F2647C;
 
 text-shadow:
-    5px 5px 0 #ffd6e1;
+    5px 5px 0 #FBE1E7;
 
 
 }
@@ -208,7 +209,7 @@ font-family: "Fredoka", sans-serif;
 
 font-size: 25px;
 
-color: #ff9d00;
+color: #F5A428;
 
 
 }
@@ -246,8 +247,8 @@ padding: 10px 8px;
 text-align: center;
 
 box-shadow:
-    0 7px 0 #b9e8f5,
-    0 12px 20px rgba(0, 0, 0, .1);
+    0 7px 0 #A9E3DF,
+    0 12px 20px rgba(46, 42, 74, .10);
 
 transition: .2s ease;
 
@@ -283,9 +284,9 @@ justify-content: center;
 
 border-radius: 50%;
 
-background: #ffcf4a;
+background: #F6C445;
 
-color: #ffffff;
+color: #FFFFFF;
 
 font-family: "Fredoka", sans-serif;
 
@@ -303,7 +304,7 @@ font-size: 18px;
 
 line-height: 1.05;
 
-color: #555;
+color: #4B4570;
 
 
 }
@@ -312,7 +313,7 @@ color: #555;
 font-size: 30px;
 
 
-color: #ff7a59;
+color: #F2647C;
 
 font-weight: 900;
 
@@ -334,8 +335,8 @@ background: rgba(255, 255, 255, .9);
 border-radius: 25px;
 
 box-shadow:
-    0 6px 0 #d6d6d6,
-    0 10px 20px rgba(0, 0, 0, .08);
+    0 6px 0 #EBE3F7,
+    0 10px 20px rgba(46, 42, 74, .08);
 
 
 }
@@ -352,7 +353,7 @@ font-family: "Nunito", sans-serif;
 
 font-weight: 900;
 
-color: #555;
+color: #4B4570;
 
 
 }
@@ -363,7 +364,7 @@ font-family: "Fredoka", sans-serif;
 
 font-size: 21px;
 
-color: #5b5be7;
+color: #8E6BC7;
 
 
 }
@@ -376,7 +377,7 @@ height: 17px;
 
 margin-top: 9px;
 
-background: #eeeeee;
+background: #EFEAF6;
 
 border-radius: 20px;
 
@@ -395,9 +396,10 @@ border-radius: 20px;
 
 background: linear-gradient(
     90deg,
-    #ff7a59,
-    #ffcf4a,
-    #70d6ff
+    #2FB6A3,
+    #8E6BC7,
+    #F2647C,
+    #F5A428
 );
 
 
@@ -415,7 +417,7 @@ margin-top: 7px;
 
 font-size: 25px;
 
-color: #ffcf4a;
+color: #F6C445;
 
 
 }
@@ -444,11 +446,11 @@ border-radius: 28px;
 
 background: linear-gradient(
     135deg,
-    #ff6b6b,
-    #ff9f43
+    #2FB6A3,
+    #21968A
 );
 
-color: #ffffff;
+color: #FFFFFF;
 
 font-family: "Fredoka", sans-serif;
 
@@ -457,8 +459,8 @@ font-size: 30px;
 letter-spacing: 1px;
 
 box-shadow:
-    0 9px 0 #dc5555,
-    0 15px 25px rgba(0, 0, 0, .18);
+    0 9px 0 #21968A,
+    0 15px 25px rgba(47, 182, 163, .25);
 
 transition: .15s ease;
 
@@ -473,8 +475,8 @@ transform: translateY(-4px);
 transform: translateY(5px);
 
 box-shadow:
-    0 4px 0 #dc5555,
-    0 8px 15px rgba(0, 0, 0, .15);
+    0 4px 0 #21968A,
+    0 8px 15px rgba(47, 182, 163, .18);
 
 
 }
@@ -492,7 +494,7 @@ font-family: "Fredoka", sans-serif;
 
 font-size: 21px;
 
-color: #5b5be7;
+color: #8E6BC7;
 
 
 }

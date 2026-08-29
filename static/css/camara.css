@@ -1,13 +1,15 @@
 
+
 .camera-page {
     min-height: calc(100vh - 80px);
     padding: 18px 28px 24px;
     position: relative;
     overflow: hidden;
     background:
-        radial-gradient(circle at 7% 12%, rgba(255, 211, 61, .85) 0 38px, transparent 40px),
-        radial-gradient(circle at 94% 18%, rgba(58, 212, 255, .8) 0 48px, transparent 50px),
-        radial-gradient(circle at 5% 88%, rgba(255, 92, 155, .5) 0 42px, transparent 44px),
+        radial-gradient(circle at 7% 12%, rgba(255, 211, 61, .9) 0 38px, transparent 40px),
+        radial-gradient(circle at 94% 18%, rgba(58, 212, 255, .85) 0 48px, transparent 50px),
+        radial-gradient(circle at 5% 88%, rgba(255, 92, 155, .58) 0 42px, transparent 44px),
+        radial-gradient(circle at 85% 85%, rgba(122, 109, 255, .25) 0 70px, transparent 72px),
         linear-gradient(135deg, #eefaff 0%, #fff8e8 48%, #f7efff 100%);
     display: flex;
     flex-direction: column;
@@ -20,22 +22,23 @@
     position: absolute;
     border-radius: 50%;
     z-index: -1;
+    pointer-events: none;
 }
 
 .camera-page::before {
-    width: 340px;
-    height: 340px;
-    right: -130px;
-    bottom: -120px;
-    background: rgba(104, 232, 255, .28);
+    width: 360px;
+    height: 360px;
+    right: -150px;
+    bottom: -140px;
+    background: rgba(104, 232, 255, .22);
 }
 
 .camera-page::after {
-    width: 260px;
-    height: 260px;
-    left: -100px;
+    width: 280px;
+    height: 280px;
+    left: -110px;
     top: 35%;
-    background: rgba(255, 173, 210, .22);
+    background: rgba(255, 173, 210, .2);
 }
 
 .deco {
@@ -135,37 +138,45 @@
     width: 100%;
     min-height: 0;
     display: grid;
-    grid-template-columns: 235px minmax(0, 1fr);
-    gap: 20px;
+    grid-template-columns: 220px minmax(0, 1fr) 225px;
+    gap: 18px;
     position: relative;
     z-index: 2;
 }
 
-.left-panel {
+.left-panel,
+.right-panel {
+    min-width: 0;
     min-height: 0;
+}
+
+.left-panel {
     display: grid;
     grid-template-rows: minmax(0, 1fr) auto;
     gap: 18px;
 }
 
 .target-card,
-.progress-card {
+.progress-card,
+.lsa-card,
+.character-card {
     background: rgba(255, 255, 255, .96);
-    border: 2px solid rgba(255, 255, 255, .95);
+    border: 2px solid rgba(255, 255, 255, .98);
     backdrop-filter: blur(8px);
 }
 
 .target-card {
     min-height: 0;
-    border-radius: 32px;
-    padding: 20px 16px;
+    border-radius: 34px;
+    padding: 20px 14px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow:
         0 9px 0 #ffd04a,
-        0 16px 30px rgba(71, 82, 145, .14);
+        0 16px 30px rgba(71, 82, 145, .15);
+    overflow: hidden;
 }
 
 .target-label {
@@ -177,47 +188,57 @@
 }
 
 .big-letter {
-    margin-top: 4px;
-    font-family: "Fredoka", sans-serif;
-    font-size: 126px;
-    line-height: .9;
-    font-weight: 800;
-    color: #5b5be7;
-    text-shadow:
-        5px 5px 0 #dcdcff;
-}
-
-.target-image {
-    margin-top: 14px;
-    width: 92px;
-    height: 92px;
-    border-radius: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 58px;
-    background:
-        linear-gradient(135deg, #fff2a6, #ffd9ef);
-    box-shadow:
-        inset 0 -5px 0 rgba(0, 0, 0, .05),
-        0 8px 18px rgba(0, 0, 0, .08);
-}
-
-.target-word {
     margin-top: 10px;
     font-family: "Fredoka", sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    color: #ff7a59;
-    text-align: center;
+    font-size: 145px;
+    line-height: .78;
+    font-weight: 900;
+    color: #5b5be7;
+    text-shadow:
+        4px 4px 0 #c9c8ff,
+        8px 8px 0 #a9a7f5,
+        12px 12px 0 #8c89e8,
+        16px 16px 0 rgba(91, 91, 231, .18);
+    transform: translateY(-3px);
+    animation: letterFloat 3.2s ease-in-out infinite;
+}
+
+.letter-decoration {
+    margin-top: 20px;
+    font-size: 28px;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes letterFloat {
+    0%,
+    100% {
+        transform: translateY(-3px) rotate(-1deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+}
+
+@keyframes sparkle {
+    0%,
+    100% {
+        opacity: .65;
+        transform: scale(.95);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.12);
+    }
 }
 
 .progress-card {
-    border-radius: 28px;
-    padding: 14px 16px;
+    border-radius: 30px;
+    padding: 15px;
     box-shadow:
-        0 7px 0 #7edcf2,
-        0 12px 24px rgba(71, 82, 145, .12);
+        0 8px 0 #72d8ee,
+        0 13px 25px rgba(71, 82, 145, .13);
 }
 
 .progress-item {
@@ -227,49 +248,62 @@
 }
 
 .progress-item + .progress-item {
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 .progress-icon {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
     flex-shrink: 0;
-    border-radius: 14px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    background: #f2f5ff;
+    font-size: 26px;
+    background: linear-gradient(135deg, #eef2ff, #fff4d7);
+    box-shadow:
+        inset 0 -4px 0 rgba(0, 0, 0, .04);
 }
 
 .progress-info {
     display: flex;
     flex: 1;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .progress-info span {
     font-family: "Nunito", sans-serif;
     font-size: 15px;
     font-weight: 900;
-    color: #72727f;
+    color: #777786;
+    letter-spacing: .5px;
 }
 
 .progress-info strong {
     font-family: "Fredoka", sans-serif;
-    font-size: 25px;
-    font-weight: 800;
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 900;
     color: #5b5be7;
 }
 
 .mini-stars {
-    margin-top: 8px;
+    margin-top: 12px;
     text-align: center;
-    font-size: 22px;
+    font-size: 28px;
     letter-spacing: 5px;
     color: #ffd04a;
+    text-shadow:
+        1px 2px 0 rgba(0, 0, 0, .08);
+}
+
+.camera-column {
+    min-width: 0;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) 110px;
+    gap: 14px;
 }
 
 .camera-container {
@@ -335,16 +369,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 13px;
     padding-top: 10px;
 }
 
 .action-pill,
 .status {
-    min-width: 54px;
-    height: 40px;
-    padding: 0 14px;
-    border-radius: 15px;
+    min-width: 56px;
+    height: 42px;
+    padding: 0 15px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -354,38 +388,221 @@
 
 .action-pill {
     font-size: 24px;
-    background: #eef2ff;
-    box-shadow: 0 4px 0 #d6dcff;
+    background: linear-gradient(135deg, #f0f2ff, #fff8df);
+    box-shadow:
+        0 4px 0 #d6dcff;
 }
 
 .status {
     background: #e4f9eb;
     color: #1d9b54;
     font-size: 15px;
+    box-shadow:
+        0 4px 0 #b8e8c9;
 }
 
-@media (max-width: 900px) {
+.character-card {
+    border-radius: 30px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    box-shadow:
+        0 7px 0 #ffb5d1,
+        0 12px 24px rgba(71, 82, 145, .12);
+    position: relative;
+}
+
+.character-card::after {
+    content: "";
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    right: -25px;
+    top: -40px;
+    border-radius: 50%;
+    background: rgba(255, 226, 91, .26);
+}
+
+.character-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    z-index: 2;
+}
+
+.character-text span {
+    font-family: "Fredoka", sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: #5b5be7;
+}
+
+.character-text small {
+    font-family: "Nunito", sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #858594;
+}
+
+.character-placeholder {
+    width: 86px;
+    height: 86px;
+    flex-shrink: 0;
+    border-radius: 28px 28px 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    background: linear-gradient(135deg, #e8faff, #ffe5f1);
+    box-shadow:
+        inset 0 -5px 0 rgba(0, 0, 0, .04),
+        0 7px 14px rgba(0, 0, 0, .08);
+    z-index: 2;
+}
+
+.right-panel {
+    display: flex;
+}
+
+.lsa-card {
+    width: 100%;
+    min-height: 0;
+    border-radius: 34px;
+    padding: 18px 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+        0 9px 0 #9e9bf2,
+        0 16px 30px rgba(71, 82, 145, .15);
+    overflow: hidden;
+    position: relative;
+}
+
+.lsa-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lsa-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    background: #eef0ff;
+}
+
+.lsa-header > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.lsa-title {
+    font-family: "Fredoka", sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: #5b5be7;
+}
+
+.lsa-subtitle {
+    font-family: "Nunito", sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: #898997;
+}
+
+.lsa-display {
+    flex: 1;
+    min-height: 0;
+    margin-top: 18px;
+    border-radius: 26px;
+    background:
+        radial-gradient(circle at 30% 25%, #fff6af, transparent 33%),
+        linear-gradient(145deg, #eef9ff, #f6efff);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    border: 3px solid rgba(91, 91, 231, .08);
+}
+
+.lsa-image {
+    width: 110px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, .72);
+    box-shadow:
+        0 9px 20px rgba(91, 91, 231, .09);
+}
+
+.lsa-letter {
+    font-family: "Fredoka", sans-serif;
+    font-size: 60px;
+    line-height: 1;
+    font-weight: 900;
+    color: #ff6b8a;
+    text-shadow:
+        3px 3px 0 #ffd5e1,
+        6px 6px 0 rgba(255, 107, 138, .16);
+}
+
+.lsa-decoration {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 19px;
+    letter-spacing: 5px;
+    color: #ffd04a;
+}
+
+.result-message {
+    min-height: 0;
+}
+
+@media (max-width: 1100px) {
     .camera-page {
         padding: 15px;
     }
 
     .game-area {
-        grid-template-columns: 205px minmax(0, 1fr);
-        gap: 15px;
+        grid-template-columns: 190px minmax(0, 1fr) 190px;
+        gap: 14px;
     }
 
     .big-letter {
-        font-size: 105px;
+        font-size: 120px;
     }
 
-    .target-image {
-        width: 78px;
-        height: 78px;
-        font-size: 48px;
+    .progress-info strong {
+        font-size: 26px;
+    }
+
+    .character-text span {
+        font-size: 15px;
     }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 850px) {
+    .game-area {
+        grid-template-columns: 190px minmax(0, 1fr);
+    }
+
+    .right-panel {
+        display: none;
+    }
+}
+
+@media (max-width: 700px) {
     .game-area {
         grid-template-columns: 1fr;
         grid-template-rows: auto minmax(0, 1fr);
@@ -393,22 +610,25 @@
 
     .left-panel {
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-    }
-
-    .target-card {
-        min-height: 215px;
+        grid-template-rows: 210px;
     }
 
     .progress-card {
         align-self: stretch;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+    }
+
+    .camera-column {
+        grid-template-rows: minmax(0, 1fr) 95px;
     }
 
     .camera-screen {
-        min-height: 420px;
+        min-height: 380px;
+    }
+
+    .character-placeholder {
+        width: 70px;
+        height: 70px;
+        font-size: 40px;
     }
 
     .deco {
@@ -417,6 +637,10 @@
 }
 
 @media (max-width: 520px) {
+    .camera-page {
+        padding: 12px;
+    }
+
     .camera-header {
         margin-bottom: 10px;
     }
@@ -432,13 +656,31 @@
 
     .left-panel {
         grid-template-columns: 1fr;
+        grid-template-rows: 210px auto;
     }
 
-    .target-card {
-        min-height: 245px;
+    .camera-column {
+        grid-template-rows: minmax(0, 1fr) 90px;
     }
 
     .camera-screen {
-        min-height: 330px;
+        min-height: 300px;
+    }
+
+    .character-text span {
+        font-size: 14px;
+    }
+
+    .character-text small {
+        font-size: 11px;
+    }
+
+    .camera-footer {
+        gap: 8px;
+    }
+
+    .action-pill {
+        min-width: 48px;
+        padding: 0 10px;
     }
 }
