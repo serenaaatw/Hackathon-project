@@ -22,6 +22,49 @@ const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 let indiceLetra = 0;
 let letraObjetivo = letras[indiceLetra];
 
+/* =========================================================
+   VIDEOS LSA
+   ========================================================= */
+
+const videoLSA =
+    document.getElementById("videoLSA");
+
+const lsaLetra =
+    document.getElementById("lsaLetra");
+
+function actualizarVideoLSA() {
+
+    if (!videoLSA) {
+        return;
+    }
+
+    if (!letraObjetivo) {
+
+        videoLSA.removeAttribute("src");
+        videoLSA.load();
+
+        if (lsaLetra) {
+            lsaLetra.textContent = "✓";
+        }
+
+        return;
+    }
+
+    const letra =
+        letraObjetivo.toUpperCase();
+
+    videoLSA.src =
+        `/static/videos/lsa/${letra}.mp4`;
+
+    videoLSA.load();
+
+    videoLSA.play().catch(() => {});
+
+    if (lsaLetra) {
+        lsaLetra.textContent = letra;
+    }
+}
+
 let intentos = 0;
 let buenos = 0;
 
@@ -31,17 +74,26 @@ const BUENOS_NECESARIOS = 3;
 let ejercicioTerminado = false;
 let procesando = false;
 
+
+/* =========================================================
+   CÁMARA
+   ========================================================= */
+
 async function iniciarCamara() {
+
     try {
+
         console.log("Iniciando cámara...");
 
         const stream =
             await navigator.mediaDevices.getUserMedia({
+
                 video: {
                     width: { ideal: 1280 },
                     height: { ideal: 720 },
                     facingMode: "user"
                 },
+
                 audio: false
             });
 
@@ -60,9 +112,11 @@ async function iniciarCamara() {
         actualizarInterfaz();
 
         await cargarMediaPipe();
+
         detectarMano();
 
     } catch (error) {
+
         console.error(
             "Error con la cámara:",
             error
@@ -74,7 +128,13 @@ async function iniciarCamara() {
     }
 }
 
+
+/* =========================================================
+   MEDIA PIPE
+   ========================================================= */
+
 async function cargarMediaPipe() {
+
     const vision =
         await FilesetResolver.forVisionTasks(
             "/static/wasm"
@@ -84,6 +144,7 @@ async function cargarMediaPipe() {
         await HandLandmarker.createFromOptions(
             vision,
             {
+
                 baseOptions: {
                     modelAssetPath:
                         "/static/hand_landmarker.task"
@@ -106,8 +167,15 @@ async function cargarMediaPipe() {
     );
 }
 
+
+/* =========================================================
+   DETECCIÓN DE MANO
+   ========================================================= */
+
 async function detectarMano() {
+
     if (!handLandmarker) {
+
         requestAnimationFrame(
             detectarMano
         );
@@ -119,6 +187,7 @@ async function detectarMano() {
         video.readyState >= 2 &&
         video.currentTime !== lastVideoTime
     ) {
+
         lastVideoTime =
             video.currentTime;
 
@@ -137,6 +206,11 @@ async function detectarMano() {
         detectarMano
     );
 }
+
+
+/* =========================================================
+   INTERFAZ DE CÁMARA
+   ========================================================= */
 
 function dibujarInterfaz(resultado) {
 
@@ -193,6 +267,9 @@ function dibujarInterfaz(resultado) {
     const cerrada =
         punoCerrado(mano);
 
+
+    /* PUNTO ROJO DEL ÍNDICE */
+
     ctx.beginPath();
 
     ctx.arc(
@@ -207,6 +284,7 @@ function dibujarInterfaz(resultado) {
         "#ff3b30";
 
     ctx.fill();
+
 
     ctx.beginPath();
 
@@ -224,6 +302,9 @@ function dibujarInterfaz(resultado) {
     ctx.lineWidth = 4;
 
     ctx.stroke();
+
+
+    /* ESTADOS */
 
     if (!ejercicioTerminado) {
 
@@ -265,7 +346,9 @@ function dibujarInterfaz(resultado) {
                 ultimoY =
                     null;
 
-            } else if (abierta) {
+            }
+
+            else if (abierta) {
 
                 const distancia =
                     calcularDistancia(
@@ -324,7 +407,9 @@ function dibujarInterfaz(resultado) {
 
                 procesarDibujo();
 
-            } else if (abierta) {
+            }
+
+            else if (abierta) {
 
                 const ultimoPunto =
                     puntosDibujo[
@@ -353,13 +438,16 @@ function dibujarInterfaz(resultado) {
                     if (
                         puntosDibujo.length === 0
                     ) {
+
                         puntosDibujo.push([]);
                     }
 
                     puntosDibujo[
                         puntosDibujo.length - 1
                     ].push({
+
                         x: xIndice,
+
                         y: yIndice
                     });
 
@@ -381,6 +469,11 @@ function dibujarInterfaz(resultado) {
     ultimoY =
         yIndice;
 }
+
+
+/* =========================================================
+   PROCESAR DIBUJO
+   ========================================================= */
 
 async function procesarDibujo() {
 
@@ -418,6 +511,7 @@ async function procesarDibujo() {
             await fetch(
                 "/procesar_dibujo",
                 {
+
                     method:
                         "POST",
 
@@ -428,6 +522,7 @@ async function procesarDibujo() {
 
                     body:
                         JSON.stringify({
+
                             puntos_dibujo:
                                 dibujoEnviar,
 
@@ -474,6 +569,7 @@ async function procesarDibujo() {
             calificacion ===
                 "MEDIO"
         ) {
+
             buenos++;
         }
 
@@ -535,6 +631,11 @@ async function procesarDibujo() {
     }
 }
 
+
+/* =========================================================
+   ACTUALIZAR INTERFAZ
+   ========================================================= */
+
 function actualizarInterfaz() {
 
     const buenosElemento =
@@ -557,11 +658,13 @@ function actualizarInterfaz() {
             ".mini-stars"
         );
 
+
     if (buenosElemento) {
 
         buenosElemento.textContent =
             `${buenos} / ${BUENOS_NECESARIOS}`;
     }
+
 
     if (intentosElemento) {
 
@@ -569,11 +672,13 @@ function actualizarInterfaz() {
             `${intentos} / ${MAX_INTENTOS}`;
     }
 
+
     if (letraElemento) {
 
         letraElemento.textContent =
             letraObjetivo || "✓";
     }
+
 
     if (estrellasElemento) {
 
@@ -595,7 +700,17 @@ function actualizarInterfaz() {
             estrellasLlenas +
             estrellasVacias;
     }
+
+
+    /* ACTUALIZAR VIDEO LSA */
+
+    actualizarVideoLSA();
 }
+
+
+/* =========================================================
+   SIGUIENTE LETRA
+   ========================================================= */
 
 function cambiarSiguienteLetra() {
 
@@ -619,6 +734,7 @@ function cambiarSiguienteLetra() {
     ultimoY =
         null;
 
+
     if (
         indiceLetra >=
         letras.length
@@ -639,6 +755,7 @@ function cambiarSiguienteLetra() {
         return;
     }
 
+
     letraObjetivo =
         letras[indiceLetra];
 
@@ -648,6 +765,11 @@ function cambiarSiguienteLetra() {
         `➡️ Siguiente letra: ${letraObjetivo}`
     );
 }
+
+
+/* =========================================================
+   DIBUJAR TRAZOS
+   ========================================================= */
 
 function dibujarTrazos() {
 
@@ -707,6 +829,11 @@ function dibujarTrazos() {
     ctx.restore();
 }
 
+
+/* =========================================================
+   MANO ABIERTA
+   ========================================================= */
+
 function manoAbierta(mano) {
 
     const indice =
@@ -732,6 +859,11 @@ function manoAbierta(mano) {
         menique
     );
 }
+
+
+/* =========================================================
+   PUÑO CERRADO
+   ========================================================= */
 
 function punoCerrado(mano) {
 
@@ -759,6 +891,11 @@ function punoCerrado(mano) {
     );
 }
 
+
+/* =========================================================
+   DISTANCIA
+   ========================================================= */
+
 function calcularDistancia(
     x1,
     y1,
@@ -774,16 +911,23 @@ function calcularDistancia(
     }
 
     return Math.sqrt(
+
         Math.pow(
             x1 - x2,
             2
         ) +
+
         Math.pow(
             y1 - y2,
             2
         )
     );
 }
+
+
+/* =========================================================
+   LIMPIAR DIBUJO
+   ========================================================= */
 
 function limpiarDibujo() {
 
@@ -799,6 +943,11 @@ function limpiarDibujo() {
     ultimoY =
         null;
 }
+
+
+/* =========================================================
+   SALIR
+   ========================================================= */
 
 function salirCamara() {
 
@@ -820,6 +969,11 @@ function salirCamara() {
         "/reconocer_mano";
 }
 
+
+/* =========================================================
+   TECLADO
+   ========================================================= */
+
 document.addEventListener(
     "keydown",
     (event) => {
@@ -828,6 +982,7 @@ document.addEventListener(
             event.key === "c" ||
             event.key === "C"
         ) {
+
             limpiarDibujo();
         }
 
@@ -835,10 +990,16 @@ document.addEventListener(
             event.key === "q" ||
             event.key === "Q"
         ) {
+
             salirCamara();
         }
     }
 );
+
+
+/* =========================================================
+   INICIO
+   ========================================================= */
 
 console.log(
     "🔥 VOY A INICIAR LA CÁMARA 🔥"
